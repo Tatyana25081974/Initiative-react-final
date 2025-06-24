@@ -18,7 +18,7 @@ import { store, persistor } from './redux/store';
 import 'modern-normalize/modern-normalize.css';
 
 // Підключаємо власні глобальні стилі
-import './index.css';
+import './App.css';
 
 // Головний компонент додатку
 import App from './App.jsx';
