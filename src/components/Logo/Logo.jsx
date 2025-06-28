@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
 import css from "./Logo.module.css";
+import logo from "../../assets/images/Logo.svg";
 
 export default function Logo() {
   return (
-    <div className={css.container}>
-      <img className={css.image} src="/src/assets/images/Logo.svg" alt="logo" />
+    <Link to="/" className={css.container}>
+      <img className={css.image} src={logo} alt="Tasteorama Logo" />
       <p className={css.text}>Tasteorama</p>
-    </div>
+    </Link>
   );
 }
