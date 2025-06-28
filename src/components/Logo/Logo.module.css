@@ -5,6 +5,7 @@
   text-decoration: none;
   width: 165px;
   height: 46px;
+  transition: transform 0.3s ease;
   /* background-color: chocolate; */
 }
 
@@ -13,6 +14,7 @@
   margin-left: 12px;
   margin-top: 8px;
   margin-bottom: 8px;
+  transition: transform 0.3s ease;
 }
 
 .text {
@@ -21,5 +23,11 @@
   font-size: 18px;
   letter-spacing: -0.03em;
   margin: 0;
+  transition: transform 0.3s ease;
   /* margin-left: 12px; */
+}
+
+.container:hover,
+.container:focus {
+  transform: scale(1.05);
 }
