@@ -6,9 +6,6 @@ const LoginForm = () => {
   return (
     <>
       <p>LoginForm</p>
-      <Button>
-        <button></button>
-      </Button>
     </>
   );
 };

@@ -13,9 +13,28 @@ import AuthPage from "../pages/AuthPage/AuthPage.jsx";
 
 import NotFound from "../pages/NotFound/NotFound.jsx";
 
+import { useEffect } from "react";
+
+import {
+  useDispatch,
+  // useSelector
+} from "react-redux";
+import { refreshUser } from "../redux/auth/operations.js";
+
+// import { selectIsRefreshing } from "../redux/auth/selectors";
+
 // import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  // Вказує на те чи рефрешиться зараз сторінка чи ні
+  // const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
     <>
       <Layout>
