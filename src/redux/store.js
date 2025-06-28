@@ -13,6 +13,7 @@ import {
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 import filtersReduser from "./filters/slice.js";
+import recipesReduser from "./recipes/slice.js";
 import authReduser from "./auth/slice.js";
 
 const authPersistedReducer = persistReducer(
@@ -26,7 +27,7 @@ const authPersistedReducer = persistReducer(
 
 export const store = configureStore({
   reducer: {
-    // recipes: recipesReduser,
+    recipes: recipesReduser,
     filters: filtersReduser,
     auth: authPersistedReducer,
   },
