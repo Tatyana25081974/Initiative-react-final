@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 165px;
+  height: 46px;
+  background-color: chocolate;
+}
+
+.image {
+  height: 30px; /* Встановіть бажану висоту для зображення /
+  width: auto; / Автоматична ширина для збереження пропорцій */
+  margin-left: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.text {
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+  margin: 0;
+  /* margin-left: 12px; */
+}
