@@ -1,36 +1,32 @@
 // Імпортуємо React StrictMode для виявлення помилок у розробці
-import { StrictMode } from 'react';
+import { StrictMode } from "react";
 
 // Імпорт функції createRoot — новий API для рендерингу в React 18+
-import { createRoot } from 'react-dom/client';
+import { createRoot } from "react-dom/client";
 
 // Імпорт провайдера Redux — обгортає додаток і передає store у всі компоненти
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
 // Імпорт PersistGate — компонент для затримки рендеру,
 // поки Redux Persist відновлює стан із localStorage
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from "redux-persist/integration/react";
 
 // Імпортуємо store (глобальний стан Redux) і persistor (redux-persist)
-import { store, persistor } from './redux/store';
+import { store, persistor } from "./redux/store";
 
-// Підключаємо normalize для вирівнювання стилів між браузерами
-import 'modern-normalize/modern-normalize.css';
+import { BrowserRouter } from "react-router-dom";
+import App from "./App/App.jsx";
 
-// Підключаємо власні глобальні стилі
-import './App.css';
+import "modern-normalize/modern-normalize.css";
 
-// Головний компонент додатку
-import App from './App.jsx';
-
-// Підключаємо React до HTML через елемент <div id="root"></div> в index.html
-createRoot(document.getElementById('root')).render(
-  <StrictMode> {/* Перевірка на помилки, попередження у консолі */}
-    <Provider store={store}> {/* Передаємо Redux store у весь додаток */}
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {/* Поки persist відновлює state з localStorage — можна показати Loader */}
-        <App /> {/* Головний компонент додатку */}
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </PersistGate>
     </Provider>
-  </StrictMode>,
+  </StrictMode>
 );
