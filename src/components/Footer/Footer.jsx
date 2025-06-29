@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import css from "./Footer.module.css";
 
 const Footer = () => {
@@ -8,13 +8,13 @@ const Footer = () => {
     <footer className={css.footer}>
       <div className={css.container}>
         <div className={css.footer__logo}>
-          <a href="/">
+          <Link to="/">
             <img
               src="/images/Logo.png"
               alt="Logo.png"
               className={css.logo_img}
             />
-          </a>
+          </Link>
         </div>
 
         <div className={css.footer_copyright}>
@@ -24,8 +24,8 @@ const Footer = () => {
         </div>
 
         <nav className={css.footer_nav}>
-          <a href="/">Recipes</a>
-          {!isRegisterPage && <a href="/profile">Account</a>}
+          <Link to="/">Recipes</Link>
+          {!isRegisterPage && <Link to="/profile">Account</Link>}
         </nav>
       </div>
     </footer>
