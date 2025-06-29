@@ -12,28 +12,21 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 // Імпортуємо store (глобальний стан Redux) і persistor (redux-persist)
-// import { store, persistor } from './redux/store';
+import { store, persistor } from "./redux/store";
 
-// Підключаємо normalize для вирівнювання стилів між браузерами
+import { BrowserRouter } from "react-router-dom";
+import App from "./App/App.jsx";
+
 import "modern-normalize/modern-normalize.css";
 
-// Підключаємо власні глобальні стилі
-import "./App.css";
-
-// Головний компонент додатку
-import App from "./App.jsx";
-
-// Підключаємо React до HTML через елемент <div id="root"></div> в index.html
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {" "}
-    {/* Перевірка на помилки, попередження у консолі */}
-    {/* <Provider store={store}> */}{" "}
-    {/* Передаємо Redux store у весь додаток */}
-    {/* <PersistGate loading={null} persistor={persistor}> */}
-    {/* Поки persist відновлює state з localStorage — можна показати Loader */}
-    <App /> {/* Головний компонент додатку */}
-    {/* </PersistGate> */}
-    {/* </Provider> */}
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </StrictMode>
 );
