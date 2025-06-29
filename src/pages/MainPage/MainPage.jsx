@@ -1,5 +1,5 @@
-// import css from "./MainPage.module.css";
-import TestComponent from "../../components/TestComponent.jsx";
+import TestComponent from "../../components/TestComponent";
+import Filters from "../../components/Filters/Filters";
 
 const MainPage = () => {
   return (
