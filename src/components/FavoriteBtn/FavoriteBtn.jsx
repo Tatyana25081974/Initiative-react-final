@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
 import { RiDeleteBin4Line } from "react-icons/ri";
 import css from "./FavoriteBtn.module.css";
-import axios from "axios";
+// import axios from "axios";
 
 export default function FavoriteBtn({ recipeId, isInitiallyFavorite }) {
   const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite);
