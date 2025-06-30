@@ -18,9 +18,10 @@ import css from "./Filters.module.css";
 
 const Filters = ({ recipesCount }) => {
   const dispatch = useDispatch();
-  const { category, ingredient, type } = useSelector(selectFilters);
 
-  //  Визначаємо, чи ми на сторінці профілю
+  const { searchedCategory, searchedIngredient, type } =
+    useSelector(selectFilters);
+
   const location = useLocation();
   const isProfilePage = location.pathname.startsWith("/profile");
 
@@ -48,14 +49,12 @@ const Filters = ({ recipesCount }) => {
       <p className={css.recipesCount}>{recipesCount} recipes found</p>
 
       <div className={css.filtersContainer}>
-        {/*  Reset */}
         <button onClick={handleReset} className={css.resetButton}>
           Reset filters
         </button>
 
-        {/*  Категорія */}
         <select
-          value={category}
+          value={searchedCategory}
           onChange={handleCategoryChange}
           className={css.select}
         >
@@ -67,9 +66,8 @@ const Filters = ({ recipesCount }) => {
           ))}
         </select>
 
-        {/*  Інгредієнт */}
         <select
-          value={ingredient}
+          value={searchedIngredient}
           onChange={handleIngredientChange}
           className={css.select}
         >
@@ -81,7 +79,6 @@ const Filters = ({ recipesCount }) => {
           ))}
         </select>
 
-        {/*  Тип рецептів (own | favorite) — тільки на сторінці профілю */}
         {isProfilePage && (
           <select
             value={type}
