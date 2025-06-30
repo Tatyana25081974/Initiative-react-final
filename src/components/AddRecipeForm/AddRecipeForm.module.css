@@ -1,0 +1,65 @@
+.mainTitle {
+  font-weight: 600;
+  font-size: 40px;
+  color: #000;
+  margin-top: 48px;
+  margin-bottom: 16px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.photoTitle {
+  font-weight: 600;
+  font-size: 24px;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.labelPhoto {
+  width: 100%;
+  height: 383px;
+  background-color: #9f9f9f;
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.previewPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.iconPhoto {
+  width: 82px;
+  height: 82px;
+}
+
+.photoIcon {
+  width: 52px;
+  height: 52px;
+}
+
+.inputPhoto {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .mainTitle {
+    font-size: 48px;
+    line-height: 110%;
+    margin-bottom: 40px;
+  }
+
+  .photoTitle {
+    font-size: 32px;
+  }
+}
