@@ -18,3 +18,18 @@
 .input::placeholder {
   color: #999;
 }
+
+.button {
+  background-color: #9b643d;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #86512f;
+}

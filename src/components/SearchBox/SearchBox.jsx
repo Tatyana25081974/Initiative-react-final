@@ -1,7 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import css from "./SearchBox.module.css";
-import { Button } from "../Button/Button";
 
 export const SearchBox = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -55,8 +54,9 @@ export const SearchBox = ({ onSearch }) => {
         onChange={handleChange}
         className={css.input}
       />
-      <Button type="submit" label="Search" className={css.button} /> // змінити
-      ім'я стилів
+      <button type="submit" className={css.button}>
+        Search
+      </button>
     </form>
   );
 };
