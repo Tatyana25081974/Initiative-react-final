@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  width: 100%;
+}
+
+.recipesCount {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #2e2e2e;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.resetButton {
+  border: none;
+  background: transparent;
+  color: #9b643d;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  border-bottom: 1px solid #9b643d;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+.resetButton:hover {
+  color: #7d4f29;
+}
+
+.select {
+  width: 100%;
+  height: 33px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: #595d62;
+  background-color: #fafafa;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .filtersContainer {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+  .resetButton {
+    align-self: center;
+  }
+
+  .select {
+    width: 179px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .container {
+    max-width: 1225px;
+    margin: 0 auto;
+    gap: 24px;
+    padding: 8px;
+    height: 33px;
+  }
+  .filtersContainer {
+    gap: 24px;
+  }
+
+  .select {
+    width: 179px;
+  }
+}
