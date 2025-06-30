@@ -1,11 +1,49 @@
 import TestComponent from "../../components/TestComponent";
 
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getRecipes } from "../../redux/recipes/operations";
+import { selectFilters } from "../../redux/filters/selectors";
+import Filters from "../../components/Filters/Filters";
+import { getCategory, getIngredients } from "../../redux/filters/operation";
+
+// import RecipeList from "../../components/RecipeList/RecipeList";
+
 const MainPage = () => {
+  const dispatch = useDispatch();
+
+  // Отримуємо фільтри з Redux store
+  const filters = useSelector(selectFilters);
+
+  // Отримуємо список рецептів та стани
+  /*const {
+    items: recipes,
+    // loading,
+    // error,
+  } = useSelector((state) => state.recipes);*/
+
+  // При зміні фільтрів запускаємо запит на бекенд
+  useEffect(() => {
+    dispatch(getRecipes(filters));
+  }, [dispatch, filters]);
+  useEffect(() => {
+    dispatch(getCategory());
+    dispatch(getIngredients());
+  }, [dispatch]);
+
   return (
-    <>
-      <p>MainPage</p>
+    <div>
+      {/* 🔹 Компонент фільтрів */}
+      <Filters />
+      {/* 🔸 Список рецептів */}
+      {/*
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      <RecipeList recipes={recipes} />
+      */}
+
       <TestComponent />
-    </>
+    </div>
   );
 };
 

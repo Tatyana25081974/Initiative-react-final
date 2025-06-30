@@ -1,97 +1,100 @@
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+
+import {
+  changeCategoryFilter,
+  changeIngredientFilter,
+  changeType,
+  resetFilters,
+} from "../../redux/filters/slice";
+
+import {
+  selectCategory,
+  selectFilters,
+  selectIngredients,
+} from "../../redux/filters/selectors";
+
 import css from "./Filters.module.css";
 
-const Filters = ({ onChangeFilters, recipesCount }) => {
-  const [categories, setCategories] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
+const Filters = ({ recipesCount }) => {
+  const dispatch = useDispatch();
+  const { category, ingredient, type } = useSelector(selectFilters);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedIngredient, setSelectedIngredient] = useState("");
+  //  Визначаємо, чи ми на сторінці профілю
+  const location = useLocation();
+  const isProfilePage = location.pathname.startsWith("/profile");
 
-  // Запит для отримання списку категорій з бекенду
+  const Category = useSelector(selectCategory);
+  const Ingredients = useSelector(selectIngredients);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(
-          "https://initiative-nodejs-final.onrender.com/api/categories"
-        );
-        const data = await res.json();
-        setCategories(data); // Зберігаємо список у стейт
-      } catch {
-        toast.error("Failed to load categories"); // Повідомлення при помилці
-      }
-    };
+  const handleCategoryChange = (e) => {
+    dispatch(changeCategoryFilter(e.target.value));
+  };
 
-    fetchCategories();
-  }, []);
+  const handleIngredientChange = (e) => {
+    dispatch(changeIngredientFilter(e.target.value));
+  };
 
-  // Запит для отримання списку інгредієнтів з бекенду
-  useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const res = await fetch(
-          "https://initiative-nodejs-final.onrender.com/api/ingredients"
-        );
-        const data = await res.json();
-        setIngredients(data); // Зберігаємо список у стейт
-      } catch {
-        toast.error("Failed to load ingredients"); // Повідомлення при помилці
-      }
-    };
-    fetchIngredients();
-  }, []);
+  const handleTypeChange = (e) => {
+    dispatch(changeType(e.target.value));
+  };
 
-  useEffect(() => {
-    onChangeFilters({
-      category: selectedCategory,
-      ingredient: selectedIngredient,
-    });
-  }, [selectedCategory, selectedIngredient, onChangeFilters]);
-
-  // Обробник для кнопки Reset
   const handleReset = () => {
-    setSelectedCategory(""); // Скидаємо категорію
-    setSelectedIngredient(""); // Скидаємо інгредієнт
+    dispatch(resetFilters());
   };
 
   return (
     <div className={css.container}>
-      <p className={css.recipesCount}>{recipesCount} recipes</p>
+      <p className={css.recipesCount}>{recipesCount} recipes found</p>
 
       <div className={css.filtersContainer}>
+        {/*  Reset */}
         <button onClick={handleReset} className={css.resetButton}>
           Reset filters
         </button>
 
+        {/*  Категорія */}
         <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          value={category}
+          onChange={handleCategoryChange}
           className={css.select}
         >
           <option value="">Category</option>
-          {categories.map((category) => (
-            <option key={category._id} value={category.name}>
-              {category.name}
+          {Category.map((cat) => (
+            <option key={cat._id} value={cat.name}>
+              {cat.name}
             </option>
           ))}
         </select>
 
+        {/*  Інгредієнт */}
         <select
-          value={selectedIngredient}
-          onChange={(e) => setSelectedIngredient(e.target.value)}
+          value={ingredient}
+          onChange={handleIngredientChange}
           className={css.select}
         >
           <option value="">Ingredient</option>
-          {ingredients.map((ingredient) => (
-            <option key={ingredient._id} value={ingredient.name}>
-              {ingredient.name}
+          {Ingredients.map((ing) => (
+            <option key={ing._id} value={ing.name}>
+              {ing.name}
             </option>
           ))}
         </select>
+
+        {/*  Тип рецептів (own | favorite) — тільки на сторінці профілю */}
+        {isProfilePage && (
+          <select
+            value={type}
+            onChange={handleTypeChange}
+            className={css.select}
+          >
+            <option value="own">My Recipes</option>
+            <option value="favorite">Favorite Recipes</option>
+          </select>
+        )}
       </div>
     </div>
   );
 };
+
 export default Filters;
