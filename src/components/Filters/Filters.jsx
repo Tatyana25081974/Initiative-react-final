@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import {
   changeCategoryFilter,
   changeIngredientFilter,
-  changeType,
+  // changeType,
   resetFilters,
 } from "../../redux/filters/slice";
 
@@ -35,9 +35,9 @@ const Filters = ({ recipesCount }) => {
     dispatch(changeIngredientFilter(e.target.value));
   };
 
-  const handleTypeChange = (e) => {
-    dispatch(changeType(e.target.value));
-  };
+  // const handleTypeChange = (e) => {
+  //   dispatch(changeType(e.target.value));
+  // };
 
   const handleReset = () => {
     dispatch(resetFilters());
@@ -56,6 +56,7 @@ const Filters = ({ recipesCount }) => {
         {/*  Категорія */}
         <select
           value={category}
+          multiple
           onChange={handleCategoryChange}
           className={css.select}
         >
@@ -70,6 +71,7 @@ const Filters = ({ recipesCount }) => {
         {/*  Інгредієнт */}
         <select
           value={ingredient}
+          multiple
           onChange={handleIngredientChange}
           className={css.select}
         >
@@ -85,7 +87,8 @@ const Filters = ({ recipesCount }) => {
         {isProfilePage && (
           <select
             value={type}
-            onChange={handleTypeChange}
+            multiple
+            // onChange={handleTypeChange}
             className={css.select}
           >
             <option value="own">My Recipes</option>
