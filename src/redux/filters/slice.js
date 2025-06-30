@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getCategory, getIngredients } from "./operation";
 
 const filtersSlice = createSlice({
   name: "filters",
@@ -9,7 +10,7 @@ const filtersSlice = createSlice({
     ingredients: [], // Інгредієнт
     category: [],
     searchQuery: "", // Пошук
-    type: "all", // Тип рецептів: all | own | favorite
+    // type: "all", // Тип рецептів: all | own | favorite
   },
 
   //  Редьюсери — функції для зміни стану
@@ -21,31 +22,32 @@ const filtersSlice = createSlice({
     changeIngredientFilter(state, action) {
       state.searchedIngredient = action.payload;
     },
-    changeIngredients(state, action) {
-      state.searchedIngredient.push(action.payload);
-    },
-
-    changeCategory(state, action) {
-      state.searchedCategory.push(action.payload);
-    },
 
     changeSearchQuery(state, action) {
       state.searchQuery = action.payload;
     },
 
-    changeType: (state, action) => {
-      //  Зміна типу рецептів
-      state.type = action.payload;
-    },
+    // changeType: (state, action) => {
+    //  Зміна типу рецептів
+    //   state.type = action.payload;
+    // },
 
     //  Скидання всіх фільтрів до початкового стану
     resetFilters(state) {
-      state.category = "";
-      state.ingredient = "";
+      state.searchedCategory = "";
+      state.searchedIngredient = "";
       state.searchQuery = "";
       state.sortBy = "popular";
-      state.page = 1;
-      state.limit = 12;
+    },
+
+    extraReducers: (builder) => {
+      builder
+        .addCase(getCategory.fulfilled, (state, action) => {
+          state.category.push(action.payload);
+        })
+        .addCase(getIngredients.fulfilled, (state, action) => {
+          state.ingredients.push(action.payload);
+        });
     },
   },
 });
@@ -54,10 +56,6 @@ export const {
   changeCategoryFilter,
   changeIngredientFilter,
   changeSearchQuery,
-  changeSortBy,
-  changePage,
-  changeLimit,
-  changeType,
   resetFilters,
 } = filtersSlice.actions;
 

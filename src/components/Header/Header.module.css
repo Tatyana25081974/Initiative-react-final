@@ -1,0 +1,10 @@
+.wrapper {
+  background: #3d2218;
+  padding: 14px 0;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    padding: 15px 0;
+  }
+}
