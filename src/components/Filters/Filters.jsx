@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import {
   changeCategoryFilter,
   changeIngredientFilter,
-  // changeType,
+  changeType,
   resetFilters,
 } from "../../redux/filters/slice";
 
@@ -18,9 +18,10 @@ import css from "./Filters.module.css";
 
 const Filters = ({ recipesCount }) => {
   const dispatch = useDispatch();
-  const { category, ingredient, type } = useSelector(selectFilters);
 
-  //  Визначаємо, чи ми на сторінці профілю
+  const { searchedCategory, searchedIngredient, type } =
+    useSelector(selectFilters);
+
   const location = useLocation();
   const isProfilePage = location.pathname.startsWith("/profile");
 
@@ -35,9 +36,9 @@ const Filters = ({ recipesCount }) => {
     dispatch(changeIngredientFilter(e.target.value));
   };
 
-  // const handleTypeChange = (e) => {
-  //   dispatch(changeType(e.target.value));
-  // };
+  const handleTypeChange = (e) => {
+    dispatch(changeType(e.target.value));
+  };
 
   const handleReset = () => {
     dispatch(resetFilters());
@@ -48,15 +49,12 @@ const Filters = ({ recipesCount }) => {
       <p className={css.recipesCount}>{recipesCount} recipes found</p>
 
       <div className={css.filtersContainer}>
-        {/*  Reset */}
         <button onClick={handleReset} className={css.resetButton}>
           Reset filters
         </button>
 
-        {/*  Категорія */}
         <select
-          value={category}
-          multiple
+          value={searchedCategory}
           onChange={handleCategoryChange}
           className={css.select}
         >
@@ -68,10 +66,8 @@ const Filters = ({ recipesCount }) => {
           ))}
         </select>
 
-        {/*  Інгредієнт */}
         <select
-          value={ingredient}
-          multiple
+          value={searchedIngredient}
           onChange={handleIngredientChange}
           className={css.select}
         >
@@ -83,12 +79,10 @@ const Filters = ({ recipesCount }) => {
           ))}
         </select>
 
-        {/*  Тип рецептів (own | favorite) — тільки на сторінці профілю */}
         {isProfilePage && (
           <select
             value={type}
-            multiple
-            // onChange={handleTypeChange}
+            onChange={handleTypeChange}
             className={css.select}
           >
             <option value="own">My Recipes</option>

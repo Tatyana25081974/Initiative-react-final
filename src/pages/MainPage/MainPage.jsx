@@ -37,6 +37,8 @@ const MainPage = () => {
       {error && <p>Error: {error}</p>}
       <RecipeList recipes={recipes} />
       */}
+
+      <TestComponent />
     </div>
   );
 };
