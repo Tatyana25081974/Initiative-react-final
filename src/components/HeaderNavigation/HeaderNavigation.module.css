@@ -1,0 +1,25 @@
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+.navigationContainer {
+  display: flex;
+  gap: 12.5px;
+}
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatarCircle {
+  background-color: #a6754e;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
