@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getIngredients, getCategory } from "./operation";
 
 const filtersSlice = createSlice({
   name: "filters",
 
   initialState: {
-    searchedCategory: "", // Категорія
-    searchedIngredient: "",
-    ingredients: [], // Інгредієнт
-    category: [],
-    searchQuery: "", // Пошук
-    type: "all", // Тип рецептів: all | own | favorite
+    searchedCategory: "", // обрана категорія
+    searchedIngredient: "", // обраний інгредієнт
+    ingredients: [], // всі інгредієнти з бекенду
+    category: [], // всі категорії з бекенду
+    searchQuery: "", // пошуковий запит
+    type: "all", // тип рецептів: all | own | favorite
+    loading: false, // статус завантаження
+    error: null, // помилка
   },
 
-  //  Редьюсери — функції для зміни стану
   reducers: {
     changeCategoryFilter(state, action) {
       state.searchedCategory = action.payload;
@@ -21,32 +23,53 @@ const filtersSlice = createSlice({
     changeIngredientFilter(state, action) {
       state.searchedIngredient = action.payload;
     },
-    changeIngredients(state, action) {
-      state.searchedIngredient.push(action.payload);
-    },
-
-    changeCategory(state, action) {
-      state.searchedCategory.push(action.payload);
-    },
 
     changeSearchQuery(state, action) {
       state.searchQuery = action.payload;
     },
 
-    changeType: (state, action) => {
-      //  Зміна типу рецептів
+    changeType(state, action) {
       state.type = action.payload;
     },
 
-    //  Скидання всіх фільтрів до початкового стану
     resetFilters(state) {
-      state.category = "";
-      state.ingredient = "";
+      state.searchedCategory = "";
+      state.searchedIngredient = "";
       state.searchQuery = "";
-      state.sortBy = "popular";
-      state.page = 1;
-      state.limit = 12;
+      // type не скидаємо — він залежить від сторінки (own, favorite, all)
     },
+  },
+
+  extraReducers: (builder) => {
+    builder
+
+      //  Отримання інгредієнтів
+      .addCase(getIngredients.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getIngredients.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ingredients = action.payload;
+      })
+      .addCase(getIngredients.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //  Отримання категорій
+      .addCase(getCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.category = action.payload;
+      })
+      .addCase(getCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -54,9 +77,6 @@ export const {
   changeCategoryFilter,
   changeIngredientFilter,
   changeSearchQuery,
-  changeSortBy,
-  changePage,
-  changeLimit,
   changeType,
   resetFilters,
 } = filtersSlice.actions;
