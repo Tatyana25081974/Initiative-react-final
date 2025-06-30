@@ -1,19 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { getCategory, getIngredients } from "./operation";
 
 const filtersSlice = createSlice({
   name: "filters",
 
   initialState: {
-    searchedCategory: "", // Категорія
-    searchedIngredient: "",
-    ingredients: [], // Інгредієнт
-    category: [],
-    searchQuery: "", // Пошук
-    // type: "all", // Тип рецептів: all | own | favorite
+    searchedCategory: "", // обрана категорія
+    searchedIngredient: "", // обраний інгредієнт
+    ingredients: [], // всі інгредієнти з бекенду
+    category: [], // всі категорії з бекенду
+    searchQuery: "", // пошуковий запит
+    type: "all", // тип рецептів: all | own | favorite
+    loading: false, // статус завантаження
+    error: null, // помилка
   },
 
-  //  Редьюсери — функції для зміни стану
   reducers: {
     changeCategoryFilter(state, action) {
       state.searchedCategory = action.payload;
@@ -27,12 +29,10 @@ const filtersSlice = createSlice({
       state.searchQuery = action.payload;
     },
 
-    // changeType: (state, action) => {
-    //  Зміна типу рецептів
-    //   state.type = action.payload;
-    // },
+    changeType(state, action) {
+      state.type = action.payload;
+    },
 
-    //  Скидання всіх фільтрів до початкового стану
     resetFilters(state) {
       state.searchedCategory = "";
       state.searchedIngredient = "";
@@ -50,12 +50,45 @@ const filtersSlice = createSlice({
         });
     },
   },
+
+  extraReducers: (builder) => {
+    builder
+
+      //  Отримання інгредієнтів
+      .addCase(getIngredients.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getIngredients.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ingredients = action.payload;
+      })
+      .addCase(getIngredients.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //  Отримання категорій
+      .addCase(getCategory.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCategory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.category = action.payload;
+      })
+      .addCase(getCategory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 export const {
   changeCategoryFilter,
   changeIngredientFilter,
   changeSearchQuery,
+  changeType,
   resetFilters,
 } = filtersSlice.actions;
 
