@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getIngredients, getCategory } from "./operation";
+
+import { getCategory, getIngredients } from "./operation";
 
 const filtersSlice = createSlice({
   name: "filters",
@@ -36,7 +37,17 @@ const filtersSlice = createSlice({
       state.searchedCategory = "";
       state.searchedIngredient = "";
       state.searchQuery = "";
-      // type не скидаємо — він залежить від сторінки (own, favorite, all)
+      state.sortBy = "popular";
+    },
+
+    extraReducers: (builder) => {
+      builder
+        .addCase(getCategory.fulfilled, (state, action) => {
+          state.category.push(action.payload);
+        })
+        .addCase(getIngredients.fulfilled, (state, action) => {
+          state.ingredients.push(action.payload);
+        });
     },
   },
 

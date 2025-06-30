@@ -1,10 +1,15 @@
-// import css from "./Header.module.css";
+import css from "./Header.module.css";
+
+import Logo from "../Logo/Logo";
+import Container from "../Container/Container";
 
 const Header = () => {
   return (
-    <>
-      <p>Header</p>
-    </>
+    <header className={css.wrapper}>
+      <Container>
+        <Logo />
+      </Container>
+    </header>
   );
 };
 
