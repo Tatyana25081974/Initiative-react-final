@@ -90,7 +90,6 @@ const testRecipe = {
     },
   },
 };
->>>>>>> main
 
 const TestComponent = () => {
   return (
