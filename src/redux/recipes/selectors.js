@@ -6,7 +6,9 @@ import {
 } from "../filters/selectors";
 
 export const selectRecipes = (state) => state.recipes.items;
+
 export const selectRecipesLoading = (state) => state.recipes.loading;
+
 export const selectRecipesError = (state) => state.recipes.error;
 
 export const selectFilteredContacts = createSelector(

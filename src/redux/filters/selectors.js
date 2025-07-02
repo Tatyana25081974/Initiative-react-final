@@ -1,3 +1,10 @@
-export const selectCategoryFilter = (state) => state.filters.category;
+export const selectSearchedCategory = (state) => state.filters.searchedCategory;
 
-export const selectIngredientFilter = (state) => state.filters.ingredient;
+export const selectSearchedIngredient = (state) =>
+  state.filters.searchedIngredient;
+
+export const selectFilters = (state) => state.filters;
+
+export const selectCategory = (state) => state.filters.category;
+
+export const selectIngredients = (state) => state.filters.ingredients;
