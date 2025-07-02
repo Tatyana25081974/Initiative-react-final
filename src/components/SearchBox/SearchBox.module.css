@@ -16,9 +16,13 @@
   width: 100%;
   height: 48px;
   font-size: 16px;
-  border-radius: 15px;
+  border-radius: 8px;
   box-sizing: border-box;
-  padding: 0 18px;
+  padding: 0 12px;
+}
+.input {
+  padding: 12px;
+  border: 1px solid #d9d9d9;
 }
 
 .button {
@@ -53,21 +57,23 @@
   .form {
     flex-direction: row;
     justify-content: center;
-    gap: 16px;
-    max-width: 576px;
-    margin-left: auto;
-    margin-right: auto;
+    gap: 24px;
+    max-width: 671px;
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin: 0;
   }
 
   .input {
-    min-width: 400px;
-    height: 50px;
+    /* min-width: 400px; */
+    width: 471px;
+    height: 46px;
     font-size: 18px;
   }
 
   .button {
     width: 176px;
-    height: 50px;
+    height: 46px;
     font-size: 18px;
   }
 }
@@ -75,17 +81,19 @@
 /* === Desktop (1440px) === */
 @media screen and (min-width: 1440px) {
   .form {
-    max-width: 700px;
+    /* max-width: 700px; */
+    gap: 12px;
   }
 
   .input {
-    min-width: 460px;
-    height: 54px;
+    /* min-width: 460px; */
+    /* height: 54px; */
+    width: 459px;
   }
 
   .button {
     width: 190px;
-    height: 54px;
+    /* height: 54px; */
     font-size: 18px;
   }
 }
