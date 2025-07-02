@@ -1,71 +1,138 @@
 import { useId, useState } from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+import * as Yup from "yup";
+import clsx from "clsx";
 import cameraIcon from "../../assets/images/addRecipes/camera.svg";
 import deleteIcon from "../../assets/images/addRecipes/delete.svg";
 import Container from "../Container/Container.jsx";
-import clsx from "clsx";
 import css from "./AddRecipeForm.module.css";
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+const allowedCategories = ["Seafood", "Lamb"];
+const allowedIngredients = ["Brocoli", "Tomato"];
+
+const recipeSchema = Yup.object().shape({
+  recipeImg: Yup.mixed()
+    .nullable()
+    .test("fileSize", "File is too large (max 2MB)", (value) => {
+      if (!value) return true;
+      return value.size <= MAX_FILE_SIZE;
+    }),
+  recipeTitle: Yup.string()
+    .max(64, "The recipe title must be a maximum of 64 characters.")
+    .required("Required field!"),
+  recipeDescr: Yup.string()
+    .max(200, "The recipe description must be a maximum of 200 characters.")
+    .required("Required field!"),
+  cookingTime: Yup.number()
+    .min(1, "Cooking time should be at least one minute")
+    .max(360, "Cooking time should be a maximum of 360 minutes")
+    .required("Required field!"),
+  calories: Yup.number()
+    .min(1, "Minimum number of calories: 1")
+    .max(10000, "Maximum number of calories: 10000"),
+  category: Yup.string()
+    .oneOf(allowedCategories, "Please select a valid category")
+    .required("Category is required"),
+  ingredients: Yup.array()
+    .of(
+      Yup.object().shape({
+        ingredientName: Yup.string()
+          .oneOf(allowedIngredients, "Invalid ingredient")
+          .required("Required"),
+        amount: Yup.string().required("Amount is required"),
+      })
+    )
+    .min(2, "Add at least two ingredient")
+    .max(16, "Max ingredients at least: 16")
+    .required("Ingredient is required"),
+  recipeInstruction: Yup.string()
+    .max(1200, "Instructions must be under 1200 characters.")
+    .required("Required field!"),
+});
+
 const AddRecipeForm = () => {
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState(null);
   const [isOpenCategorySelect, setIsOpenCategorySelect] = useState(false);
   const [isOpenIngredientSelect, setIsOpenIngredientSelect] = useState(false);
   const fieldId = useId();
 
   const initialValues = {
+    recipeImg: null,
     recipeTitle: "",
     recipeDescr: "",
     cookingTime: "",
     calories: "",
     category: "",
-    photo: null,
     ingredients: [],
     ingredientName: "",
     amount: "",
+    recipeInstruction: "",
   };
 
   const handleSubmit = async (values) => {
     console.log(values);
+
+    setPreview(null);
   };
 
   return (
     <Container>
       <h1 className={css.mainTitle}>Add Recipe</h1>
 
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ setFieldValue, values }) => (
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={recipeSchema}
+      >
+        {({ setFieldValue, values, errors, touched }) => (
           <Form className={css.form}>
             <div className={css.photoContainer}>
               <h2 className={css.sectionTitle}>Upload Photo</h2>
-              <label className={css.labelPhoto} htmlFor={fieldId + "photo"}>
-                {preview ? (
-                  <img
-                    className={css.previewPhoto}
-                    src={preview}
-                    alt="preview"
-                  />
-                ) : (
-                  <img className={css.iconPhoto} src={cameraIcon} alt="icon" />
-                )}
-              </label>
-              <input
-                className={css.inputPhoto}
-                id={fieldId + "photo"}
-                name="photo"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.currentTarget.files[0];
-                  if (file) {
-                    if (preview) {
-                      URL.revokeObjectURL(preview);
+
+              <div>
+                <label
+                  className={css.labelPhoto}
+                  htmlFor={fieldId + "recipeImg"}
+                >
+                  {preview ? (
+                    <img
+                      className={css.previewPhoto}
+                      src={preview}
+                      alt="preview"
+                    />
+                  ) : (
+                    <img
+                      className={css.iconPhoto}
+                      src={cameraIcon}
+                      alt="icon"
+                    />
+                  )}
+                </label>
+                <input
+                  className={css.inputPhoto}
+                  id={fieldId + "recipeImg"}
+                  name="recipeImg"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.currentTarget.files[0];
+                    if (file) {
+                      if (preview) {
+                        URL.revokeObjectURL(preview);
+                      }
+                      setFieldValue("recipeImg", file);
+                      setPreview(URL.createObjectURL(file));
                     }
-                    const objectUrl = URL.createObjectURL(file);
-                    setFieldValue("photo", file);
-                    setPreview(objectUrl);
-                  }
-                }}
-              />
+                  }}
+                />
+
+                <ErrorMessage
+                  className={css.errorMessages}
+                  name="recipeImg"
+                  component="span"
+                />
+              </div>
             </div>
 
             <div className={css.mainFormContainer}>
@@ -128,7 +195,7 @@ const AddRecipeForm = () => {
                   <Field
                     className={css.formFields}
                     id={fieldId + "cookingTime"}
-                    type="text"
+                    type="number"
                     name="cookingTime"
                     placeholder="10"
                   />
@@ -151,7 +218,7 @@ const AddRecipeForm = () => {
                     <Field
                       className={css.formFields}
                       id={fieldId + "calories"}
-                      type="text"
+                      type="number"
                       name="calories"
                       placeholder="150 cals"
                     />
@@ -189,7 +256,11 @@ const AddRecipeForm = () => {
                         onBlur={() => setIsOpenCategorySelect(false)}
                         onClick={() => setIsOpenCategorySelect((prev) => !prev)}
                       >
-                        <option>Soup</option>
+                        <option value="" disabled>
+                          Select category
+                        </option>
+                        <option value="Seafood">Seafood</option>
+                        <option value="Lamb">Lamb</option>
                       </Field>
                       <span
                         className={clsx(css.arrow, {
@@ -207,159 +278,187 @@ const AddRecipeForm = () => {
                 </div>
               </div>
 
-              <div className={css.ingredientsContainer}>
-                <h2 className={clsx(css.sectionTitle, css.mbIngredientsTitle)}>
-                  Ingredients
-                </h2>
-
-                <div className={css.ingredientsWrapper}>
-                  <div
-                    className={clsx(
-                      css.inputFieldsContainer,
-                      css.IngredientsContainer
-                    )}
-                  >
-                    <label
-                      className={css.fieldsTitle}
-                      htmlFor={fieldId + "ingredientName"}
+              <FieldArray name="ingredients">
+                {({ remove, push }) => (
+                  <div className={css.ingredientsContainer}>
+                    <h2
+                      className={clsx(css.sectionTitle, css.mbIngredientsTitle)}
                     >
-                      Name
-                    </label>
-                    <div className={css.selectContainer}>
-                      <Field
+                      Ingredients
+                    </h2>
+
+                    <div className={css.ingredientsWrapper}>
+                      <div
                         className={clsx(
-                          css.formFields,
-                          css.customSelect,
-                          css.ingredientsName
+                          css.inputFieldsContainer,
+                          css.IngredientsContainer
                         )}
-                        id={fieldId + "ingredientName"}
-                        as="select"
-                        name="ingredientName"
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            setIsOpenIngredientSelect(true);
-                          }
-                        }}
-                        onBlur={() => setIsOpenIngredientSelect(false)}
-                        onClick={() =>
-                          setIsOpenIngredientSelect((prev) => !prev)
-                        }
                       >
-                        <option>Brocoli</option>
-                        <option>Tomato</option>
-                      </Field>
-                      <span
-                        className={clsx(css.arrow, {
-                          [css.arrowOpen]: isOpenIngredientSelect,
-                        })}
-                      />
+                        <label
+                          className={css.fieldsTitle}
+                          htmlFor={fieldId + "ingredientName"}
+                        >
+                          Name
+                        </label>
+                        <div className={css.selectContainer}>
+                          <Field
+                            className={clsx(
+                              css.formFields,
+                              css.customSelect,
+                              css.ingredientsName
+                            )}
+                            id={fieldId + "ingredientName"}
+                            as="select"
+                            name="ingredientName"
+                            onBlur={() => setIsOpenIngredientSelect(false)}
+                            onClick={() =>
+                              setIsOpenIngredientSelect((prev) => !prev)
+                            }
+                          >
+                            <option value="" disabled>
+                              Select ingredient
+                            </option>
+                            <option value="Brocoli">Brocoli</option>
+                            <option value="Tomato">Tomato</option>
+                          </Field>
+                          <span
+                            className={clsx(css.arrow, {
+                              [css.arrowOpen]: isOpenIngredientSelect,
+                            })}
+                          />
+                        </div>
+
+                        <ErrorMessage
+                          className={css.errorMessages}
+                          name="ingredientName"
+                          component="span"
+                        />
+                      </div>
+
+                      <div
+                        className={clsx(
+                          css.inputFieldsContainer,
+                          css.IngredientsContainer
+                        )}
+                      >
+                        <label
+                          className={clsx(
+                            css.fieldsTitle,
+                            css.ingredientsAmount
+                          )}
+                          htmlFor={fieldId + "amount"}
+                        >
+                          Amount
+                        </label>
+                        <Field
+                          className={css.formFields}
+                          id={fieldId + "amount"}
+                          type="text"
+                          name="amount"
+                          placeholder="100g"
+                        />
+
+                        <ErrorMessage
+                          className={css.errorMessages}
+                          name="amount"
+                          component="span"
+                        />
+                      </div>
+
+                      <div className={css.addButtonWrapper}>
+                        <button
+                          className={css.addIngredientBtn}
+                          type="button"
+                          onClick={() => {
+                            if (!values.ingredientName || !values.amount)
+                              return;
+                            push({
+                              ingredientName: values.ingredientName,
+                              amount: values.amount,
+                            });
+                            setFieldValue("ingredientName", "");
+                            setFieldValue("amount", "");
+                          }}
+                        >
+                          Add new Ingredient
+                        </button>
+                      </div>
                     </div>
 
-                    <ErrorMessage
-                      className={css.errorMessages}
-                      name="ingredientName"
-                      component="span"
-                    />
-                  </div>
-
-                  <div
-                    className={clsx(
-                      css.inputFieldsContainer,
-                      css.IngredientsContainer
-                    )}
-                  >
-                    <label
-                      className={clsx(css.fieldsTitle, css.ingredientsAmount)}
-                      htmlFor={fieldId + "amount"}
-                    >
-                      Amount
-                    </label>
-                    <Field
-                      className={css.formFields}
-                      id={fieldId + "amount"}
-                      type="text"
-                      name="amount"
-                      placeholder="100g"
-                    />
-
-                    <ErrorMessage
-                      className={css.errorMessages}
-                      name="amount"
-                      component="span"
-                    />
-                  </div>
-
-                  <div className={css.addButtonWrapper}>
-                    <button
-                      className={css.addIngredientBtn}
-                      type="button"
-                      onClick={() => {
-                        const ingredient = document.querySelector(
-                          `#${fieldId}ingredientName`
-                        )?.value;
-                        const amount = document.querySelector(
-                          `#${fieldId}amount`
-                        )?.value;
-
-                        if (!ingredient || !amount) return;
-
-                        setFieldValue("ingredients", [
-                          ...values.ingredients,
-                          { ingredientName: ingredient, amount },
-                        ]);
-
-                        setFieldValue("ingredientName", "");
-                        setFieldValue("amount", "");
-                      }}
-                    >
-                      Add new Ingredient
-                    </button>
-                  </div>
-
-                  <Field name="ingredients">
-                    {({ field, form }) =>
-                      form.values.ingredients.length > 0 && (
-                        <table className={css.ingredientsTable}>
-                          <thead className={css.ingredientsTableHead}>
-                            <tr>
-                              <th className={css.ingredientsTableNameColumn}>
-                                Name:
-                              </th>
-                              <th>Amount:</th>
-                              <th></th>
+                    {values.ingredients.length > 0 && (
+                      <table className={css.ingredientsTable}>
+                        <thead className={css.ingredientsTableHead}>
+                          <tr>
+                            <th className={css.ingredientsTableNameColumn}>
+                              Name
+                            </th>
+                            <th className={css.ingredientsTableAmountColumn}>
+                              Amount
+                            </th>
+                            <th className={css.ingredientsTableBtnColumn}></th>
+                          </tr>
+                        </thead>
+                        <tbody className={css.ingredientsTableBody}>
+                          {values.ingredients.map((ingredient, index) => (
+                            <tr key={`${ingredient.ingredientName}-${index}`}>
+                              <td>{ingredient.ingredientName}</td>
+                              <td>{ingredient.amount}</td>
+                              <td>
+                                <button
+                                  className={css.deleteBtn}
+                                  type="button"
+                                  onClick={() => remove(index)}
+                                >
+                                  <img
+                                    className={css.deleteBtnIcon}
+                                    src={deleteIcon}
+                                    alt="delete button"
+                                  />
+                                </button>
+                              </td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            {form.values.ingredients.map(
-                              (ingredient, index) => (
-                                <tr key={index}>
-                                  <td>{ingredient.ingredientName}</td>
-                                  <td>{ingredient.amount}</td>
-                                  <td>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const updated = [
-                                          ...form.values.ingredients,
-                                        ];
-                                        updated.splice(index, 1);
-                                        setFieldValue("ingredients", updated);
-                                      }}
-                                      className={css.deleteBtn}
-                                    >
-                                      <img src={deleteIcon} alt="delete" />
-                                    </button>
-                                  </td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                      )
-                    }
-                  </Field>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+
+                    {touched.ingredients &&
+                      typeof errors.ingredients === "string" && (
+                        <span className={css.errorMessages}>
+                          {errors.ingredients}
+                        </span>
+                      )}
+                  </div>
+                )}
+              </FieldArray>
+
+              <div className={css.instructionContainer}>
+                <div className={css.inputFieldsContainer}>
+                  <label
+                    className={clsx(css.sectionTitle, css.mbInstructionTitle)}
+                    htmlFor={fieldId + "recipeInstruction"}
+                  >
+                    Instructions
+                  </label>
+                  <Field
+                    className={clsx(css.formFields, css.textarea)}
+                    id={fieldId + "recipeInstruction"}
+                    as="textarea"
+                    name="recipeInstruction"
+                    placeholder="Enter a text"
+                  />
+
+                  <ErrorMessage
+                    className={css.errorMessages}
+                    name="recipeInstruction"
+                    component="span"
+                  />
                 </div>
               </div>
+
+              <button className={css.submitFormBtn} type="submit">
+                Publish Recipe
+              </button>
             </div>
           </Form>
         )}
