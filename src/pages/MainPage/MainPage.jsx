@@ -6,6 +6,7 @@ import { getRecipes } from "../../redux/recipes/operations";
 import { selectFilters } from "../../redux/filters/selectors";
 import Filters from "../../components/Filters/Filters";
 import Header from "../../components/Header/Header";
+import Hero from "../../components/Hero/Hero.jsx";
 
 // import RecipeList from "../../components/RecipeList/RecipeList";
 
@@ -29,6 +30,7 @@ const MainPage = () => {
 
   return (
     <div>
+      <Hero />
       {/* 🔹 Компонент фільтрів */}
       <Filters />
       {/* 🔸 Список рецептів */}
@@ -42,5 +44,4 @@ const MainPage = () => {
     </div>
   );
 };
-
 export default MainPage;
