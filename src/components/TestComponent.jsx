@@ -100,7 +100,7 @@ const TestComponent = () => {
         isInitiallyFavorite={false}
       /> */}
       <RecipeCard recipe={testRecipe} />
-      <RecipeDetails recipeId={"6462a8f74c3d0ddd28897fcd"} />
+      {/* <RecipeDetails recipeId={"6462a8f74c3d0ddd28897fcd"} /> */}
     </div>
   );
 };
