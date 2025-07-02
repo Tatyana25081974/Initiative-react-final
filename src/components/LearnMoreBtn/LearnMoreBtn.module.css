@@ -12,7 +12,9 @@
   font-weight: 600;
   text-decoration: none;
   transition: background-color 0.3s ease;
-  width: 289px;
+  /* width: 289px; */
+  max-width: 289px;
+  width: 100%;
   height: 40px;
   margin: 0 auto;
 }

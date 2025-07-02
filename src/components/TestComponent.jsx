@@ -9,6 +9,7 @@ import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn.jsx";
 import FavoriteBtn from "./FavoriteBtn/FavoriteBtn.jsx";
 import css from "./TestComponent.module.css";
 import RecipeCard from "./RecipeCard/RecipeCard.jsx";
+import RecipeDetails from "./RecipeDetails/RecipeDetails.jsx";
 
 const testRecipe = {
   _id: {
@@ -91,14 +92,15 @@ const testRecipe = {
 const TestComponent = () => {
   return (
     <div className={css.container}>
-      <Logo />
-      <LearnMoreBtn />
-      <LoadMoreBtn onClick={() => console.log("Load more clicked")} />
-      <FavoriteBtn
+      {/* <Logo /> */}
+      {/* <LearnMoreBtn />
+      <LoadMoreBtn onClick={() => console.log("Load more clicked")} /> */}
+      {/* <FavoriteBtn
         recipeId="6462a8f74c3d0ddd2889802b"
         isInitiallyFavorite={false}
-      />
+      /> */}
       <RecipeCard recipe={testRecipe} />
+      <RecipeDetails recipeId={"6462a8f74c3d0ddd28897fcd"} />
     </div>
   );
 };

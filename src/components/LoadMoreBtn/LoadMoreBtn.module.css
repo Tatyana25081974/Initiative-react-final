@@ -3,7 +3,9 @@
   align-items: center;
   justify-content: center;
 
-  width: 372px;
+  /* width: 372px; */
+  max-width: 372px;
+  width: 100%;
   height: 54px;
   margin: 24px auto;
 
