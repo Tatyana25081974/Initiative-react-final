@@ -51,3 +51,7 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+.modal-open {
+  overflow: hidden;
+}
