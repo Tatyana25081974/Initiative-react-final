@@ -93,6 +93,10 @@
   box-shadow: 0 0 0 4px rgba(78, 70, 180, 0.2);
 }
 
+.errorBorder {
+  border: 1.5px solid #c80000;
+}
+
 .errorMessages {
   margin-bottom: 4px;
   color: red;

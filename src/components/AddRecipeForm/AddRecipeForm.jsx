@@ -71,7 +71,18 @@ const AddRecipeForm = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    const newRecipe = {
+      recipeImg: values.recipeImg,
+      recipeTitle: values.recipeTitle.toLowerCase().trim(),
+      recipeDescr: values.recipeDescr.toLowerCase().trim(),
+      cookingTime: values.cookingTime,
+      calories: values.calories ? values.calories : null,
+      category: values.category,
+      ingredients: values.ingredients,
+      recipeInstruction: values.recipeInstruction.toLowerCase().trim(),
+    };
+
+    console.log(newRecipe);
 
     setPreview(null);
   };
@@ -149,7 +160,12 @@ const AddRecipeForm = () => {
                     Recipe Title
                   </label>
                   <Field
-                    className={css.formFields}
+                    className={clsx(
+                      css.formFields,
+                      touched.recipeTitle &&
+                        errors.recipeTitle &&
+                        css.errorBorder
+                    )}
                     id={fieldId + "recipeTitle"}
                     type="text"
                     name="recipeTitle"
@@ -171,7 +187,13 @@ const AddRecipeForm = () => {
                     Recipe Description
                   </label>
                   <Field
-                    className={clsx(css.formFields, css.textarea)}
+                    className={clsx(
+                      css.formFields,
+                      css.textarea,
+                      touched.recipeDescr &&
+                        errors.recipeDescr &&
+                        css.errorBorder
+                    )}
                     id={fieldId + "recipeDescr"}
                     as="textarea"
                     name="recipeDescr"
@@ -193,7 +215,12 @@ const AddRecipeForm = () => {
                     Cooking time in minutes
                   </label>
                   <Field
-                    className={css.formFields}
+                    className={clsx(
+                      css.formFields,
+                      touched.cookingTime &&
+                        errors.cookingTime &&
+                        css.errorBorder
+                    )}
                     id={fieldId + "cookingTime"}
                     type="number"
                     name="cookingTime"
@@ -244,7 +271,11 @@ const AddRecipeForm = () => {
                     </label>
                     <div className={css.selectContainer}>
                       <Field
-                        className={clsx(css.formFields, css.customSelect)}
+                        className={clsx(
+                          css.formFields,
+                          css.customSelect,
+                          touched.category && errors.category && css.errorBorder
+                        )}
                         id={fieldId + "category"}
                         as="select"
                         name="category"

@@ -7,6 +7,7 @@ import { selectFilters } from "../../redux/filters/selectors";
 import Filters from "../../components/Filters/Filters";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero.jsx";
+import AddRecipeForm from "../../components/AddRecipeForm/AddRecipeForm.jsx";
 
 // import RecipeList from "../../components/RecipeList/RecipeList";
 
@@ -40,6 +41,7 @@ const MainPage = () => {
       <RecipeList recipes={recipes} />
       */}
       <TestComponent />
+      <AddRecipeForm />
     </div>
   );
 };
