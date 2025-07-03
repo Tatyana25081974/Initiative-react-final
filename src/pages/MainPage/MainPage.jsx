@@ -41,7 +41,6 @@ const MainPage = () => {
       <RecipeList recipes={recipes} />
       */}
       <TestComponent />
-      <AddRecipeForm />
     </div>
   );
 };

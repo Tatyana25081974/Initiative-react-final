@@ -8,8 +8,8 @@ import Container from "../Container/Container.jsx";
 import css from "./AddRecipeForm.module.css";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
-const allowedCategories = ["Seafood", "Lamb"];
-const allowedIngredients = ["Brocoli", "Tomato"];
+let allowedCategories = ["Lamb", "Seafood"];
+const allowedIngredients = ["Tomato", "Brocoli"];
 
 const recipeSchema = Yup.object().shape({
   recipeImg: Yup.mixed()
@@ -18,13 +18,13 @@ const recipeSchema = Yup.object().shape({
       if (!value) return true;
       return value.size <= MAX_FILE_SIZE;
     }),
-  recipeTitle: Yup.string()
+  title: Yup.string()
     .max(64, "The recipe title must be a maximum of 64 characters.")
     .required("Required field!"),
-  recipeDescr: Yup.string()
+  description: Yup.string()
     .max(200, "The recipe description must be a maximum of 200 characters.")
     .required("Required field!"),
-  cookingTime: Yup.number()
+  cookiesTime: Yup.number()
     .min(1, "Cooking time should be at least one minute")
     .max(360, "Cooking time should be a maximum of 360 minutes")
     .required("Required field!"),
@@ -46,7 +46,7 @@ const recipeSchema = Yup.object().shape({
     .min(2, "Add at least two ingredient")
     .max(16, "Max ingredients at least: 16")
     .required("Ingredient is required"),
-  recipeInstruction: Yup.string()
+  instructions: Yup.string()
     .max(1200, "Instructions must be under 1200 characters.")
     .required("Required field!"),
 });
@@ -59,27 +59,27 @@ const AddRecipeForm = () => {
 
   const initialValues = {
     recipeImg: null,
-    recipeTitle: "",
-    recipeDescr: "",
-    cookingTime: "",
+    title: "",
+    description: "",
+    cookiesTime: "",
     calories: "",
     category: "",
     ingredients: [],
     ingredientName: "",
     amount: "",
-    recipeInstruction: "",
+    instructions: "",
   };
 
   const handleSubmit = async (values) => {
     const newRecipe = {
       recipeImg: values.recipeImg,
-      recipeTitle: values.recipeTitle.toLowerCase().trim(),
-      recipeDescr: values.recipeDescr.toLowerCase().trim(),
-      cookingTime: values.cookingTime,
+      title: values.title.toLowerCase().trim(),
+      description: values.description.toLowerCase().trim(),
+      cookiesTime: values.cookiesTime,
       calories: values.calories ? values.calories : null,
       category: values.category,
       ingredients: values.ingredients,
-      recipeInstruction: values.recipeInstruction.toLowerCase().trim(),
+      instructions: values.instructions.toLowerCase().trim(),
     };
 
     console.log(newRecipe);
@@ -155,26 +155,24 @@ const AddRecipeForm = () => {
                 <div className={css.inputFieldsContainer}>
                   <label
                     className={css.fieldsTitle}
-                    htmlFor={fieldId + "recipeTitle"}
+                    htmlFor={fieldId + "title"}
                   >
                     Recipe Title
                   </label>
                   <Field
                     className={clsx(
                       css.formFields,
-                      touched.recipeTitle &&
-                        errors.recipeTitle &&
-                        css.errorBorder
+                      touched.title && errors.title && css.errorBorder
                     )}
-                    id={fieldId + "recipeTitle"}
+                    id={fieldId + "title"}
                     type="text"
-                    name="recipeTitle"
+                    name="title"
                     placeholder="Enter the name of your recipe"
                   />
 
                   <ErrorMessage
                     className={css.errorMessages}
-                    name="recipeTitle"
+                    name="title"
                     component="span"
                   />
                 </div>
@@ -182,7 +180,7 @@ const AddRecipeForm = () => {
                 <div className={css.inputFieldsContainer}>
                   <label
                     className={css.fieldsTitle}
-                    htmlFor={fieldId + "recipeDescr"}
+                    htmlFor={fieldId + "description"}
                   >
                     Recipe Description
                   </label>
@@ -190,19 +188,19 @@ const AddRecipeForm = () => {
                     className={clsx(
                       css.formFields,
                       css.textarea,
-                      touched.recipeDescr &&
-                        errors.recipeDescr &&
+                      touched.description &&
+                        errors.description &&
                         css.errorBorder
                     )}
-                    id={fieldId + "recipeDescr"}
+                    id={fieldId + "description"}
                     as="textarea"
-                    name="recipeDescr"
+                    name="description"
                     placeholder="Enter a brief description of your recipe"
                   />
 
                   <ErrorMessage
                     className={css.errorMessages}
-                    name="recipeDescr"
+                    name="description"
                     component="span"
                   />
                 </div>
@@ -210,26 +208,26 @@ const AddRecipeForm = () => {
                 <div className={css.inputFieldsContainer}>
                   <label
                     className={css.fieldsTitle}
-                    htmlFor={fieldId + "cookingTime"}
+                    htmlFor={fieldId + "cookiesTime"}
                   >
                     Cooking time in minutes
                   </label>
                   <Field
                     className={clsx(
                       css.formFields,
-                      touched.cookingTime &&
-                        errors.cookingTime &&
+                      touched.cookiesTime &&
+                        errors.cookiesTime &&
                         css.errorBorder
                     )}
-                    id={fieldId + "cookingTime"}
+                    id={fieldId + "cookiesTime"}
                     type="number"
-                    name="cookingTime"
+                    name="cookiesTime"
                     placeholder="10"
                   />
 
                   <ErrorMessage
                     className={css.errorMessages}
-                    name="cookingTime"
+                    name="cookiesTime"
                     component="span"
                   />
                 </div>
@@ -336,7 +334,10 @@ const AddRecipeForm = () => {
                             className={clsx(
                               css.formFields,
                               css.customSelect,
-                              css.ingredientsName
+                              css.ingredientsName,
+                              touched.ingredientName &&
+                                errors.ingredientName &&
+                                css.errorBorder
                             )}
                             id={fieldId + "ingredientName"}
                             as="select"
@@ -382,7 +383,10 @@ const AddRecipeForm = () => {
                           Amount
                         </label>
                         <Field
-                          className={css.formFields}
+                          className={clsx(
+                            css.formFields,
+                            touched.amount && errors.amount && css.errorBorder
+                          )}
                           id={fieldId + "amount"}
                           type="text"
                           name="amount"
@@ -467,21 +471,27 @@ const AddRecipeForm = () => {
                 <div className={css.inputFieldsContainer}>
                   <label
                     className={clsx(css.sectionTitle, css.mbInstructionTitle)}
-                    htmlFor={fieldId + "recipeInstruction"}
+                    htmlFor={fieldId + "instructions"}
                   >
                     Instructions
                   </label>
                   <Field
-                    className={clsx(css.formFields, css.textarea)}
-                    id={fieldId + "recipeInstruction"}
+                    className={clsx(
+                      css.formFields,
+                      css.textarea,
+                      touched.instructions &&
+                        errors.instructions &&
+                        css.errorBorder
+                    )}
+                    id={fieldId + "instructions"}
                     as="textarea"
-                    name="recipeInstruction"
+                    name="instructions"
                     placeholder="Enter a text"
                   />
 
                   <ErrorMessage
                     className={css.errorMessages}
-                    name="recipeInstruction"
+                    name="instructions"
                     component="span"
                   />
                 </div>
