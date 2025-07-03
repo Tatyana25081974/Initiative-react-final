@@ -52,6 +52,16 @@ img {
   height: auto;
 }
 
+/* MODAL GLOBAL STYLES */
 .modal-open {
   overflow: hidden;
+}
+
+.CustomOverlay {
+  position: fixed;
+  top: 74px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 }
