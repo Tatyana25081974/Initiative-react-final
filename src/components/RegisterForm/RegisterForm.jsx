@@ -27,7 +27,7 @@ const RegisterForm = () => {
   const { isAuthLoading } = useSelector((s) => s.auth);
 
   const handleSubmit = async (values, actions) => {
-    const { confirmPassword: _CONFIRM, terms, ...payload } = values;
+    const { confirmPassword: _CONFIRM, ...payload } = values;
     const res = await dispatch(register(payload));
 
     if (register.fulfilled.match(res)) navigate("/");
