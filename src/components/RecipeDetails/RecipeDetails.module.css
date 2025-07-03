@@ -1,0 +1,223 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background-color: #fff;
+  margin: 0 auto;
+
+  padding: 0 16px;
+  max-width: 393px;
+  width: 100%;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.image {
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.generalInfoBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  border-radius: 16px;
+  max-width: 100%;
+}
+
+.highlightedBlock {
+  background-color: #faf3e0;
+  row-gap: 15px;
+  padding: 16px;
+}
+
+.block h4 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.block h3 {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.block p,
+.block li {
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.ingredientsList,
+.instructionsList {
+  padding-left: 16px;
+  margin-top: 0;
+}
+
+.block li::marker {
+  font-size: 12px;
+  color: #777;
+  font-weight: normal;
+}
+
+.otherInfoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.block p,
+.instructionStep {
+  line-height: 1.55;
+  font-size: 16px;
+}
+
+.instructionsList {
+  padding-left: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  counter-reset: step-counter;
+}
+
+.instructionItem {
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.saveButton {
+  background-color: #9b6c43;
+  color: #fff;
+  max-width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  margin-top: 24px;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.saveButton:hover,
+.saveButton:focus {
+  background-color: #b4774c;
+  transform: scale(1.02);
+  outline: none;
+}
+
+.saveButton:active {
+  transform: scale(0.98);
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+    min-width: 768px;
+    width: 100%;
+  }
+
+  .headerSection {
+    flex-direction: column;
+  }
+
+  .image {
+    order: 2;
+  }
+
+  .title {
+    order: 1;
+    font-size: 48px;
+    line-height: 110%;
+  }
+
+  .generalInfoBlock {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .highlightedBlock {
+    padding: 24px;
+  }
+
+  .block {
+    flex: 1;
+  }
+
+  .saveButton {
+    flex-shrink: 0;
+    width: 249px;
+    margin-top: 0;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .container {
+    min-width: 1225px;
+  }
+
+  .image {
+    max-width: 100%;
+    max-height: none;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 24px;
+  }
+
+  .generalInfoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-left: auto;
+    min-width: 393px;
+    margin-top: 0;
+    margin-bottom: auto;
+  }
+
+  .highlightedBlock {
+    width: 100%;
+  }
+
+  .saveButton {
+    width: 100%;
+  }
+}

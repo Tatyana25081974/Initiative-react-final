@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { FaRegBookmark, FaBookmark } from "react-icons/fa6";
+import { FaRegBookmark } from "react-icons/fa6";
 import { RiDeleteBin4Line } from "react-icons/ri";
 import css from "./FavoriteBtn.module.css";
 // import axios from "axios";
 
-export default function FavoriteBtn({ recipeId, isInitiallyFavorite }) {
+export default function FavoriteBtn({
+  recipeId,
+  isInitiallyFavorite,
+  variant,
+}) {
   const [isFavorite, setIsFavorite] = useState(isInitiallyFavorite);
   const [loading, setLoading] = useState(false);
 
@@ -27,9 +31,16 @@ export default function FavoriteBtn({ recipeId, isInitiallyFavorite }) {
     }
   };
 
+  const classNames = [
+    css.button,
+    isFavorite ? css.active : "",
+    variant === "smallWhite" ? css.smallWhite : "",
+  ].join(" ");
+
   return (
     <button
-      className={`${css.button} ${isFavorite ? css.active : ""}`}
+      // className={`${css.button} ${isFavorite ? css.active : ""}`}
+      className={classNames}
       onClick={toggleFavorite}
       disabled={loading}
       aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
