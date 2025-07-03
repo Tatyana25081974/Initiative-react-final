@@ -5,6 +5,7 @@ import css from "./RecipeDetails.module.css";
 
 import ingredientsData from "../../data/tmp-ingredients.json";
 import { useState } from "react";
+import axios from "axios";
 
 export default function RecipeDetails({ recipeId }) {
   const [isSaved, setIsSaved] = useState(false);
@@ -42,9 +43,9 @@ export default function RecipeDetails({ recipeId }) {
 
     try {
       setLoading(true);
-      // await axios.post(`/api/recipes/favorite/${recipeId}`);
+      await axios.post(`/api/recipes/favorite/${recipeId}`); // при локальній перевірці закоментувати тут і в slice - state.items = action.payload;
       // тимчасове рішення для перевірки
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // await new Promise((resolve) => setTimeout(resolve, 1000)); // розкоментувати
       setIsSaved(true);
     } catch (error) {
       console.error("Error saving recipe:", error);
