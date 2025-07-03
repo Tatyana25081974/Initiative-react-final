@@ -1,0 +1,144 @@
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(17, 17, 17, 0.6); /* #111111 60% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+/* Modal base */
+.modal {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 15px;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 335px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Close icon */
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.33;
+  text-align: center;
+  color: #050505;
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.28;
+  text-align: center;
+  color: rgba(5, 5, 5, 0.5);
+  margin-bottom: 40px;
+}
+
+/* Action buttons container */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Log out button (red) */
+.logout {
+  background-color: #9bb537;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+.logout:hover,
+.logout:focus {
+  background-color: #7a9c32;
+}
+
+/* Cancel button (white with border) */
+.cancel {
+  background-color: #ffffff;
+  color: #050505;
+  border: 1px solid rgba(5, 5, 5, 0.1);
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+  cursor: pointer;
+  transition: background-color 250ms ease, border-color 250ms ease;
+}
+
+.cancel:hover,
+.cancel:focus {
+  background-color: #f6f6f6;
+  border-color: rgba(5, 5, 5, 0.2);
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .modal {
+    padding: 64px 32px;
+    max-width: 490px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .logout,
+  .cancel {
+    min-width: 150px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1280px) {
+  .modal {
+    padding: 64px 50px;
+  }
+
+  .logout,
+  .cancel {
+    font-size: 16px;
+  }
+}
