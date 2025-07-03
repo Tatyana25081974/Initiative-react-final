@@ -16,6 +16,7 @@ import { store, persistor } from "./redux/store";
 
 import { BrowserRouter } from "react-router-dom";
 import App from "./App/App.jsx";
+import "./index.css";
 
 import "modern-normalize/modern-normalize.css";
 import "./index.css";
