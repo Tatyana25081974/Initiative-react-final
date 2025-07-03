@@ -1,129 +1,102 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-// ? import { errorElimination } from "./slice";
 
-axios.defaults.baseURL = "https://initiative-nodejs-final.onrender.com/";
+axios.defaults.baseURL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://initiative-nodejs-final.onrender.com/";
 
-// register - для реєстрації нового користувача. Базовий тип екшену "auth/register".
-// Використовується у компоненті RegistrationForm на сторінці реєстрації.
-
-// login - для логіну існуючого користувача. Базовий тип екшену "auth/login".
-// Використовується у компоненті LoginForm на сторінці логіну.
-
-// logout - для виходу з додатка. Базовий тип екшену "auth/logout".
-// Використовується у компоненті UserMenu у шапці додатку.
-
-// refreshUser - оновлення користувача за токеном. Базовий тип екшену "auth/refresh".
-// Використовується у компоненті App під час його монтування.
-
-const setAuthHeader = (accessToken) => {
-  axios.defaults.headers.common.Authorization = accessToken;
+const setAuthHeader = (token) => {
+  if (token) axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  else delete axios.defaults.headers.common.Authorization;
 };
+const clearAuthHeader = () => setAuthHeader(null);
 
-export const register = createAsyncThunk(
-  "auth/register",
-  async (credentials, thunkAPI) => {
-    // console.log('auth/register', credentials);
-    try {
-      const response = await axios.post("/api/auth/register", credentials);
-      setAuthHeader(`Bearer ${response.data.token}`);
-      return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.response.data);
-    }
+/*  REGISTER */
+export const register = createAsyncThunk("auth/register", async (cred, t) => {
+  try {
+    const { data } = await axios.post("/api/auth/register", cred);
+    setAuthHeader(data.accessToken);
+    return data;
+  } catch (e) {
+    return t.rejectWithValue(
+      e.response?.data?.message || "Registration failed"
+    );
   }
-);
-
-export const login = createAsyncThunk(
-  "auth/login",
-  async (credentials, thunkAPI) => {
-    // console.log('auth/register', credentials);
-    try {
-      const response = await axios.post("/api/auth/login", credentials);
-      setAuthHeader(`Bearer ${response.data.accessToken}`);
-      const user = await axios.get("api/users");
-      return {
-        user: user.data,
-        accessToken: response.data.accessToken,
-      };
-      // return response.data;
-    } catch {
-      return thunkAPI.rejectWithValue("Your email or password is not correct.");
-    }
-  }
-);
-
-export const logout = createAsyncThunk("auth/logout", async () => {
-  // console.log('auth/logout');
-  await axios.post("/users/logout");
-  setAuthHeader("");
 });
 
+/*  LOGIN  */
+export const login = createAsyncThunk("auth/login", async (cred, t) => {
+  try {
+    const { data } = await axios.post("/api/auth/login", cred);
+    setAuthHeader(data.accessToken);
+    const { data: user } = await axios.get("/api/users");
+    return { user, accessToken: data.accessToken };
+  } catch (e) {
+    return t.rejectWithValue(
+      e.response?.data?.message || "Invalid credentials"
+    );
+  }
+});
+
+/*   LOGOUT  */
+export const logout = createAsyncThunk("auth/logout", async (_, t) => {
+  try {
+    await axios.post("/api/auth/logout");
+    clearAuthHeader();
+  } catch (e) {
+    return t.rejectWithValue(e.response?.data?.message || "Logout failed");
+  }
+});
+
+/*  REFRESH   */
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
-  async (_, thunkAPI) => {
-    // console.log('auth/refreshUser');
+  async (_, t) => {
+    const { accessToken } = t.getState().auth;
+    if (!accessToken) return t.rejectWithValue("No token");
     try {
-      const reduxState = thunkAPI.getState();
-      setAuthHeader(`Bearer ${reduxState.auth.accessToken}`);
-      const user = await axios.get("api/users");
-      return {
-        user: user.data,
-        accessToken: reduxState.auth.accessToken,
-      };
-
-      // return response.data.accessToken;
-    } catch (error) {
-      if (error.response.data.message === "Access token expired") {
-        const response = await axios.post("/api/auth/refresh");
-
-        const newAccessToken = response.data.accessToken;
-        setAuthHeader(`Bearer ${newAccessToken}`);
-        const user = await axios.get("api/users");
-        return {
-          user: user.data,
-          accessToken: newAccessToken,
-        };
+      setAuthHeader(accessToken);
+      const { data: user } = await axios.get("/api/users");
+      return { user, accessToken };
+    } catch (err) {
+      if (err.response?.data?.message === "Access token expired") {
+        try {
+          const { data } = await axios.post("/api/auth/refresh");
+          const newToken = data.accessToken;
+          setAuthHeader(newToken);
+          const { data: user } = await axios.get("/api/users");
+          return { user, accessToken: newToken };
+        } catch {
+          return t.rejectWithValue("Token refresh failed");
+        }
       }
-      console.log(error);
-      return thunkAPI.rejectWithValue("auth/refresh/rejected");
+      return t.rejectWithValue("Auth refresh rejected");
     }
   },
-  {
-    condition: (_, thunkAPI) => {
-      const reduxState = thunkAPI.getState();
-      return reduxState.auth.accessToken !== null;
-    },
-  }
+  { condition: (_, { getState }) => !!getState().auth.accessToken }
 );
 
+/*  FAVORITES  */
 export const addFavorite = createAsyncThunk(
-  "favorites/addFavorites",
-  async (recipeId, thunkAPI) => {
+  "favorites/add",
+  async (recipeId, t) => {
     try {
-      await axios.post(`/addFavorite/${recipeId}`);
-      return recipeId; // повертаємо те, що потім потрапить у `action.payload`
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      await axios.post(`/api/recipes/${recipeId}/favorite`);
+      return recipeId;
+    } catch (e) {
+      return t.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
 
 export const deleteFavorite = createAsyncThunk(
-  "favorites/deleteFavorite",
-  async (recipeId, thunkAPI) => {
+  "favorites/delete",
+  async (recipeId, t) => {
     try {
-      await axios.post(`/deleteFavorite/${recipeId}`);
+      await axios.delete(`/api/recipes/${recipeId}/favorite`);
       return recipeId;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+    } catch (e) {
+      return t.rejectWithValue(e.response?.data?.message || e.message);
     }
   }
 );
-
-// ? export const smartErrorElimination = () => (dispatch, getState) => {
-// ?   const state = getState();
-// ?   if (state.auth.authError !== null) {
-// ?     dispatch(errorElimination());
-// ?   }
-// ? };
