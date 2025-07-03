@@ -20,10 +20,13 @@ import {
   // useSelector
 } from "react-redux";
 import { refreshUser } from "../redux/auth/operations.js";
+import Modal from "react-modal";
 
 // import { selectIsRefreshing } from "../redux/auth/selectors";
 
 // import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
+
+Modal.setAppElement("#root");
 
 const App = () => {
   const dispatch = useDispatch();
