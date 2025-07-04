@@ -1,11 +1,17 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import {
-  selectFilters,
+ selectFilters,
   // selectSearchedCategory,
   // selectSearchedIngredient,
 } from "../filters/selectors";
 
+// export const selectRawRecipes = (state) => state.recipes.items;
+
+// export const selectRecipes = createSelector([selectRawRecipes], (items) => {
+//   if (!items || !items.data || !Array.isArray(items.data.data)) return [];
+//   return items.data.data;
+// });
 export const selectRecipes = (state) => state.recipes.items;
 
 export const selectOwnRecipes = (state) => state.recipes.OwnItems;
@@ -30,7 +36,6 @@ export const selectRecipesError = (state) => state.recipes.error;
 //     return filteredRecipesByCategoryAndIngredient;
 //   }
 // );
-
 export const selectFiltredRecipes = createSelector(
   [selectRecipes, selectFilters],
   (recipes, filters) => {
@@ -74,7 +79,7 @@ export const selectFiltredOwnRecipes = createSelector(
 
       return matchesSearch && matchesCategory && matchesIngredient;
     });
-  }
+}
 );
 
 export const selectDeletingContactId = (state) =>

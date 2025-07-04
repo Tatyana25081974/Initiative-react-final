@@ -23,6 +23,8 @@ const slice = createSlice({
     ownItems: [],
     loading: false,
     error: null,
+    page: 1,
+    totalPages: 1,
 
     // deletingRecipeId: null,
   },
@@ -31,6 +33,7 @@ const slice = createSlice({
       .addCase(getRecipes.pending, handlePending)
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.loading = false;
+
         state.items = action.payload.data;
       })
       .addCase(getRecipes.rejected, handleRejected)
