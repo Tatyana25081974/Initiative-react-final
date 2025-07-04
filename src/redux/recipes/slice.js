@@ -97,7 +97,8 @@ const slice = createSlice({
     ],
     loading: false,
     error: null,
-
+    page: 1,
+    totalPages: 1,
     // deletingRecipeId: null,
   },
   extraReducers: (builder) => {
@@ -105,7 +106,21 @@ const slice = createSlice({
       .addCase(getRecipes.pending, handlePending)
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload; // під час локального тесту компоненту RecipeDetails потрібно за коментувати
+        const incoming = action.payload.data;
+
+        // Якщо це масив — беремо як є
+        if (Array.isArray(incoming.data)) {
+          state.items = incoming.data;
+        }
+        // Якщо це один об'єкт — обгортаємо в масив
+        else if (incoming && typeof incoming === "object") {
+          state.items = [incoming];
+        }
+        // Інакше — порожній масив
+        else {
+          state.items = [];
+        }
+        // state.items = action.payload.data.data; // під час локального тесту компоненту RecipeDetails потрібно за коментувати
       })
       .addCase(getRecipes.rejected, handleRejected)
 

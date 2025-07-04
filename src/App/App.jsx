@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout/Layout.jsx";
 
-import MainPage from "../pages/MainPage/MainPage.jsx";
+// import MainPage from "../pages/MainPage/MainPage.jsx";
 import RecipeViewPage from "../pages/RecipeViewPage/RecipeViewPage.jsx";
 import AddRecipePage from "../pages/AddRecipePage/AddRecipePage.jsx";
 
@@ -13,7 +13,7 @@ import AuthPage from "../pages/AuthPage/AuthPage.jsx";
 
 import NotFound from "../pages/NotFound/NotFound.jsx";
 
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 
 import {
   useDispatch,
@@ -26,12 +26,13 @@ import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute.jsx";
 
 import Modal from "react-modal";
 
-
 // import { selectIsRefreshing } from "../redux/auth/selectors";
 
 // import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 
 Modal.setAppElement("#root");
+
+const MainPage = lazy(() => import("../pages/MainPage/MainPage.jsx"));
 
 const App = () => {
   const dispatch = useDispatch();
