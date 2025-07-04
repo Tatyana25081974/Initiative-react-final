@@ -76,13 +76,15 @@
 
 // export default RecipesList;
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations";
 import { selectFilters } from "../../redux/filters/selectors";
 import {
   selectRecipes,
   selectRecipesLoading,
+  selectRecipesPage,
+  selectRecipesTotalPages,
 } from "../../redux/recipes/selectors";
 import RecipeCard from "../RecipeCard/RecipeCard";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
@@ -95,18 +97,26 @@ const RecipeList = () => {
   const filters = useSelector(selectFilters);
   const recipes = useSelector(selectRecipes);
   const loading = useSelector(selectRecipesLoading);
+  const page = useSelector(selectRecipesPage);
+  const totalPages = useSelector(selectRecipesTotalPages);
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setPage(1); // Скидаємо сторінку при зміні фільтрів
+    // setPage(1); // Скидаємо сторінку при зміні фільтрів
     dispatch(getRecipes({ ...filters, page: 1, perPage: PER_PAGE }));
   }, [dispatch, filters]);
 
+  // const handleLoadMore = () => {
+  //   const nextPage = page + 1;
+  //   setPage(nextPage);
+  //   dispatch(getRecipes({ ...filters, page: nextPage, perPage: PER_PAGE }));
+  // };
+
   const handleLoadMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    dispatch(getRecipes({ ...filters, page: nextPage, perPage: PER_PAGE }));
+    if (page < totalPages) {
+      dispatch(getRecipes({ ...filters, page: page + 1, perPage: PER_PAGE }));
+    }
   };
 
   console.log("recipes from redux:", recipes);
@@ -121,7 +131,7 @@ const RecipeList = () => {
         ))}
       </ul>
 
-      {!loading && recipes.length % PER_PAGE === 0 && recipes.length > 0 && (
+      {!loading && page < totalPages && (
         <LoadMoreBtn onClick={handleLoadMore} />
       )}
     </>
