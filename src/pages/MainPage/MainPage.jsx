@@ -9,7 +9,7 @@ import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero.jsx";
 import AddRecipeForm from "../../components/AddRecipeForm/AddRecipeForm.jsx";
 
-// import RecipeList from "../../components/RecipeList/RecipeList"; // Закоментувати потім
+import RecipeList from "../../components/RecipeList/RecipeList"; // Закоментувати потім
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -42,9 +42,7 @@ const MainPage = () => {
       <RecipeList recipes={recipes} />
       */}
 
-
-    
-
+      <RecipeList />
 
       <TestComponent />
     </div>

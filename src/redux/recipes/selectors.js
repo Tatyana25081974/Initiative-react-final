@@ -1,18 +1,29 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import {
-  selectCategoryFilter,
-  selectIngredientFilter,
+  // selectCategoryFilter,
+  // selectIngredientFilter,
+  selectCategory,
+  selectIngredients,
 } from "../filters/selectors";
 
+// export const selectRawRecipes = (state) => state.recipes.items;
+
+// export const selectRecipes = createSelector([selectRawRecipes], (items) => {
+//   if (!items || !items.data || !Array.isArray(items.data.data)) return [];
+//   return items.data.data;
+// });
 export const selectRecipes = (state) => state.recipes.items;
 
 export const selectRecipesLoading = (state) => state.recipes.loading;
 
 export const selectRecipesError = (state) => state.recipes.error;
 
+export const selectRecipesPage = (state) => state.recipes.page;
+export const selectRecipesTotalPages = (state) => state.recipes.totalPages;
+
 export const selectFilteredContacts = createSelector(
-  [selectRecipes, selectCategoryFilter, selectIngredientFilter],
+  [selectRecipes, selectCategory, selectIngredients],
   (recipes, categoryFilter, ingredientFilter) => {
     const filteredRecipesByCategory = recipes.filter((recipe) =>
       recipe.category.toLowerCase().includes(categoryFilter.toLowerCase())
