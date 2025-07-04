@@ -7,6 +7,7 @@ import { selectFilters } from "../../redux/filters/selectors";
 import Filters from "../../components/Filters/Filters";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero.jsx";
+import AddRecipeForm from "../../components/AddRecipeForm/AddRecipeForm.jsx";
 
 // import RecipeList from "../../components/RecipeList/RecipeList"; // Закоментувати потім
 
@@ -35,9 +36,15 @@ const MainPage = () => {
       <Filters />
       {/* 🔸 Список рецептів */}
 
-      {/* {loading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>} */}
-      {/* <RecipeList recipes={recipes} /> */}
+      {/*
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      <RecipeList recipes={recipes} />
+      */}
+
+
+    
+
 
       <TestComponent />
     </div>

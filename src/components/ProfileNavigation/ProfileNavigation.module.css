@@ -1,0 +1,13 @@
+.profNavList {
+  display: flex;
+  flex-direction: row;
+  gap: 38px;
+
+  width: 278px;
+  margin-bottom: 20px;
+}
+
+.profNavItem {
+  font-weight: 600;
+  font-size: 18px;
+}
