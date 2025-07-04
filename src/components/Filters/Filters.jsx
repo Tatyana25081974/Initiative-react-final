@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { GrFilter } from "react-icons/gr";
@@ -31,6 +31,22 @@ const Filters = ({ recipesCount }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const isMobile = width < 768;
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        !e.target.closest(`.${css.dropdownContent}`) &&
+        !e.target.closest(`.${css.dropdownButton}`)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   // Скидання фільтрів
   const handleReset = () => {
     dispatch(resetFilters());
@@ -48,27 +64,24 @@ const Filters = ({ recipesCount }) => {
 
   return (
     <div className={css.container}>
-      {/* Кількість знайдених рецептів */}
-      <p className={css.recipesCount}>{recipesCount} recipes found</p>
-
       {isMobile ? (
-        //  Мобільна версія з кнопкою і дропдауном
-        <div className={css.filtersDropdownContainer}>
-          {/* Кнопка Filters */}
-          <button
-            onClick={() => setShowDropdown(!showDropdown)}
-            className={css.dropdownButton}
-          >
-            <span className={css.buttonText}>Filters</span>
-            <GrFilter className={css.icon} />
-          </button>
+        <>
+          {/* Верхній рядок: лічильник + кнопка Filters */}
+          <div className={css.topBar}>
+            <p className={css.recipesCount}>{recipesCount} recipes found</p>
 
-          {/* Відкритий дропдаун */}
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className={css.dropdownButton}
+            >
+              <span className={css.buttonText}>Filters</span>
+              <GrFilter className={css.icon} />
+            </button>
+          </div>
+
+          {/* Дропдаун відкривається ПІД кнопкою */}
           {showDropdown && (
             <div className={css.dropdownContent}>
-              <button onClick={handleReset} className={css.resetButton}>
-                Reset filters
-              </button>
               <select
                 value={searchedCategory}
                 onChange={handleCategoryChange}
@@ -94,45 +107,52 @@ const Filters = ({ recipesCount }) => {
                   </option>
                 ))}
               </select>
+
+              <button onClick={handleReset} className={css.resetButton}>
+                Reset filters
+              </button>
             </div>
           )}
-        </div>
+        </>
       ) : (
-        //  Десктоп і планшет — фільтр завжди відкритий горизонтально
-        <div className={css.filtersContainer}>
-          <button onClick={handleReset} className={css.resetButton}>
-            Reset filters
-          </button>
+        <>
+          {/* Десктоп: фільтри завжди видимі, горизонтальні */}
+          <p className={css.recipesCount}>{recipesCount} recipes found</p>
 
-          <select
-            value={searchedCategory}
-            onChange={handleCategoryChange}
-            className={css.select}
-          >
-            <option value="">Category</option>
-            {Category.map((cat) => (
-              <option key={cat._id} value={cat.name}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+          <div className={css.filtersContainer}>
+            <select
+              value={searchedCategory}
+              onChange={handleCategoryChange}
+              className={css.select}
+            >
+              <option value="">Category</option>
+              {Category.map((cat) => (
+                <option key={cat._id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
 
-          <select
-            value={searchedIngredient}
-            onChange={handleIngredientChange}
-            className={css.select}
-          >
-            <option value="">Ingredient</option>
-            {Ingredients.map((ing) => (
-              <option key={ing._id} value={ing.name}>
-                {ing.name}
-              </option>
-            ))}
-          </select>
-        </div>
+            <select
+              value={searchedIngredient}
+              onChange={handleIngredientChange}
+              className={css.select}
+            >
+              <option value="">Ingredient</option>
+              {Ingredients.map((ing) => (
+                <option key={ing._id} value={ing.name}>
+                  {ing.name}
+                </option>
+              ))}
+            </select>
+
+            <button onClick={handleReset} className={css.resetButton}>
+              Reset filters
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
 };
-
 export default Filters;
