@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   addRecipe,
+  getOwnRecipes,
   //  deleteRecipe,
   getRecipes,
 } from "./operations";
@@ -19,6 +20,7 @@ const slice = createSlice({
   name: "recipes",
   initialState: {
     items: [],
+    ownItems: [],
     loading: false,
     error: null,
     page: 1,
@@ -32,19 +34,17 @@ const slice = createSlice({
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.loading = false;
 
-        const { data, page, totalPages } = action.payload.data;
-
-        if (page === 1) {
-          state.items = data;
-        } else {
-          state.items = [...state.items, ...data];
-        }
-
-        state.page = page;
-        state.totalPages = totalPages;
-        // state.items = action.payload.data.data; // під час локального тесту компоненту RecipeDetails потрібно за коментувати
+        state.items = action.payload.data;
       })
       .addCase(getRecipes.rejected, handleRejected)
+
+      .addCase(getOwnRecipes.pending, handlePending)
+      .addCase(getOwnRecipes.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(getOwnRecipes.rejected, handleRejected)
 
       .addCase(addRecipe.pending, (state) => {
         state.error = null;

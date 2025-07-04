@@ -19,8 +19,8 @@ const LoginForm = () => {
   const nav = useNavigate();
   const { isAuthLoading } = useSelector((s) => s.auth);
 
-  const submit = async (v, a) => {
-    const res = await d(login(v));
+  const submit = (v, a) => {
+    const res = d(login(v));
     if (login.fulfilled.match(res)) nav("/");
     else toast.error(res.payload);
     a.setSubmitting(false);

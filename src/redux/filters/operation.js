@@ -10,8 +10,8 @@ export const getIngredients = createAsyncThunk(
   "ingredients/getIngredients",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get("/api/ingredients");
-      return response.data;
+      const { data } = await axios.get("/api/ingredients");
+      return data.data;
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }
@@ -22,8 +22,8 @@ export const getCategory = createAsyncThunk(
   "categories/getCategory",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get("/api/categories");
-      return response.data;
+      const { data } = await axios.get("/api/categories");
+      return data.data;
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }

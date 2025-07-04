@@ -13,9 +13,20 @@ export const getRecipes = createAsyncThunk(
   "recipes/getRecipes",
   async (params, thunkAPI) => {
     try {
-      const response = await axios.get("/api/recipes", { params });
-      console.log("response from backend:", response.data);
-      return response.data;
+      const { data } = await axios.get("/api/recipes");
+      return data.data;
+    } catch {
+      return thunkAPI.rejectWithValue("Pls try reloading the page.");
+    }
+  }
+);
+
+export const getOwnRecipes = createAsyncThunk(
+  "recipes/getOwnRecipes",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await axios.get("/api/recipes/ownRecipes");
+      return data.data;
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }
@@ -26,8 +37,7 @@ export const addRecipe = createAsyncThunk(
   "recipes/addRecipe",
   async (newRecipe, thunkAPI) => {
     try {
-      const response = await axios.post("/api/recipes", newRecipe);
-      return response.data;
+      await axios.post("/api/recipes", newRecipe);
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }
