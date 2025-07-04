@@ -8,3 +8,9 @@
     padding: 15px 0;
   }
 }
+.container {
+  display: flex;
+
+  justify-content: space-between;
+  gap: 100px;
+}

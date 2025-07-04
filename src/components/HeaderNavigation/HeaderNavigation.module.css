@@ -1,17 +1,89 @@
-.link {
-  text-decoration: none;
-  color: inherit;
-}
+/* Контейнер навігації */
 .navigationContainer {
   display: flex;
-  gap: 12.5px;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #3e1f14;
 }
+
+/* Ліва частина */
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Права частина */
+.rightSide {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Посилання */
+.link {
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  color: #ffffff;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+/* Активне посилання */
+.active {
+  border-bottom: 1px solid #ffffff;
+}
+
+/* Кнопка "Register" і "My Profile" */
+.buttonLink {
+  background-color: #c58f65;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.buttonLink:hover {
+  background-color: #a6754e;
+}
+
+/* Кнопка */
+.addButton {
+  composes: buttonLink;
+}
+
+/* іконка */
+.logoutButton {
+  background-color: #c58f65;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #a6754e;
+}
+
+/* Інформація про користувача */
 .userInfo {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: white;
+  font-size: 14px;
 }
 
+/* перша літера імені */
 .avatarCircle {
   background-color: #a6754e;
   border-radius: 50%;
@@ -22,4 +94,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Роздільник перед Log Out */
+.separator {
+  width: 1px;
+  height: 32px;
+  background-color: #ffffff55;
+}
+
+.userInfoNonAuth {
+  display: flex;
+  align-items: center;
+  gap: 12.5px;
 }

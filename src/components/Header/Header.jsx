@@ -10,8 +10,10 @@ const Header = () => {
   return (
     <header className={css.wrapper}>
       <Container>
-        <Logo />
-        <HeaderNavigation userName={"Max"} />
+        <div className={css.container}>
+          <Logo />
+          <HeaderNavigation userName={""} />
+        </div>
       </Container>
     </header>
   );
