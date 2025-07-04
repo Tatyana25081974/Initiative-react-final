@@ -23,38 +23,22 @@ const slice = createSlice({
 
     isAuthLoading: false,
   },
-  reducers: {
-    // errorElimination: (state) => {
-    //   state.authError = null;
-    //   // return {...state, state.authError = null;}
-    // },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
-        // state.authError = null;
         state.isAuthLoading = true;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isAuthLoading = false;
-
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.accessToken = action.payload.accessToken;
         state.isLoggedIn = true;
       })
-      .addCase(
-        register.rejected,
-        (
-          state
-          //  action
-        ) => {
-          // state.authError = action.payload;
-          state.isAuthLoading = false;
-        }
-      )
+      .addCase(register.rejected, (state) => {
+        state.isAuthLoading = false;
+      })
 
       .addCase(login.pending, (state) => {
-        // state.authError = null;
         state.isAuthLoading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
@@ -63,18 +47,12 @@ const slice = createSlice({
         const user = action.payload.user;
         state.user = { name: user.name, email: user.email };
 
+        state.accessToken = action.payload.accessToken;
         state.isLoggedIn = true;
       })
-      .addCase(
-        login.rejected,
-        (
-          state
-          //  action
-        ) => {
-          // state.authError = action.payload;
-          state.isAuthLoading = false;
-        }
-      )
+      .addCase(login.rejected, (state) => {
+        state.isAuthLoading = false;
+      })
 
       .addCase(logout.pending, (state) => {
         state.isAuthLoading = true;
@@ -86,7 +64,7 @@ const slice = createSlice({
           name: null,
           email: null,
         };
-        state.token = null;
+        state.accessToken = null;
         state.isLoggedIn = false;
       })
 
@@ -94,8 +72,6 @@ const slice = createSlice({
         state.isRefreshing = true;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        // { user: user.data, accessToken: responce.data.accessToken }
-        // state.user = action.payload.accessToken;
         const user = action.payload.user;
 
         state.user = { name: user.name, email: user.email };

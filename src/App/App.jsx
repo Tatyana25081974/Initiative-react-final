@@ -15,10 +15,7 @@ import NotFound from "../pages/NotFound/NotFound.jsx";
 
 import { useEffect } from "react";
 
-import {
-  useDispatch,
-  // useSelector
-} from "react-redux";
+import { useDispatch } from "react-redux";
 import { refreshUser } from "../redux/auth/operations.js";
 
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
@@ -26,8 +23,10 @@ import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute.jsx";
 
 import Modal from "react-modal";
 
-
 // import { selectIsRefreshing } from "../redux/auth/selectors";
+import { getRecipes } from "../redux/recipes/operations.js";
+
+import { getCategory, getIngredients } from "../redux/filters/operation.js";
 
 // import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 
@@ -41,6 +40,9 @@ const App = () => {
 
   useEffect(() => {
     dispatch(refreshUser());
+    dispatch(getRecipes());
+    dispatch(getCategory());
+    dispatch(getIngredients());
   }, [dispatch]);
 
   return (

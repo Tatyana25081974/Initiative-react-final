@@ -15,8 +15,9 @@ const clearAuthHeader = () => setAuthHeader(null);
 export const register = createAsyncThunk("auth/register", async (cred, t) => {
   try {
     const { data } = await axios.post("/api/auth/register", cred);
-    setAuthHeader(data.accessToken);
-    return data;
+    const user = { name: data.data.user.name, email: data.data.user.email };
+    setAuthHeader(data.data.accessToken);
+    return { user, accessToken: data.data.accessToken };
   } catch (e) {
     return t.rejectWithValue(
       e.response?.data?.message || "Registration failed"
@@ -28,9 +29,10 @@ export const register = createAsyncThunk("auth/register", async (cred, t) => {
 export const login = createAsyncThunk("auth/login", async (cred, t) => {
   try {
     const { data } = await axios.post("/api/auth/login", cred);
-    setAuthHeader(data.accessToken);
+    setAuthHeader(data.data.accessToken);
     const { data: user } = await axios.get("/api/users");
-    return { user, accessToken: data.accessToken };
+
+    return { user: user.data, accessToken: data.data.accessToken };
   } catch (e) {
     return t.rejectWithValue(
       e.response?.data?.message || "Invalid credentials"
@@ -57,15 +59,15 @@ export const refreshUser = createAsyncThunk(
     try {
       setAuthHeader(accessToken);
       const { data: user } = await axios.get("/api/users");
-      return { user, accessToken };
+      return { user: user.data, accessToken };
     } catch (err) {
       if (err.response?.data?.message === "Access token expired") {
         try {
           const { data } = await axios.post("/api/auth/refresh");
-          const newToken = data.accessToken;
+          const newToken = data.data.accessToken;
           setAuthHeader(newToken);
           const { data: user } = await axios.get("/api/users");
-          return { user, accessToken: newToken };
+          return { user: user.data, accessToken: newToken };
         } catch {
           return t.rejectWithValue("Token refresh failed");
         }

@@ -16,7 +16,7 @@ const registerSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Required"),
-  terms: Yup.boolean().oneOf([true], "Required"),
+  // terms: Yup.boolean().oneOf([true], "Required"),
 });
 
 const RegisterForm = () => {
@@ -27,8 +27,19 @@ const RegisterForm = () => {
   const { isAuthLoading } = useSelector((s) => s.auth);
 
   const handleSubmit = async (values, actions) => {
-    const { confirmPassword: _CONFIRM, ...payload } = values;
-    const res = await dispatch(register(payload));
+    const {
+      confirmPassword: _CONFIRM,
+      // ...payload
+    } = values;
+
+    const newPayload = {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    };
+    console.log(values);
+
+    const res = await dispatch(register(newPayload));
 
     if (register.fulfilled.match(res)) navigate("/");
     else toast.error(res.payload);
@@ -48,7 +59,7 @@ const RegisterForm = () => {
           email: "",
           password: "",
           confirmPassword: "",
-          terms: false,
+          // terms: false,
         }}
         validationSchema={registerSchema}
         onSubmit={handleSubmit}
