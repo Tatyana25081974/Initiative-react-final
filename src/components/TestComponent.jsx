@@ -8,6 +8,9 @@ import LearnMoreBtn from "./LearnMoreBtn/LearnMoreBtn.jsx";
 import LoadMoreBtn from "./LoadMoreBtn/LoadMoreBtn.jsx";
 import FavoriteBtn from "./FavoriteBtn/FavoriteBtn.jsx";
 import css from "./TestComponent.module.css";
+
+import HeaderNavigation from "./HeaderNavigation/HeaderNavigation.jsx";
+
 import RecipeCard from "./RecipeCard/RecipeCard.jsx";
 import RecipeDetails from "./RecipeDetails/RecipeDetails.jsx";
 
@@ -96,6 +99,7 @@ const TestComponent = () => {
       {/* <LearnMoreBtn />
       <LoadMoreBtn onClick={() => console.log("Load more clicked")} /> */}
       {/* <FavoriteBtn
+>>>>>>> origin/main
         recipeId="6462a8f74c3d0ddd2889802b"
         isInitiallyFavorite={false}
       /> */}
