@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getIngredients, getCategory } from "./operation";
+
 const filtersSlice = createSlice({
   name: "filters",
   initialState: {
+    searchQuery: "", // пошуковий запит
     searchedCategory: "", // обрана категорія
     searchedIngredient: "", // обраний інгредієнт
     ingredients: [], // всі інгредієнти з бекенду
     category: [], // всі категорії з бекенду
-    searchQuery: "", // пошуковий запит
     type: "all", // тип рецептів: all | own | favorite
     loading: false, // статус завантаження
     error: null, // помилка
