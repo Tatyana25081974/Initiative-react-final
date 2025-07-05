@@ -10,7 +10,7 @@ const getLinkStyles = ({ isActive }) => {
 const HeaderNavigation = ({ userName }) => {
   const isLoggedIn = Boolean(userName);
 
-  const firstletterOnName = userName?.slice(0, 1);
+  const firstletterOnName = userName?.slice(0, 1).toUpperCase();
 
   return (
     <nav className={css.navigationContainer}>
@@ -36,8 +36,8 @@ const HeaderNavigation = ({ userName }) => {
               <span>{userName}</span>
             </div>
             <div className={css.separator} />
-            <NavLink to="/auth/logout" className={getLinkStyles}>
-              <IoIosLogOut />
+            <NavLink to="/auth/logout">
+              <IoIosLogOut className={css.logoutIcon} />
             </NavLink>
           </>
         ) : (
