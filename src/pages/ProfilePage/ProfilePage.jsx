@@ -1,31 +1,23 @@
-// import css from "./ProfilePage.module.css";
-
-import { Outlet } from "react-router-dom";
-import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
-import Section from "../../components/Section/Section";
-import Container from "../../components/Container/Container";
 import css from "./ProfilePage.module.css";
-import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getOwnRecipes } from "../../redux/recipes/operations";
-import // selectFiltredOwnRecipes,
-// selectOwnRecipes,
-"../../redux/recipes/selectors";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+import Section from "../../components/Section/Section";
+import Container from "../../components/Container/Container";
+import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
 import Filters from "../../components/Filters/Filters";
+import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 
 const ProfilePage = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(getOwnRecipes());
-  }, [dispatch]);
-
-  // const ownrecipes = useSelector(selectOwnRecipes);
-  // console.log(ownrecipes);
-  // const recipes = useSelector(selectFiltredOwnRecipes);
-  // console.log(recipes);
+    if (location.pathname === "/profile") {
+      navigate("/profile/own", { replace: true });
+    }
+  }, [location, navigate]);
 
   return (
     <>

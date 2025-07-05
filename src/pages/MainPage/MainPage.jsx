@@ -18,17 +18,13 @@ const MainPage = () => {
       {/* 🔹 Компонент фільтрів */}
       <Filters />
       {/* 🔸 Список рецептів */}
-
       {/*
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       <RecipeList recipes={recipes} />
       */}
 
-
-
       <RecipeList />
-
 
       <TestComponent />
     </div>

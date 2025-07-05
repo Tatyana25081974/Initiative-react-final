@@ -82,9 +82,9 @@ import { getRecipes } from "../../redux/recipes/operations";
 import { selectFilters } from "../../redux/filters/selectors";
 import {
   selectRecipes,
-  selectRecipesLoading,
-  selectRecipesPage,
-  selectRecipesTotalPages,
+  // selectRecipesLoading,
+  // selectRecipesPage,
+  // selectRecipesTotalPages,
 } from "../../redux/recipes/selectors";
 import RecipeCard from "../RecipeCard/RecipeCard";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
@@ -96,9 +96,9 @@ const RecipeList = () => {
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);
   const recipes = useSelector(selectRecipes);
-  const loading = useSelector(selectRecipesLoading);
-  const page = useSelector(selectRecipesPage);
-  const totalPages = useSelector(selectRecipesTotalPages);
+  // const loading = useSelector(selectRecipesLoading);
+  // const page = useSelector(selectRecipesPage);
+  // const totalPages = useSelector(selectRecipesTotalPages);
 
   // const [page, setPage] = useState(1);
 
@@ -113,11 +113,11 @@ const RecipeList = () => {
   //   dispatch(getRecipes({ ...filters, page: nextPage, perPage: PER_PAGE }));
   // };
 
-  const handleLoadMore = () => {
-    if (page < totalPages) {
-      dispatch(getRecipes({ ...filters, page: page + 1, perPage: PER_PAGE }));
-    }
-  };
+  // const handleLoadMore = () => {
+  //   if (page < totalPages) {
+  //     dispatch(getRecipes({ ...filters, page: page + 1, perPage: PER_PAGE }));
+  //   }
+  // };
 
   console.log("recipes from redux:", recipes);
 
@@ -131,9 +131,9 @@ const RecipeList = () => {
         ))}
       </ul>
 
-      {!loading && page < totalPages && (
-        <LoadMoreBtn onClick={handleLoadMore} />
-      )}
+      {/* {!loading && page < totalPages && ( */}
+      <LoadMoreBtn />
+      {/* )} */}
     </>
   );
 };

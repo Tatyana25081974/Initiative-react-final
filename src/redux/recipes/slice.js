@@ -40,9 +40,8 @@ const slice = createSlice({
 
       .addCase(getOwnRecipes.pending, handlePending)
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
-        state.items = action.payload;
+        state.ownItems = action.payload;
       })
       .addCase(getOwnRecipes.rejected, handleRejected)
 
