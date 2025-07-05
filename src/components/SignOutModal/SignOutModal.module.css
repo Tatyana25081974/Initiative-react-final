@@ -1,144 +1,106 @@
-/* Overlay */
+/* Overlay styles */
 .overlay {
+  background-color: rgba(17, 17, 17, 0.6);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(17, 17, 17, 0.6); /* #111111 60% */
+  right: 0;
+  bottom: 0;
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
-  padding: 20px;
 }
 
 /* Modal base */
 .modal {
   position: relative;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 15px;
-  padding: 40px 20px;
+  padding: 56px 32px;
   width: 100%;
-  max-width: 335px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
-/* Close icon */
-.closeBtn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Title */
+/* Typography */
 .title {
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.33;
+  font-size: 24px;
+  font-weight: 600;
+  color: #23262a;
   text-align: center;
-  color: #050505;
   margin-bottom: 8px;
 }
 
-/* Subtitle */
-.subtitle {
+.text {
   font-size: 14px;
-  font-weight: 400;
-  line-height: 1.28;
   text-align: center;
-  color: rgba(5, 5, 5, 0.5);
-  margin-bottom: 40px;
+  color: #23262a;
+  margin-bottom: 32px;
 }
 
-/* Action buttons container */
-.actions {
+/* Buttons */
+.btnGroup {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 14px;
 }
 
-/* Log out button (red) */
-.logout {
-  background-color: #9bb537;
-  color: #ffffff;
+.logoutBtn {
+  padding: 14px 28px;
+  background-color: #e74a3b; /* Red */
+  color: white;
   border: none;
-  border-radius: 12px;
-  padding: 14px 28px;
-  font-size: 14px;
+  border-radius: 8px;
   font-weight: 500;
-  line-height: 1.29;
-  cursor: pointer;
-  transition: background-color 250ms ease;
+  transition: background-color 0.3s;
 }
 
-.logout:hover,
-.logout:focus {
-  background-color: #7a9c32;
+.logoutBtn:hover {
+  background-color: #c0392b;
 }
 
-/* Cancel button (white with border) */
-.cancel {
-  background-color: #ffffff;
-  color: #050505;
-  border: 1px solid rgba(5, 5, 5, 0.1);
-  border-radius: 12px;
+.cancelBtn {
   padding: 14px 28px;
-  font-size: 14px;
+  background-color: #f4f4f4;
+  color: #23262a;
+  border: none;
+  border-radius: 8px;
   font-weight: 500;
-  line-height: 1.29;
+  transition: background-color 0.3s;
+}
+
+.cancelBtn:hover {
+  background-color: #d9d9d9;
+}
+
+/* Close button */
+.closeBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: background-color 250ms ease, border-color 250ms ease;
+  color: #23262a;
 }
 
-.cancel:hover,
-.cancel:focus {
-  background-color: #f6f6f6;
-  border-color: rgba(5, 5, 5, 0.2);
+/* Media Queries */
+@media screen and (max-width: 767px) {
+  .modal {
+    max-width: 362px;
+    height: 316px;
+    padding: 40px 24px;
+  }
 }
 
-/* Tablet */
 @media screen and (min-width: 768px) {
   .modal {
-    padding: 64px 32px;
-    max-width: 490px;
-  }
-
-  .title {
-    font-size: 24px;
-  }
-
-  .subtitle {
-    font-size: 16px;
-  }
-
-  .actions {
-    flex-direction: row;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .logout,
-  .cancel {
-    min-width: 150px;
-  }
-}
-
-/* Desktop */
-@media screen and (min-width: 1280px) {
-  .modal {
-    padding: 64px 50px;
-  }
-
-  .logout,
-  .cancel {
-    font-size: 16px;
+    max-width: 420px;
+    height: 236px;
+    padding: 48px 32px;
   }
 }
