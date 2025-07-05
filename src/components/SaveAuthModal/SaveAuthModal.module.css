@@ -1,100 +1,89 @@
-.dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-}
-
 .overlay {
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 17, 17, 0.4);
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
 }
 
-.panel {
-  background-color: var(--color-surface, #faf3e0);
-  border-radius: 32px;
-  padding: 56px 32px;
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
+.modal {
   position: relative;
-}
-
-.title {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.text {
-  font-size: 16px;
-  margin-bottom: 24px;
-  color: var(--color-text-dark, #000);
-}
-
-.actions {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.btn {
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  min-width: 120px;
-}
-
-.outline {
-  background-color: transparent;
-  border: 1px solid var(--color-text-dark, #000);
-  color: var(--color-text-dark, #000);
-}
-
-.primary {
-  background-color: var(--color-primary, #9b6c43);
-  color: white;
-  border: none;
+  width: 420px;
+  height: 277px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 56px 32px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
 .closeBtn {
   position: absolute;
-  top: 22px;
-  right: 22px;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.icon {
-  width: 24px;
-  height: 24px;
-  color: #000;
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e1e1e;
+  margin-bottom: 14px;
 }
 
-/* Адаптація під мобільні пристрої */
-@media (max-width: 480px) {
-  .panel {
-    padding: 32px 20px;
-  }
+.subtitle {
+  font-size: 14px;
+  color: #1e1e1e;
+  margin-bottom: 24px;
+}
 
-  .title {
-    font-size: 24px;
-  }
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
 
-  .actions {
-    flex-direction: column;
-    gap: 16px;
+.loginBtn,
+.registerBtn {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.loginBtn {
+  background-color: #f6f6f6;
+  color: #1e1e1e;
+}
+
+.registerBtn {
+  background-color: #9b6c43;
+  color: #fff;
+}
+
+/*  Мобильна версія (362x341) */
+@media screen and (max-width: 480px) {
+  .modal {
+    width: 362px;
+    height: 341px;
+    padding: 56px 32px;
+  }
+}
+
+/* Планшет і вище: 420x277 */
+@media screen and (min-width: 481px) {
+  .modal {
+    width: 420px;
+    height: 277px;
   }
 }
