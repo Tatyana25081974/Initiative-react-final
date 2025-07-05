@@ -2,7 +2,7 @@ import Container from "../Container/Container.jsx";
 import { SearchBox } from "../SearchBox/SearchBox.jsx";
 import css from "./Hero.module.css";
 
-const Hero = () => {
+const Hero = ({ setSearchQuery }) => {
   return (
     <section className={css.hero}>
       <Container>
@@ -11,7 +11,7 @@ const Hero = () => {
             Plan, Cook, and <br />
             Share Your Flavors
           </h1>
-          <SearchBox />
+          <SearchBox setSearch={setSearchQuery} />
         </div>
       </Container>
     </section>

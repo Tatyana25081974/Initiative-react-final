@@ -1,11 +1,20 @@
+import { useSelector } from "react-redux";
+import { selectTotalPages } from "../../redux/recipes/selectors.js";
+
 import css from "./LoadMoreBtn.module.css";
 
-export default function LoadMoreBtn({ onClick, isVisible = true }) {
-  if (!isVisible) return null;
+export default function LoadMoreBtn({ page, setPage }) {
+  const totalPages = useSelector(selectTotalPages);
+
+  const handleClick = () => {
+    setPage(page + 1);
+  };
 
   return (
-    <button type="button" className={css.button} onClick={onClick}>
-      Load more
-    </button>
+    page < totalPages && (
+      <button type="button" className={css.button} onClick={handleClick}>
+        Load more
+      </button>
+    )
   );
 }
