@@ -27,6 +27,7 @@ import Modal from "react-modal";
 import { getRecipes } from "../redux/recipes/operations.js";
 
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
+import { Toaster } from "react-hot-toast";
 
 // import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 
@@ -88,6 +89,8 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+
+      <Toaster position="top-center" toastOptions={{ duration: 6000 }} />
     </>
   );
 };

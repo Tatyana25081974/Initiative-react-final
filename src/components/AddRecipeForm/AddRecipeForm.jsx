@@ -1,95 +1,117 @@
-
-import { useId, useState } from "react";
-import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
+import toast from "react-hot-toast";
+import { useId, useState } from "react";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCategory,
+  selectIngredients,
+} from "../../redux/filters/selectors.js";
 import cameraIcon from "../../assets/images/addRecipes/camera.svg";
 import deleteIcon from "../../assets/images/addRecipes/delete.svg";
 import Container from "../Container/Container.jsx";
+import { addRecipe } from "../../redux/recipes/operations.js";
 import css from "./AddRecipeForm.module.css";
-
-const MAX_FILE_SIZE = 2 * 1024 * 1024;
-let allowedCategories = ["Lamb", "Seafood"];
-const allowedIngredients = ["Tomato", "Brocoli"];
-
-const recipeSchema = Yup.object().shape({
-  recipeImg: Yup.mixed()
-    .nullable()
-    .test("fileSize", "File is too large (max 2MB)", (value) => {
-      if (!value) return true;
-      return value.size <= MAX_FILE_SIZE;
-    }),
-  title: Yup.string()
-    .max(64, "The recipe title must be a maximum of 64 characters.")
-    .required("Required field!"),
-  description: Yup.string()
-    .max(200, "The recipe description must be a maximum of 200 characters.")
-    .required("Required field!"),
-  cookiesTime: Yup.number()
-    .min(1, "Cooking time should be at least one minute")
-    .max(360, "Cooking time should be a maximum of 360 minutes")
-    .required("Required field!"),
-  calories: Yup.number()
-    .min(1, "Minimum number of calories: 1")
-    .max(10000, "Maximum number of calories: 10000"),
-  category: Yup.string()
-    .oneOf(allowedCategories, "Please select a valid category")
-    .required("Category is required"),
-  ingredients: Yup.array()
-    .of(
-      Yup.object().shape({
-        ingredientName: Yup.string()
-          .oneOf(allowedIngredients, "Invalid ingredient")
-          .required("Required"),
-        amount: Yup.string().required("Amount is required"),
-      })
-    )
-    .min(2, "Add at least two ingredient")
-    .max(16, "Max ingredients at least: 16")
-    .required("Ingredient is required"),
-  instructions: Yup.string()
-    .max(1200, "Instructions must be under 1200 characters.")
-    .required("Required field!"),
-});
-
-// import css from "./AddRecipeForm.module.css";
-// import UploadPhoto from "../UploadPhoto/UploadPhoto";
-
 
 const AddRecipeForm = () => {
   const [preview, setPreview] = useState(null);
   const [isOpenCategorySelect, setIsOpenCategorySelect] = useState(false);
   const [isOpenIngredientSelect, setIsOpenIngredientSelect] = useState(false);
   const fieldId = useId();
+  const dispatch = useDispatch();
+
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
+  const allowedCategories = useSelector(selectCategory);
+  const allowedIngredients = useSelector(selectIngredients);
+
+  const recipeSchema = Yup.object().shape({
+    thumb: Yup.mixed()
+      .nullable()
+      .test("fileSize", "File is too large (max 2MB)", (value) => {
+        if (!value) return true;
+        return value.size <= MAX_FILE_SIZE;
+      }),
+    title: Yup.string()
+      .max(64, "The recipe title must be a maximum of 64 characters.")
+      .required("Required field!"),
+    description: Yup.string()
+      .max(200, "The recipe description must be a maximum of 200 characters.")
+      .required("Required field!"),
+    time: Yup.number()
+      .min(1, "Cooking time should be at least one minute")
+      .max(360, "Cooking time should be a maximum of 360 minutes")
+      .required("Required field!"),
+    cals: Yup.number()
+      .min(1, "Minimum number of calories: 1")
+      .max(10000, "Maximum number of calories: 10000"),
+    category: Yup.string()
+      .oneOf(allowedCategories.map((category) => category.name))
+      .required("Category is required"),
+    ingredients: Yup.array()
+      .of(
+        Yup.object().shape({
+          id: Yup.string()
+            .oneOf(
+              allowedIngredients.map((ingredient) => ingredient._id),
+              "Invalid ingredient"
+            )
+            .required("Required"),
+          measure: Yup.string().required("Amount is required"),
+        })
+      )
+      .min(2, "Add at least two ingredient")
+      .max(16, "Max ingredients at least: 16")
+      .required("Ingredient is required"),
+    instructions: Yup.string()
+      .max(1200, "Instructions must be under 1200 characters.")
+      .required("Required field!"),
+  });
 
   const initialValues = {
-    recipeImg: null,
+    thumb: null,
     title: "",
     description: "",
-    cookiesTime: "",
-    calories: "",
+    time: "",
+    cals: "",
     category: "",
     ingredients: [],
-    ingredientName: "",
-    amount: "",
+    id: "",
+    measure: "",
     instructions: "",
   };
 
   const handleSubmit = async (values) => {
-    const newRecipe = {
-      recipeImg: values.recipeImg,
-      title: values.title.toLowerCase().trim(),
-      description: values.description.toLowerCase().trim(),
-      cookiesTime: values.cookiesTime,
-      calories: values.calories ? values.calories : null,
-      category: values.category,
-      ingredients: values.ingredients,
-      instructions: values.instructions.toLowerCase().trim(),
-    };
+    const formData = new FormData();
 
-    console.log(newRecipe);
+    formData.append("thumb", values.thumb);
 
-    setPreview(null);
+    formData.append("title", values.title.toLowerCase().trim());
+    formData.append("description", values.description.toLowerCase().trim());
+    formData.append("time", values.time);
+    formData.append("cals", values.cals ? values.cals : "");
+    formData.append("category", values.category);
+    formData.append("instructions", values.instructions.toLowerCase().trim());
+
+    formData.append(
+      "ingredients",
+      JSON.stringify(
+        values.ingredients.map((item) => ({
+          id: item.id,
+          measure: item.measure,
+        }))
+      )
+    );
+
+    try {
+      const data = await dispatch(addRecipe(formData)).unwrap();
+      toast.success(`Recipe ${data.title} has successfully been added.`);
+      console.log(data);
+    } catch {
+      toast.error(
+        "Ooops. Something went wrong. Please reload the page and try again."
+      );
+    }
   };
 
   return (
@@ -107,10 +129,7 @@ const AddRecipeForm = () => {
               <h2 className={css.sectionTitle}>Upload Photo</h2>
 
               <div>
-                <label
-                  className={css.labelPhoto}
-                  htmlFor={fieldId + "recipeImg"}
-                >
+                <label className={css.labelPhoto} htmlFor={fieldId + "thumb"}>
                   {preview ? (
                     <img
                       className={css.previewPhoto}
@@ -127,8 +146,8 @@ const AddRecipeForm = () => {
                 </label>
                 <input
                   className={css.inputPhoto}
-                  id={fieldId + "recipeImg"}
-                  name="recipeImg"
+                  id={fieldId + "thumb"}
+                  name="thumb"
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
@@ -137,7 +156,7 @@ const AddRecipeForm = () => {
                       if (preview) {
                         URL.revokeObjectURL(preview);
                       }
-                      setFieldValue("recipeImg", file);
+                      setFieldValue("thumb", file);
                       setPreview(URL.createObjectURL(file));
                     }
                   }}
@@ -145,7 +164,7 @@ const AddRecipeForm = () => {
 
                 <ErrorMessage
                   className={css.errorMessages}
-                  name="recipeImg"
+                  name="thumb"
                   component="span"
                 />
               </div>
@@ -211,28 +230,23 @@ const AddRecipeForm = () => {
                 </div>
 
                 <div className={css.inputFieldsContainer}>
-                  <label
-                    className={css.fieldsTitle}
-                    htmlFor={fieldId + "cookiesTime"}
-                  >
+                  <label className={css.fieldsTitle} htmlFor={fieldId + "time"}>
                     Cooking time in minutes
                   </label>
                   <Field
                     className={clsx(
                       css.formFields,
-                      touched.cookiesTime &&
-                        errors.cookiesTime &&
-                        css.errorBorder
+                      touched.time && errors.time && css.errorBorder
                     )}
-                    id={fieldId + "cookiesTime"}
+                    id={fieldId + "time"}
                     type="number"
-                    name="cookiesTime"
+                    name="time"
                     placeholder="10"
                   />
 
                   <ErrorMessage
                     className={css.errorMessages}
-                    name="cookiesTime"
+                    name="time"
                     component="span"
                   />
                 </div>
@@ -241,21 +255,21 @@ const AddRecipeForm = () => {
                   <div className={css.subInputFieldsContainer}>
                     <label
                       className={css.fieldsTitle}
-                      htmlFor={fieldId + "calories"}
+                      htmlFor={fieldId + "cals"}
                     >
                       Calories
                     </label>
                     <Field
                       className={css.formFields}
-                      id={fieldId + "calories"}
+                      id={fieldId + "cals"}
                       type="number"
-                      name="calories"
+                      name="cals"
                       placeholder="150 cals"
                     />
 
                     <ErrorMessage
                       className={css.errorMessages}
-                      name="calories"
+                      name="cals"
                       component="span"
                     />
                   </div>
@@ -293,8 +307,11 @@ const AddRecipeForm = () => {
                         <option value="" disabled>
                           Select category
                         </option>
-                        <option value="Seafood">Seafood</option>
-                        <option value="Lamb">Lamb</option>
+                        {allowedCategories.map((category) => (
+                          <option key={category._id} value={category.name}>
+                            {category.name}
+                          </option>
+                        ))}
                       </Field>
                       <span
                         className={clsx(css.arrow, {
@@ -330,7 +347,7 @@ const AddRecipeForm = () => {
                       >
                         <label
                           className={css.fieldsTitle}
-                          htmlFor={fieldId + "ingredientName"}
+                          htmlFor={fieldId + "id"}
                         >
                           Name
                         </label>
@@ -340,13 +357,11 @@ const AddRecipeForm = () => {
                               css.formFields,
                               css.customSelect,
                               css.ingredientsName,
-                              touched.ingredientName &&
-                                errors.ingredientName &&
-                                css.errorBorder
+                              touched.id && errors.id && css.errorBorder
                             )}
-                            id={fieldId + "ingredientName"}
+                            id={fieldId + "id"}
                             as="select"
-                            name="ingredientName"
+                            name="id"
                             onBlur={() => setIsOpenIngredientSelect(false)}
                             onClick={() =>
                               setIsOpenIngredientSelect((prev) => !prev)
@@ -355,8 +370,14 @@ const AddRecipeForm = () => {
                             <option value="" disabled>
                               Select ingredient
                             </option>
-                            <option value="Brocoli">Brocoli</option>
-                            <option value="Tomato">Tomato</option>
+                            {allowedIngredients.map((ingredient) => (
+                              <option
+                                key={ingredient._id}
+                                value={ingredient._id}
+                              >
+                                {ingredient.name}
+                              </option>
+                            ))}
                           </Field>
                           <span
                             className={clsx(css.arrow, {
@@ -367,7 +388,7 @@ const AddRecipeForm = () => {
 
                         <ErrorMessage
                           className={css.errorMessages}
-                          name="ingredientName"
+                          name="id"
                           component="span"
                         />
                       </div>
@@ -383,24 +404,24 @@ const AddRecipeForm = () => {
                             css.fieldsTitle,
                             css.ingredientsAmount
                           )}
-                          htmlFor={fieldId + "amount"}
+                          htmlFor={fieldId + "measure"}
                         >
                           Amount
                         </label>
                         <Field
                           className={clsx(
                             css.formFields,
-                            touched.amount && errors.amount && css.errorBorder
+                            touched.measure && errors.measure && css.errorBorder
                           )}
-                          id={fieldId + "amount"}
+                          id={fieldId + "measure"}
                           type="text"
-                          name="amount"
+                          name="measure"
                           placeholder="100g"
                         />
 
                         <ErrorMessage
                           className={css.errorMessages}
-                          name="amount"
+                          name="measure"
                           component="span"
                         />
                       </div>
@@ -409,15 +430,18 @@ const AddRecipeForm = () => {
                         <button
                           className={css.addIngredientBtn}
                           type="button"
-                          onClick={() => {
-                            if (!values.ingredientName || !values.amount)
+                          onClick={async () => {
+                            if (!values.id || !values.measure) {
                               return;
+                            }
+
                             push({
-                              ingredientName: values.ingredientName,
-                              amount: values.amount,
+                              id: values.id,
+                              measure: values.measure,
                             });
-                            setFieldValue("ingredientName", "");
-                            setFieldValue("amount", "");
+
+                            setFieldValue("id", "");
+                            setFieldValue("measure", "");
                           }}
                         >
                           Add new Ingredient
@@ -439,25 +463,31 @@ const AddRecipeForm = () => {
                           </tr>
                         </thead>
                         <tbody className={css.ingredientsTableBody}>
-                          {values.ingredients.map((ingredient, index) => (
-                            <tr key={`${ingredient.ingredientName}-${index}`}>
-                              <td>{ingredient.ingredientName}</td>
-                              <td>{ingredient.amount}</td>
-                              <td>
-                                <button
-                                  className={css.deleteBtn}
-                                  type="button"
-                                  onClick={() => remove(index)}
-                                >
-                                  <img
-                                    className={css.deleteBtnIcon}
-                                    src={deleteIcon}
-                                    alt="delete button"
-                                  />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
+                          {values.ingredients.map((ingredient, index) => {
+                            const ingredientData = allowedIngredients.find(
+                              (ingr) => ingr._id === ingredient.id
+                            );
+
+                            return (
+                              <tr key={`${ingredient.id}-${index}`}>
+                                <td>{ingredientData?.name}</td>
+                                <td>{ingredient.measure}</td>
+                                <td>
+                                  <button
+                                    className={css.deleteBtn}
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                  >
+                                    <img
+                                      className={css.deleteBtnIcon}
+                                      src={deleteIcon}
+                                      alt="delete button"
+                                    />
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     )}
