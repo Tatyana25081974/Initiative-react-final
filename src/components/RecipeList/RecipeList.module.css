@@ -1,12 +1,19 @@
 /* Mobile */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* === Список рецептів === */
 .list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 24px;
-  padding: 0 16px 48px;
   list-style: none;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0 0 48px;
 }
 
 /* Кожна картка */
@@ -31,16 +38,20 @@
   }
 }
 
-/* Desktop */
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 1440px) {
   .list {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     padding: 0 100px 100px;
+    list-style: none;
+    margin: 0 auto;
+    max-width: 1440px; /* Обмежує ширину списку */
   }
 
   .list > li {
-    flex: 0 1 calc((100% - 24px * 3 - 200px) / 4);
-    max-width: 288px;
+    /* Зняти max-width або зробити ширину 100%, щоб картки рівно займали колонку */
+    width: 100%;
+    max-width: none;
   }
 }
