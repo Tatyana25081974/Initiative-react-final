@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useId, useState } from "react";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   selectCategory,
   selectIngredients,
@@ -20,6 +21,7 @@ const AddRecipeForm = () => {
   const [isOpenIngredientSelect, setIsOpenIngredientSelect] = useState(false);
   const fieldId = useId();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const allowedCategories = useSelector(selectCategory);
@@ -107,6 +109,8 @@ const AddRecipeForm = () => {
       const data = await dispatch(addRecipe(formData)).unwrap();
       toast.success(`Recipe ${data.title} has successfully been added.`);
       console.log(data);
+
+      navigate(`/recipes/${data._id}`);
     } catch {
       toast.error(
         "Ooops. Something went wrong. Please reload the page and try again."
