@@ -3,7 +3,7 @@
   padding-top: 24px;
   padding-bottom: 24px;
   text-align: center;
-  width: 100vw;
+  /* width: 100vw; */
   /* min-height: 100vh; */
 }
 
@@ -59,7 +59,7 @@
   .container {
     display: flex;
     gap: 305px;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
   }
   .footer__logo {
