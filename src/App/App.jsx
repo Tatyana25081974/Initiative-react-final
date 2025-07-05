@@ -13,6 +13,7 @@ import { refreshUser } from "../redux/auth/operations.js";
 import { selectIsRefreshing } from "../redux/auth/selectors";
 
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
+import { Toaster } from "react-hot-toast";
 
 Modal.setAppElement("#root");
 
@@ -109,6 +110,8 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+
+      <Toaster position="top-center" toastOptions={{ duration: 6000 }} />
     </>
   );
 };

@@ -2,7 +2,7 @@
   background-image: url("/images/heromobil-bg.webp");
   background-position: center;
   background-size: cover;
-  padding: 0 32px;
+  /* padding: 0 32px; */
   padding-bottom: 98px;
   padding-top: 128px;
 }
@@ -23,7 +23,7 @@
 
 @media only screen and (min-width: 768px) {
   .hero {
-    padding-right: 65px;
+    /* padding-right: 65px; */
     padding-bottom: 128px;
     background-image: url("/images/herotablet-bg.webp");
   }
@@ -35,8 +35,8 @@
 
 @media only screen and (min-width: 1440px) {
   .hero {
-    padding-left: 108px;
-    padding-right: 671px;
+    /* padding-left: 108px;
+    padding-right: 671px; */
     background-image: url("/images/herodesktop-bg.webp");
   }
 
