@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import {
- selectFilters,
+  selectFilters,
   // selectSearchedCategory,
   // selectSearchedIngredient,
 } from "../filters/selectors";
@@ -14,7 +14,7 @@ import {
 // });
 export const selectRecipes = (state) => state.recipes.items;
 
-export const selectOwnRecipes = (state) => state.recipes.OwnItems;
+export const selectOwnRecipes = (state) => state.recipes.ownItems;
 
 export const selectRecipesLoading = (state) => state.recipes.loading;
 
@@ -79,7 +79,7 @@ export const selectFiltredOwnRecipes = createSelector(
 
       return matchesSearch && matchesCategory && matchesIngredient;
     });
-}
+  }
 );
 
 export const selectDeletingContactId = (state) =>
