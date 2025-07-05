@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Route, Routes } from "react-router-dom";
-import { useEffect, lazy } from "react";
+import { useEffect, lazy, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "../components/Layout/Layout.jsx";
@@ -42,15 +42,26 @@ const NotFound = lazy(() => import("../pages/NotFound/NotFound.jsx"));
 const App = () => {
   const dispatch = useDispatch();
 
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedIngredient, setSearchedIngredient] = useState("");
+  const [searchedCategory, setSearchedCategory] = useState("");
+
   // Вказує на те чи рефрешиться зараз сторінка чи ні
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(refreshUser());
-    dispatch(getRecipes());
     dispatch(getCategory());
     dispatch(getIngredients());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      getRecipes({ page, searchQuery, searchedIngredient, searchedCategory })
+    );
+
+    dispatch(refreshUser());
+  }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
 
   const overlayStyle = {
     position: "fixed",
@@ -73,7 +84,20 @@ const App = () => {
     <>
       <Layout>
         <Routes>
-          <Route path="/" element={<MainPage />}></Route>
+          <Route
+            path="/"
+            element={
+              <MainPage
+                page={page}
+                setPage={setPage}
+                searchedIngredient={searchedIngredient}
+                setSearchedIngredient={setSearchedIngredient}
+                searchedCategory={searchedCategory}
+                setSearchedCategory={setSearchedCategory}
+                setSearchQuery={setSearchQuery}
+              />
+            }
+          ></Route>
 
           <Route path="/recipes/:id" element={<RecipeViewPage />} />
 

@@ -1,18 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// fetchContacts  get    /contacts
-// addContact     post   /contacts
-// deleteContact  delete /contacts/:id
-// patchContact patch /contacts/:id // ? optional new thunk
-
 // GET @ /recipes
 export const getRecipes = createAsyncThunk(
   "recipes/getRecipes",
   async (params, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/recipes");
-      return data.data;
+      const { page, searchQuery, searchedIngredient, searchedCategory } =
+        params;
+
+      const queryParams = new URLSearchParams();
+      queryParams.append("page", page);
+
+      if (searchQuery) queryParams.append("search", searchQuery);
+      if (searchedIngredient)
+        queryParams.append("ingredient", searchedIngredient);
+      if (searchedCategory) queryParams.append("category", searchedCategory);
+
+      const urlForRecipes = `/api/recipes?${queryParams.toString()}`;
+
+      const { data } = await axios.get(urlForRecipes);
+
+      return {
+        ...data.data, // data, totalItems, page, etc.
+        append: page > 1, // додаємо флаг для редюсера
+      };
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }

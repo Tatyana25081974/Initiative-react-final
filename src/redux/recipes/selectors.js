@@ -20,44 +20,28 @@ export const selectRecipesLoading = (state) => state.recipes.loading;
 
 export const selectRecipesError = (state) => state.recipes.error;
 
-// export const selectFilteredContacts = createSelector(
-//   [selectRecipes, selectSearchedCategory, selectSearchedIngredient],
-//   (recipes, categoryFilter, ingredientFilter) => {
-//     const filteredRecipesByCategory = recipes.filter((recipe) =>
-//       recipe.category.toLowerCase().includes(categoryFilter.toLowerCase())
-//     );
+// export const selectFiltredRecipes = createSelector(
+//   [selectRecipes, selectFilters],
+//   (recipes, filters) => {
+//     console.log(recipes);
+//     console.log(filters);
+//     const { searchQuery, searchedCategory, searchedIngredient } = filters;
 
-//     const filteredRecipesByCategoryAndIngredient =
-//       filteredRecipesByCategory.filter((recipe) =>
-//         recipe.ingredients.some((ing) =>
-//           ing.toLowerCase().includes(ingredientFilter.toLowerCase())
-//         )
-//       );
-//     return filteredRecipesByCategoryAndIngredient;
+//     return recipes.filter((recipe) => {
+//       const matchesSearch = recipe.title
+//         .toLowerCase()
+//         .includes(searchQuery.toLowerCase());
+//       const matchesCategory = searchedCategory
+//         ? recipe.category === searchedCategory
+//         : true;
+//       const matchesIngredient = searchedIngredient
+//         ? recipe.ingredients.includes(searchedIngredient)
+//         : true;
+
+//       return matchesSearch && matchesCategory && matchesIngredient;
+//     });
 //   }
 // );
-export const selectFiltredRecipes = createSelector(
-  [selectRecipes, selectFilters],
-  (recipes, filters) => {
-    console.log(recipes);
-    console.log(filters);
-    const { searchQuery, searchedCategory, searchedIngredient } = filters;
-
-    return recipes.filter((recipe) => {
-      const matchesSearch = recipe.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchesCategory = searchedCategory
-        ? recipe.category === searchedCategory
-        : true;
-      const matchesIngredient = searchedIngredient
-        ? recipe.ingredients.includes(searchedIngredient)
-        : true;
-
-      return matchesSearch && matchesCategory && matchesIngredient;
-    });
-  }
-);
 
 export const selectFiltredOwnRecipes = createSelector(
   [selectOwnRecipes, selectFilters],
@@ -82,5 +66,13 @@ export const selectFiltredOwnRecipes = createSelector(
   }
 );
 
-export const selectDeletingContactId = (state) =>
-  state.contacts.deletingContactId;
+// export const selectDeletingContactId = (state) =>
+//   state.contacts.deletingContactId;
+
+export const selectTotalRecipes = (state) => {
+  return state.recipes.totalItems;
+};
+
+export const selectTotalPages = (state) => {
+  return state.recipes.totalPages;
+};

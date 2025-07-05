@@ -76,36 +76,28 @@
 
 // export default RecipesList;
 
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getRecipes } from "../../redux/recipes/operations";
-import { selectFilters } from "../../redux/filters/selectors";
+// import { useEffect } from "react";
 import {
-  selectRecipes,
-  // selectRecipesLoading,
-  // selectRecipesPage,
-  // selectRecipesTotalPages,
-} from "../../redux/recipes/selectors";
+  // useDispatch,
+  useSelector,
+} from "react-redux";
+// import { getRecipes } from "../../redux/recipes/operations";
+// import { selectFilters } from "../../redux/filters/selectors";
+import { selectRecipes } from "../../redux/recipes/selectors";
 import RecipeCard from "../RecipeCard/RecipeCard";
-import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import css from "./RecipeList.module.css";
 
 const PER_PAGE = 12;
 
 const RecipeList = () => {
-  const dispatch = useDispatch();
-  const filters = useSelector(selectFilters);
+  // const dispatch = useDispatch();
+  // const filters = useSelector(selectFilters);
   const recipes = useSelector(selectRecipes);
-  // const loading = useSelector(selectRecipesLoading);
-  // const page = useSelector(selectRecipesPage);
-  // const totalPages = useSelector(selectRecipesTotalPages);
 
-  // const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    // setPage(1); // Скидаємо сторінку при зміні фільтрів
-    dispatch(getRecipes({ ...filters, page: 1, perPage: PER_PAGE }));
-  }, [dispatch, filters]);
+  // useEffect(() => {
+  //   // setPage(1); // Скидаємо сторінку при зміні фільтрів
+  //   dispatch(getRecipes({ ...filters, page: 1, perPage: PER_PAGE }));
+  // }, [dispatch, filters]);
 
   // const handleLoadMore = () => {
   //   const nextPage = page + 1;
@@ -119,7 +111,7 @@ const RecipeList = () => {
   //   }
   // };
 
-  console.log("recipes from redux:", recipes);
+  // console.log("recipes from redux:", recipes);
 
   return (
     <>
@@ -130,10 +122,6 @@ const RecipeList = () => {
           </li>
         ))}
       </ul>
-
-      {/* {!loading && page < totalPages && ( */}
-      <LoadMoreBtn />
-      {/* )} */}
     </>
   );
 };

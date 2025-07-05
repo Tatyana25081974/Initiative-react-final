@@ -1,29 +1,40 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  // useDispatch,
+  useSelector,
+} from "react-redux";
 
 import { GrFilter } from "react-icons/gr";
 
-import {
-  changeCategoryFilter,
-  changeIngredientFilter,
-  resetFilters,
-} from "../../redux/filters/slice";
+// import {
+//   // changeCategoryFilter,
+//   // changeIngredientFilter,
+//   resetFilters,
+// } from "../../redux/filters/slice";
 
 import {
   selectCategory,
-  selectFilters,
+  // selectFilters,
   selectIngredients,
 } from "../../redux/filters/selectors";
 
 import useWindowWidth from "../../utils/useWindowWidth";
 
+import { selectTotalRecipes } from "../../redux/recipes/selectors.js";
+
 import css from "./Filters.module.css";
 
-const Filters = ({ recipesCount }) => {
-  const dispatch = useDispatch();
+const Filters = ({
+  searchedIngredient,
+  setSearchedIngredient,
+  searchedCategory,
+  setSearchedCategory,
+  setSearchQuery,
+}) => {
+  // const dispatch = useDispatch();
   const width = useWindowWidth();
 
-  const { searchedCategory, searchedIngredient } = useSelector(selectFilters);
+  const recipesCount = useSelector(selectTotalRecipes);
 
   const Category = useSelector(selectCategory);
   const Ingredients = useSelector(selectIngredients);
@@ -49,17 +60,24 @@ const Filters = ({ recipesCount }) => {
 
   // Скидання фільтрів
   const handleReset = () => {
-    dispatch(resetFilters());
+    setSearchQuery("");
+    setSearchedIngredient("");
+    setSearchedCategory("");
+    // dispatch(resetFilters());
   };
 
   // Зміна категорії
   const handleCategoryChange = (e) => {
-    dispatch(changeCategoryFilter(e.target.value));
+    const searchedCategoryValue = e.target.value;
+    // dispatch(changeCategoryFilter(searchedCategoryValue));
+    setSearchedCategory(searchedCategoryValue);
   };
 
   // Зміна інгредієнта
   const handleIngredientChange = (e) => {
-    dispatch(changeIngredientFilter(e.target.value));
+    const searchedIngredientValue = e.target.value;
+    // dispatch(changeIngredientFilter(searchedIngredientValue));
+    setSearchedIngredient(searchedIngredientValue);
   };
 
   return (

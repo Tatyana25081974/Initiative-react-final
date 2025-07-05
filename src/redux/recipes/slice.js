@@ -21,10 +21,11 @@ const slice = createSlice({
   initialState: {
     items: [],
     ownItems: [],
-    loading: false,
-    error: null,
     page: 1,
     totalPages: 1,
+    totalItems: 0,
+    loading: false,
+    error: null,
 
     // deletingRecipeId: null,
   },
@@ -34,7 +35,12 @@ const slice = createSlice({
       .addCase(getRecipes.fulfilled, (state, action) => {
         state.loading = false;
 
-        state.items = action.payload.data;
+        const { data, totalItems, totalPages, append } = action.payload;
+
+        state.items = append ? [...state.items, ...data] : data;
+
+        state.totalItems = totalItems;
+        state.totalPages = totalPages;
       })
       .addCase(getRecipes.rejected, handleRejected)
 

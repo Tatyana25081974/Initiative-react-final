@@ -4,35 +4,31 @@ import { getIngredients, getCategory } from "./operation";
 const filtersSlice = createSlice({
   name: "filters",
   initialState: {
-    searchQuery: "", // пошуковий запит
-    searchedCategory: "", // обрана категорія
-    searchedIngredient: "", // обраний інгредієнт
+    // searchQuery: "", // пошуковий запит
+    // searchedCategory: "", // обрана категорія
+    // searchedIngredient: "", // обраний інгредієнт
     ingredients: [], // всі інгредієнти з бекенду
     category: [], // всі категорії з бекенду
-    type: "all", // тип рецептів: all | own | favorite
     loading: false, // статус завантаження
     error: null, // помилка
   },
-  reducers: {
-    changeCategoryFilter(state, action) {
-      state.searchedCategory = action.payload;
-    },
-    changeIngredientFilter(state, action) {
-      state.searchedIngredient = action.payload;
-    },
-    changeSearchQuery(state, action) {
-      state.searchQuery = action.payload;
-    },
-    changeType(state, action) {
-      state.type = action.payload;
-    },
-    resetFilters(state) {
-      state.searchedCategory = "";
-      state.searchedIngredient = "";
-      state.searchQuery = "";
-      // type не скидаємо — він залежить від сторінки (own, favorite, all)
-    },
-  },
+  // reducers: {
+  //   // changeCategoryFilter(state, action) {
+  //   //   state.searchedCategory = action.payload;
+  //   // },
+  //   // changeIngredientFilter(state, action) {
+  //   //   state.searchedIngredient = action.payload;
+  //   // },
+  //   // changeSearchQuery(state, action) {
+  //   //   state.searchQuery = action.payload;
+  //   // },
+  //   // resetFilters(state) {
+  //   //   state.searchedCategory = "";
+  //   //   state.searchedIngredient = "";
+  //   //   state.searchQuery = "";
+  //   //   // type не скидаємо — він залежить від сторінки (own, favorite, all)
+  //   // },
+  // },
   extraReducers: (builder) => {
     builder
       //  Отримання інгредієнтів
