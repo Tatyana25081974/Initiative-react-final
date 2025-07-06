@@ -14,7 +14,7 @@ const Header = () => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTableOrDesctop = useMediaQuery({ minWidth: 768 });
   const user = useSelector(selectUser);
-  const userName = user?.name || "Max";
+  const userName = user?.name || "";
 
   return (
     <header className={css.header}>

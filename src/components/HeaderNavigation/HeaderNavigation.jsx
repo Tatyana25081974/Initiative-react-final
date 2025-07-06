@@ -15,7 +15,7 @@ const HeaderNavigation = ({ userName }) => {
   return (
     <nav className={css.navigationContainer}>
       <div className={css.leftSide}>
-        <NavLink to="/recipes" className={getLinkStyles}>
+        <NavLink to="/" className={getLinkStyles}>
           Recipes
         </NavLink>
         {isLoggedIn && (
@@ -28,7 +28,7 @@ const HeaderNavigation = ({ userName }) => {
       <div className={css.rightSide}>
         {isLoggedIn ? (
           <>
-            <NavLink to="/add" className={css.addButton}>
+            <NavLink to="/add-recipe" className={css.addButton}>
               Add Recepy
             </NavLink>
             <div className={css.userInfo}>
