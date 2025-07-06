@@ -43,6 +43,18 @@ export const getOwnRecipes = createAsyncThunk(
   }
 );
 
+export const getFavoriteRecipes = createAsyncThunk(
+  "recipes/getFavoriteRecipes",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await axios.get("/api/recipes/favoriteRecipes");
+      return data.data;
+    } catch {
+      return thunkAPI.rejectWithValue("Pls try reloading the page.");
+    }
+  }
+);
+
 export const addRecipe = createAsyncThunk(
   "recipes/addRecipe",
   async (newRecipe, thunkAPI) => {

@@ -8,7 +8,6 @@ import Layout from "../components/Layout/Layout.jsx";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute.jsx";
 
-import { getRecipes } from "../redux/recipes/operations.js";
 import { refreshUser } from "../redux/auth/operations.js";
 import { selectIsRefreshing } from "../redux/auth/selectors";
 
@@ -48,21 +47,14 @@ const App = () => {
   const [searchedIngredient, setSearchedIngredient] = useState("");
   const [searchedCategory, setSearchedCategory] = useState("");
 
-  // Вказує на те чи рефрешиться зараз сторінка чи ні
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(getCategory());
     dispatch(getIngredients());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      getRecipes({ page, searchQuery, searchedIngredient, searchedCategory })
-    );
 
     dispatch(refreshUser());
-  }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
+  }, [dispatch]);
 
   const overlayStyle = {
     position: "fixed",
@@ -96,6 +88,7 @@ const App = () => {
                 setSearchedIngredient={setSearchedIngredient}
                 searchedCategory={searchedCategory}
                 setSearchedCategory={setSearchedCategory}
+                searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
               />
             }

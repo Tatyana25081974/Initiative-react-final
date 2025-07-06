@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import css from "./RecipeCard.module.css";
 
 import FavoriteBtn from "../FavoriteBtn/FavoriteBtn.jsx";
 import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
 import { BsClock } from "react-icons/bs";
+import { addFavorite, deleteFavorite } from "../../redux/auth/operations.js";
+import { deleteFavoriteRecipeFromState } from "../../redux/recipes/slice.js";
+// import { selectFavoriteRecipes } from "../../redux/recipes/selectors.js";
 
-export default function RecipeCard({ recipe }) {
-  const { _id, title, description, thumb, time, calories, isFavorite } = recipe;
+export default function RecipeCard({ favorite, recipe }) {
+  const dispatch = useDispatch();
+
+  const { _id, title, description, thumb, time, calories } = recipe;
 
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -15,6 +20,36 @@ export default function RecipeCard({ recipe }) {
   const handleFavoriteClick = () => {
     if (!isLoggedIn) {
       navigate("/auth/login");
+    }
+  };
+
+  // const favoriteRecipes = useSelector(selectFavoriteRecipes);
+
+  // const handleClickAddFavorite = async () => {
+  //   const result = await dispatch(addFavorite());
+  //   console.log(result);
+  //   handleFavoriteClick();
+  // };
+
+  const handleClickAddFavorite = async () => {
+    try {
+      await dispatch(addFavorite(recipe._id)).unwrap();
+
+      handleFavoriteClick();
+    } catch (error) {
+      console.error("Не вдалося додати рецепти до улюбленого:", error);
+    }
+  };
+
+  const handleClickDeleteFavorite = async () => {
+    try {
+      await dispatch(deleteFavorite(recipe._id)).unwrap();
+
+      dispatch(deleteFavoriteRecipeFromState(recipe._id));
+
+      handleFavoriteClick();
+    } catch (error) {
+      console.error("Не вдалося видалити рецепти з улюбленого:", error);
     }
   };
 
@@ -36,11 +71,18 @@ export default function RecipeCard({ recipe }) {
       </div>
       <div className={css.actions}>
         <LearnMoreBtn recipeId={_id} />
-        <FavoriteBtn
+
+        {favorite ? (
+          <button onClick={handleClickDeleteFavorite}>Delete</button>
+        ) : (
+          <button onClick={handleClickAddFavorite}>Add</button>
+        )}
+
+        {/* <FavoriteBtn
           recipeId={_id}
           isInitiallyFavorite={isFavorite}
           onClick={handleFavoriteClick}
-        />
+        /> */}
       </div>
     </div>
   );
