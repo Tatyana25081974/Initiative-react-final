@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
 
 import { register } from "../../redux/auth/operations";
 import css from "./RegisterForm.module.css";
@@ -121,7 +121,12 @@ const RegisterForm = () => {
                 aria-label={showPass ? "Hide password" : "Show password"}
                 onClick={() => setShowPass((v) => !v)}
               >
-                {showPass ? <EyeOff size={24} /> : <Eye size={24} />}
+                {/* {showPass ? <EyeOff size={24} /> : <Eye size={24} />} */}
+                <img
+                  src={showPass ? "/images/eyeoff.svg" : "/images/eye.svg"}
+                  alt=""
+                  className={css.eyeIcon}
+                />
               </button>
             </div>
 
@@ -148,7 +153,12 @@ const RegisterForm = () => {
                 aria-label={showConfirm ? "Hide password" : "Show password"}
                 onClick={() => setShowConfirm((v) => !v)}
               >
-                {showConfirm ? <EyeOff size={24} /> : <Eye size={24} />}
+                {/* {showConfirm ? <EyeOff size={24} /> : <Eye size={24} />} */}
+                <img
+                  src={showConfirm ? "/images/eyeoff.svg" : "/images/eye.svg"}
+                  alt=""
+                  className={css.eyeIcon}
+                />
               </button>
             </div>
 
