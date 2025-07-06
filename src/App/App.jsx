@@ -14,6 +14,7 @@ import { selectIsRefreshing } from "../redux/auth/selectors";
 
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
 import { Toaster } from "react-hot-toast";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop.jsx";
 
 Modal.setAppElement("#root");
 
@@ -82,6 +83,7 @@ const App = () => {
     </div>
   ) : (
     <>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route
