@@ -1,63 +1,41 @@
-import { createPortal } from "react-dom";
 import { useEffect } from "react";
+import Modal from "react-modal";
 import css from "./SignOutModal.module.css";
+import { RxCross2 } from "react-icons/rx";
 
-const modalRoot = document.getElementById("modal-root");
+Modal.setAppElement("#root");
 
-export default function SignOutModal({ isOpen, onClose, onConfirm }) {
+const SignOutModal = ({ isOpen, onRequestClose, onLogout }) => {
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onRequestClose();
     };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [onRequestClose]);
 
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
-  return createPortal(
-    <div className={css.overlay} onClick={onClose}>
-      <div className={css.modal} onClick={(e) => e.stopPropagation()}>
-        <button
-          className={css.closeBtn}
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M18 6L6 18"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M6 6L18 18"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className={css.modal}
+      overlayClassName={css.overlay}
+    >
+      <button className={css.closeBtn} onClick={onRequestClose}>
+        <RxCross2 size={24} />
+      </button>
+      <h2 className={css.title}>Are you sure?</h2>
+      <p className={css.text}>We will miss you!</p>
+      <div className={css.btnGroup}>
+        <button className={css.logoutBtn} onClick={onLogout}>
+          Log out
         </button>
-        <h2 className={css.title}>Are you sure?</h2>
-        <p className={css.subtitle}>We will miss you!</p>
-        <div className={css.actions}>
-          <button className={`${css.btn} ${css.logout}`} onClick={onConfirm}>
-            Log out
-          </button>
-          <button className={`${css.btn} ${css.cancel}`} onClick={onClose}>
-            Cancel
-          </button>
-        </div>
+        <button className={css.cancelBtn} onClick={onRequestClose}>
+          Cancel
+        </button>
       </div>
-    </div>,
-    modalRoot
+    </Modal>
   );
-}
+};
+
+export default SignOutModal;
