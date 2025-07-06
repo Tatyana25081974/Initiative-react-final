@@ -10,7 +10,6 @@
   background: #faf3e0;
 }
 
-/* --- Title --- */
 .title {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
@@ -19,4 +18,161 @@
   color: #000;
   margin-top: 0px;
   margin-bottom: 20px;
+}
+
+.title3 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 200;
+  font-size: 16px;
+  line-height: 1.55;
+  text-align: center;
+  color: #000;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  width: 356px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #000;
+  text-align: left;
+  gap: 4px;
+}
+
+.input {
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #9f9f9f;
+  transition: border 0.2s;
+  width: 356px;
+  height: 41px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #9a6b3f;
+}
+
+.error {
+  color: #d11;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.submit {
+  background: #9b6c43;
+  color: #fff;
+  width: 356px;
+  height: 36px;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.25s;
+  margin-top: 11px;
+  margin-bottom: 0px;
+}
+
+.submit:hover {
+  background: #845931;
+}
+
+.switchText {
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  text-align: center;
+  color: #000;
+}
+
+.switchText a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: #000;
+}
+
+.checkboxRow {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkboxRow input {
+  accent-color: #9a6b3f;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-25%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 0;
+  color: #6d6d6d;
+}
+.eyeBtn:hover {
+  color: #9a6b3f;
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .authCard {
+    width: 522px;
+  }
+
+  .input,
+  .submit {
+    width: 458px;
+  }
+  .title3 {
+    width: 458px;
+  }
+}
+
+@media (max-width: 767px) {
+  .authCard {
+    width: 362px;
+  }
+
+  .input,
+  .submit {
+    width: 298px;
+  }
+  .title3 {
+    width: 298px;
+  }
 }
