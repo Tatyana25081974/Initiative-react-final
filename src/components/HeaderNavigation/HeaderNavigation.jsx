@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { IoIosLogOut } from "react-icons/io";
 import css from "./HeaderNavigation.module.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/auth/operations.js";
 
 const getLinkStyles = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -11,6 +13,12 @@ const HeaderNavigation = ({ userName }) => {
   const isLoggedIn = Boolean(userName);
 
   const firstletterOnName = userName?.slice(0, 1).toUpperCase();
+
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(logout());
+  };
 
   return (
     <nav className={css.navigationContainer}>
@@ -36,9 +44,14 @@ const HeaderNavigation = ({ userName }) => {
               <span>{userName}</span>
             </div>
             <div className={css.separator} />
-            <NavLink to="/auth/logout">
+
+            <button className={css.logoutButton} onClick={handleClick}>
               <IoIosLogOut className={css.logoutIcon} />
-            </NavLink>
+            </button>
+
+            {/* <NavLink to="/auth/logout">
+              <IoIosLogOut className={css.logoutIcon} />
+            </NavLink> */}
           </>
         ) : (
           <>

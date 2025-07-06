@@ -72,13 +72,23 @@ const slice = createSlice({
         state.isRefreshing = true;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        const user = action.payload.user;
-
-        state.user = { name: user.name, email: user.email };
-        state.accessToken = action.payload.accessToken;
-
         state.isRefreshing = false;
-        state.isLoggedIn = true;
+
+        if (action.payload === "Access token expired") {
+          state.user = { name: null, email: null };
+
+          state.accessToken = null;
+
+          state.isLoggedIn = false;
+        } else {
+          console.log(action.payload);
+          const user = action.payload.user;
+
+          state.user = { name: user.name, email: user.email };
+          state.accessToken = action.payload.accessToken;
+
+          state.isLoggedIn = true;
+        }
       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
