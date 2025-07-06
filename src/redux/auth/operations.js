@@ -2,9 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 axios.defaults.baseURL =
-  import.meta.env.VITE_API_BASE_URL ||
-  // "https://initiative-nodejs-final.onrender.com/";
-  "http://localhost:3000";
+  // import.meta.env.VITE_API_BASE_URL ||
+  "https://initiative-nodejs-final.onrender.com/";
+// "http://localhost:3000";
 
 const setAuthHeader = (token) => {
   if (token) axios.defaults.headers.common.Authorization = `Bearer ${token}`;
