@@ -22,9 +22,9 @@ const Header = () => {
         <div className={css.wrapper}>
           <Logo />
           {isMobile && (
-            <HeaderModal>
-              <HeaderNavigation userName={userName} />
-            </HeaderModal>
+            // <HeaderModal>
+            <HeaderNavigation userName={userName} />
+            // </HeaderModal>
           )}
           {isTableOrDesctop && <HeaderNavigation userName={userName} />}
         </div>

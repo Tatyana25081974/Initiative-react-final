@@ -7,6 +7,7 @@ import {
 
   //  deleteRecipe,
   getRecipes,
+  getRecipeById,
 } from "./operations";
 
 const handlePending = (state) => {
@@ -29,6 +30,8 @@ const slice = createSlice({
     totalItems: 0,
     loading: false,
     error: null,
+
+    currentRecipe: null,
 
     // deletingRecipeId: null,
   },
@@ -83,6 +86,16 @@ const slice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(addRecipe.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      .addCase(getRecipeById.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(getRecipeById.fulfilled, (state, action) => {
+        state.currentRecipe = action.payload;
+      })
+      .addCase(getRecipeById.rejected, (state, action) => {
         state.error = action.payload;
       });
 
