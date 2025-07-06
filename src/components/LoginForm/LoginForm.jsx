@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+// import { Eye, EyeOff } from "lucide-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,7 +77,12 @@ const LoginForm = () => {
                 onClick={() => setShowPass((p) => !p)}
                 aria-label={showPass ? "Hide password" : "Show password"}
               >
-                {showPass ? <EyeOff size={24} /> : <Eye size={24} />}
+                {/* {showPass ? <EyeOff size={24} /> : <Eye size={24} />} */}
+                <img
+                  src={showPass ? "/images/eyeoff.svg" : "/images/eye.svg"}
+                  alt=""
+                  className={css.eyeIcon}
+                />
               </button>
             </div>
 
