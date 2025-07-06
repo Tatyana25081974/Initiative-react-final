@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { IoIosLogOut } from "react-icons/io";
 import css from "./HeaderNavigation.module.css";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/auth/operations.js";
+import { useState } from "react";
+import SignOutModal from "../SignOutModal/SignOutModal.jsx";
 
 const getLinkStyles = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -14,10 +14,13 @@ const HeaderNavigation = ({ userName }) => {
 
   const firstletterOnName = userName?.slice(0, 1).toUpperCase();
 
-  const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleClick = () => {
-    dispatch(logout());
+    openModal();
   };
 
   return (
@@ -66,6 +69,7 @@ const HeaderNavigation = ({ userName }) => {
           </>
         )}
       </div>
+      <SignOutModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </nav>
   );
 };

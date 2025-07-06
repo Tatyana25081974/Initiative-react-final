@@ -2,6 +2,10 @@ import Hero from "../../components/Hero/Hero.jsx";
 import Filters from "../../components/Filters/Filters";
 import RecipeList from "../../components/RecipeList/RecipeList";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn.jsx";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getRecipes } from "../../redux/recipes/operations.js";
+import { selectRecipes } from "../../redux/recipes/selectors.js";
 
 const MainPage = ({
   page,
@@ -10,8 +14,18 @@ const MainPage = ({
   setSearchedIngredient,
   searchedCategory,
   setSearchedCategory,
+  searchQuery,
   setSearchQuery,
 }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getRecipes({ page, searchQuery, searchedIngredient, searchedCategory })
+    );
+  }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
+
+  const recipes = useSelector(selectRecipes);
+
   return (
     <div>
       <Hero setSearchQuery={setSearchQuery} />
@@ -24,7 +38,7 @@ const MainPage = ({
         setSearchQuery={setSearchQuery}
       />
 
-      <RecipeList />
+      <RecipeList recipes={recipes} />
 
       <LoadMoreBtn page={page} setPage={setPage} />
     </div>

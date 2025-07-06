@@ -1,29 +1,48 @@
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { FaRegBookmark } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  // useNavigate,
+  useParams,
+} from "react-router-dom";
 import css from "./RecipeDetails.module.css";
 
 import ingredientsData from "../../data/tmp-ingredients.json";
-import { useState } from "react";
-import axios from "axios";
+import { addFavorite, deleteFavorite } from "../../redux/auth/operations.js";
+import {
+  selectFavorites,
+  // selectIsLoggedIn,
+} from "../../redux/auth/selectors.js";
+import { getRecipeById } from "../../redux/recipes/operations.js";
+import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
+import { useEffect, useState } from "react";
+import SaveAuthModal from "../SaveAuthModal/SaveAuthModal.jsx";
 
 export default function RecipeDetails() {
-  const { id: recipeId } = useParams();
-  const [isSaved, setIsSaved] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const recipe = useSelector((state) =>
-    state.recipes.items.find((r) => r._id === recipeId)
-  );
+  const { id } = useParams();
+  console.log(id);
 
-  const getIngredientNameById = (id) => {
-    const ingredient = ingredientsData.find((item) => item._id === id);
-    return ingredient ? ingredient.name : "Unknown ingredient";
-  };
+  useEffect(() => {
+    dispatch(getRecipeById(id));
+  }, [dispatch, id]);
 
-  if (!recipe) return <p>Recipe not found.</p>;
+  const recipe = useSelector(selectCurrentRecipe);
+
+  console.log(recipe);
+
+  // const navigate = useNavigate();
+  // const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const favorites = useSelector(selectFavorites);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  if (!recipe) {
+    return <p>Loading recipe...</p>;
+  }
 
   const {
     title,
@@ -36,23 +55,41 @@ export default function RecipeDetails() {
     calories,
   } = recipe;
 
-  const handleSaveClick = async () => {
-    if (!isLoggedIn) {
-      navigate("/auth/login");
-      return;
-    }
+  const favorite = favorites.includes(id);
 
+  // const handleFavoriteClick = () => {
+  //   if (!isLoggedIn) {
+  //     navigate("/auth/login");
+  //   }
+  // };
+
+  const handleClickAddFavorite = async () => {
     try {
-      setLoading(true);
-      await axios.post(`/api/recipes/favorite/${recipeId}`);
-      setIsSaved(true);
+      await dispatch(addFavorite(id)).unwrap();
+
+      // handleFavoriteClick();
     } catch (error) {
-      console.error("Error saving recipe:", error);
-      alert("Something went wrong. Please try again later.");
-    } finally {
-      setLoading(false);
+      openModal();
+      console.error("Не вдалося додати рецепти до улюбленого:", error);
     }
   };
+
+  const handleClickDeleteFavorite = async () => {
+    try {
+      await dispatch(deleteFavorite(id)).unwrap();
+
+      // handleFavoriteClick();
+    } catch (error) {
+      console.error("Не вдалося видалити рецепти з улюбленого:", error);
+    }
+  };
+
+  const getIngredientNameById = (id) => {
+    const ingredient = ingredientsData.find((item) => item._id === id);
+    return ingredient ? ingredient.name : "Unknown ingredient";
+  };
+
+  // if (!recipe) return <p>Recipe not found.</p>;
 
   return (
     <div className={css.container}>
@@ -77,14 +114,20 @@ export default function RecipeDetails() {
             </p>
           </div>
 
-          <button
+          {favorite ? (
+            <button onClick={handleClickDeleteFavorite}>Saved</button>
+          ) : (
+            <button onClick={handleClickAddFavorite}>Save</button>
+          )}
+
+          {/* <button
             className={css.saveButton}
             onClick={handleSaveClick}
             disabled={isSaved || loading}
           >
             {isSaved ? "Saved" : loading ? "Saving..." : "Save"}
             <FaRegBookmark />
-          </button>
+          </button> */}
         </div>
 
         <div className={css.otherInfoBlock}>
@@ -119,6 +162,8 @@ export default function RecipeDetails() {
           </div>
         </div>
       </div>
+
+      <SaveAuthModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </div>
   );
 }

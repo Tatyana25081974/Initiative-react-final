@@ -10,12 +10,12 @@ const SaveAuthModal = ({ isOpen, onRequestClose }) => {
 
   const handleLogin = () => {
     onRequestClose();
-    navigate("/signin");
+    navigate("/auth/login");
   };
 
   const handleRegister = () => {
     onRequestClose();
-    navigate("/signup");
+    navigate("/auth/register");
   };
 
   return (

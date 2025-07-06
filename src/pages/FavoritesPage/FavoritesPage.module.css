@@ -1,0 +1,51 @@
+/* Mobile */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 16px 48px;
+  list-style: none;
+  margin: 0 auto;
+}
+
+/* Кожна картка */
+.list > li {
+  width: 100%;
+  max-width: 361px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .list {
+    justify-content: center;
+    gap: 24px;
+    padding: 0 32px 64px;
+  }
+
+  .list > li {
+    flex: 0 1 calc((100% - 24px * 1 - 64px) / 2);
+    max-width: 336px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1280px) {
+  .list {
+    justify-content: center;
+    gap: 24px;
+    padding: 0 100px 100px;
+  }
+
+  .list > li {
+    flex: 0 1 calc((100% - 24px * 3 - 200px) / 4);
+    max-width: 288px;
+  }
+}
+
+.noSavedRecipesText {
+  text-align: center;
+  padding: 20px 0;
+}
