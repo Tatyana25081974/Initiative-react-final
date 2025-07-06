@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaRegBookmark } from "react-icons/fa6";
 import css from "./RecipeDetails.module.css";
 
@@ -7,7 +7,8 @@ import ingredientsData from "../../data/tmp-ingredients.json";
 import { useState } from "react";
 import axios from "axios";
 
-export default function RecipeDetails({ recipeId }) {
+export default function RecipeDetails() {
+  const { id: recipeId } = useParams();
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -43,9 +44,7 @@ export default function RecipeDetails({ recipeId }) {
 
     try {
       setLoading(true);
-      await axios.post(`/api/recipes/favorite/${recipeId}`); // при локальній перевірці закоментувати тут і в slice - state.items = action.payload;
-      // тимчасове рішення для перевірки
-      // await new Promise((resolve) => setTimeout(resolve, 1000)); // розкоментувати
+      await axios.post(`/api/recipes/favorite/${recipeId}`);
       setIsSaved(true);
     } catch (error) {
       console.error("Error saving recipe:", error);

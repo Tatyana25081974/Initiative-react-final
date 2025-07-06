@@ -1,9 +1,11 @@
 // import css from './RecipeViewPage.module.css';
+import RecipeDetails from "../../components/RecipeDetails/RecipeDetails.jsx";
 
 const RecipeViewPage = () => {
   return (
     <>
-      <p>RecipeViewPage</p>
+      {/* <p>RecipeViewPage</p> */}
+      <RecipeDetails />
     </>
   );
 };
