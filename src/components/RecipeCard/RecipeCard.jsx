@@ -12,10 +12,6 @@ export default function RecipeCard({ recipe }) {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const handleLearnMoreClick = () => {
-    navigate(`/recipes/${_id}`);
-  };
-
   const handleFavoriteClick = () => {
     if (!isLoggedIn) {
       navigate("/auth/login");
@@ -39,7 +35,7 @@ export default function RecipeCard({ recipe }) {
         </p>
       </div>
       <div className={css.actions}>
-        <LearnMoreBtn onClick={handleLearnMoreClick} />
+        <LearnMoreBtn recipeId={_id} />
         <FavoriteBtn
           recipeId={_id}
           isInitiallyFavorite={isFavorite}
