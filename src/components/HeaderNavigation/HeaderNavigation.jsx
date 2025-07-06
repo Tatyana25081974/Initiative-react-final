@@ -15,7 +15,7 @@ const HeaderNavigation = ({ userName }) => {
   return (
     <nav className={css.navigationContainer}>
       <div className={css.leftSide}>
-        <NavLink to="/recipes" className={getLinkStyles}>
+        <NavLink to="/" className={getLinkStyles}>
           Recipes
         </NavLink>
         {isLoggedIn && (
