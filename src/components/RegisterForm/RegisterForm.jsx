@@ -16,7 +16,7 @@ const registerSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Required"),
-  // terms: Yup.boolean().oneOf([true], "Required"),
+  terms: Yup.boolean().oneOf([true], "Required"),
 });
 
 const RegisterForm = () => {
@@ -59,12 +59,12 @@ const RegisterForm = () => {
           email: "",
           password: "",
           confirmPassword: "",
-          // terms: false,
+          terms: false,
         }}
         validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, isValid }) => (
           <Form className={css.form}>
             {/*   Name  */}
             <label className={css.label}>
@@ -172,7 +172,7 @@ const RegisterForm = () => {
             {/*  Submit */}
             <button
               type="submit"
-              disabled={isSubmitting || isAuthLoading}
+              disabled={isSubmitting || isAuthLoading || !isValid}
               className={css.submit}
             >
               {isAuthLoading ? "Loading…" : "Create account"}

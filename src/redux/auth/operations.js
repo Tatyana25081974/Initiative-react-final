@@ -21,9 +21,9 @@ export const register = createAsyncThunk("auth/register", async (cred, t) => {
     setAuthHeader(data.data.accessToken);
     return { user, accessToken: data.data.accessToken };
   } catch (e) {
-    return t.rejectWithValue(
-      e.response?.data?.message || "Registration failed"
-    );
+    if (e.response?.status === 409)
+      return t.rejectWithValue("This email is already registered");
+    return t.rejectWithValue("Registration failed");
   }
 });
 
