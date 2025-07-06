@@ -1,6 +1,9 @@
 .authCard {
   width: 420px;
-  margin: 0px auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+  margin-bottom: 14px;
   padding: 48px 32px;
   background: #faf4e8;
   border-radius: 32px;
@@ -159,6 +162,8 @@
 @media (min-width: 768px) and (max-width: 1439px) {
   .authCard {
     width: 522px;
+    margin-top: 132px;
+    margin-bottom: 130px;
   }
 
   .input,
@@ -173,6 +178,8 @@
 @media (max-width: 767px) {
   .authCard {
     width: 362px;
+    margin-top: 56px;
+    margin-bottom: 56px;
   }
 
   .input,
