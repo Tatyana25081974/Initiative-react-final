@@ -1,54 +1,48 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
 import css from "./SaveAuthModal.module.css";
+import { useNavigate } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
-export default function SaveAuthModal({ isOpen, onClose }) {
+Modal.setAppElement("#root");
+
+const SaveAuthModal = ({ isOpen, onRequestClose }) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    onClose();
-    navigate("/login");
+    onRequestClose();
+    navigate("/auth/login");
   };
 
   const handleRegister = () => {
-    onClose();
-    navigate("/register");
+    onRequestClose();
+    navigate("/auth/register");
   };
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className={css.dialog} onClose={onClose}>
-        <div className={css.overlay} />
-        <div className={css.wrapper}>
-          <Dialog.Panel className={css.panel}>
-            <button onClick={onClose} className={css.closeBtn}>
-              <XMarkIcon className={css.icon} />
-            </button>
-            <Dialog.Title className={css.title}>
-              Error while saving
-            </Dialog.Title>
-            <Dialog.Description className={css.text}>
-              To save this recipe, you need to authorize first
-            </Dialog.Description>
-            <div className={css.actions}>
-              <button
-                className={`${css.btn} ${css.outline}`}
-                onClick={handleLogin}
-              >
-                Log in
-              </button>
-              <button
-                className={`${css.btn} ${css.primary}`}
-                onClick={handleRegister}
-              >
-                Register
-              </button>
-            </div>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
-    </Transition>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName={css.overlay}
+      className={css.modal}
+    >
+      <button className={css.closeBtn} onClick={onRequestClose}>
+        <IoClose size={24} />
+      </button>
+      <p className={css.title}>Error while saving</p>
+      <p className={css.subtitle}>
+        To save this recipe, you need to <br />
+        authorize first
+      </p>
+      <div className={css.buttons}>
+        <button className={css.loginBtn} onClick={handleLogin}>
+          Log in
+        </button>
+        <button className={css.registerBtn} onClick={handleRegister}>
+          Register
+        </button>
+      </div>
+    </Modal>
   );
-}
+};
+
+export default SaveAuthModal;

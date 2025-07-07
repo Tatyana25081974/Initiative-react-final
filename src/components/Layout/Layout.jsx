@@ -1,22 +1,20 @@
-// import { Suspense } from "react";
-
 import Footer from "../Footer/Footer.jsx";
 import Header from "../Header/Header.jsx";
 import Outlet from "../Outlet/Outlet.jsx";
 
-// import { PageLoader } from "../../components/Loaders/Loaders";
+import css from "./Layout.module.css";
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className={css.flexBox}>
       <Header />
 
-      {/* <Suspense fallback={<PageLoader />}>{children}</Suspense> */}
-
-      <Outlet>{children}</Outlet>
+      <div className={css.outletBox}>
+        <Outlet>{children}</Outlet>
+      </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { IoIosLogOut } from "react-icons/io";
 import css from "./HeaderNavigation.module.css";
+import { useState } from "react";
+import SignOutModal from "../SignOutModal/SignOutModal.jsx";
 
 const getLinkStyles = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -11,6 +13,15 @@ const HeaderNavigation = ({ userName }) => {
   const isLoggedIn = Boolean(userName);
 
   const firstletterOnName = userName?.slice(0, 1).toUpperCase();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleClick = () => {
+    openModal();
+  };
 
   return (
     <nav className={css.navigationContainer}>
@@ -36,9 +47,14 @@ const HeaderNavigation = ({ userName }) => {
               <span>{userName}</span>
             </div>
             <div className={css.separator} />
-            <NavLink to="/auth/logout">
+
+            <button className={css.logoutButton} onClick={handleClick}>
               <IoIosLogOut className={css.logoutIcon} />
-            </NavLink>
+            </button>
+
+            {/* <NavLink to="/auth/logout">
+              <IoIosLogOut className={css.logoutIcon} />
+            </NavLink> */}
           </>
         ) : (
           <>
@@ -53,6 +69,7 @@ const HeaderNavigation = ({ userName }) => {
           </>
         )}
       </div>
+      <SignOutModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </nav>
   );
 };

@@ -6,7 +6,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 // import Section from "../../components/Section/Section";
 // import Container from "../../components/Container/Container";
 import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
-import Filters from "../../components/Filters/Filters";
+// import Filters from "../../components/Filters/Filters";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn";
 import Container from "../../components/Container/Container";
 
@@ -22,13 +22,15 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Container>
-        <h1 className={css.profTitle}>My profile</h1>
-        <ProfileNavigation />
-        <Filters />
-        <Outlet />
+      <Section>
+        <Container>
+          <h1 className={css.profTitle}>My profile</h1>
+          <ProfileNavigation />
+          {/* <Filters /> */}
+          <Outlet />
+        </Container>
         <LoadMoreBtn />
-      </Container>
+      </Section>
     </>
   );
 };
