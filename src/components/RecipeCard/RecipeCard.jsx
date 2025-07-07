@@ -1,9 +1,5 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-import {
-  useDispatch,
-  // useSelector
-} from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { addFavorite, deleteFavorite } from "../../redux/auth/operations.js";
 import { deleteFavoriteRecipeFromState } from "../../redux/recipes/slice.js";
@@ -11,10 +7,10 @@ import { deleteFavoriteRecipeFromState } from "../../redux/recipes/slice.js";
 import FavoriteBtn from "../FavoriteBtn/FavoriteBtn.jsx";
 import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
 import { BsClock } from "react-icons/bs";
+import { FaRegBookmark } from "react-icons/fa6";
+import clsx from "clsx";
 
 import SaveAuthModal from "../SaveAuthModal/SaveAuthModal.jsx";
-
-// import { selectFavoriteRecipes } from "../../redux/recipes/selectors.js";
 
 import css from "./RecipeCard.module.css";
 
@@ -22,23 +18,6 @@ export default function RecipeCard({ favorite, recipe }) {
   const dispatch = useDispatch();
 
   const { _id, title, description, thumb, time, calories } = recipe;
-
-  // const navigate = useNavigate();
-  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-
-  // const handleFavoriteClick = () => {
-  //   if (!isLoggedIn) {
-  //     navigate("/auth/login");
-  //   }
-  // };
-
-  // const favoriteRecipes = useSelector(selectFavoriteRecipes);
-
-  // const handleClickAddFavorite = async () => {
-  //   const result = await dispatch(addFavorite());
-  //   console.log(result);
-  //   handleFavoriteClick();
-  // };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -48,11 +27,9 @@ export default function RecipeCard({ favorite, recipe }) {
   const handleClickAddFavorite = async () => {
     try {
       await dispatch(addFavorite(recipe._id)).unwrap();
-
-      // handleFavoriteClick();
     } catch (error) {
       openModal();
-      console.error("Не вдалося додати рецепти до улюбленого:", error);
+      console.error("Failed to add recipes to favorites:", error);
     }
   };
 
@@ -61,10 +38,8 @@ export default function RecipeCard({ favorite, recipe }) {
       await dispatch(deleteFavorite(recipe._id)).unwrap();
 
       dispatch(deleteFavoriteRecipeFromState(recipe._id));
-
-      // handleFavoriteClick();
     } catch (error) {
-      console.error("Не вдалося видалити рецепти з улюбленого:", error);
+      console.error("Unable to remove recipes from favorites:", error);
     }
   };
 
@@ -87,17 +62,18 @@ export default function RecipeCard({ favorite, recipe }) {
       <div className={css.actions}>
         <LearnMoreBtn recipeId={_id} />
 
-        {favorite ? (
-          <button onClick={handleClickDeleteFavorite}>Delete</button>
-        ) : (
-          <button onClick={handleClickAddFavorite}>Add</button>
-        )}
-
-        {/* <FavoriteBtn
-          recipeId={_id}
-          isInitiallyFavorite={isFavorite}
-          onClick={handleFavoriteClick}
-        /> */}
+        <button
+          className={clsx(
+            css.button,
+            favorite ? css.favBtnDelete : css.favBtnAdd
+          )}
+          onClick={(e) => {
+            e.currentTarget.blur(); // прибратє фокус після кліку
+            favorite ? handleClickDeleteFavorite() : handleClickAddFavorite();
+          }}
+        >
+          <FaRegBookmark />
+        </button>
 
         <SaveAuthModal isOpen={isModalOpen} onRequestClose={closeModal} />
       </div>

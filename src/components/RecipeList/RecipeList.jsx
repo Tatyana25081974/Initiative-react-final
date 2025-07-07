@@ -6,7 +6,7 @@ import { selectFavorites } from "../../redux/auth/selectors.js";
 const RecipeList = ({ recipes }) => {
   const favorites = useSelector(selectFavorites);
 
-  console.log(favorites);
+  // console.log(favorites);
   return (
     <>
       <ul className={css.list}>
