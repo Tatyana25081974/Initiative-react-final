@@ -64,19 +64,29 @@
 
 .loginBtn {
   border: 1px solid 000;
-    border-radius: 8px;
-    padding: 8px;
-    width: 164px;
-    height: 36px;
-  background-color: #f5f5dc;
-  color: #1e1e1e;
+  border-radius: 8px;
+  padding: 8px;
+  width: 164px;
+  height: 36px;
+  background-color: transparent;
+
+  outline: none;
+  border: 1px solid #000;
+  color: #000;
+
+  transition: transform 250ms ease-in-out;
+}
+
+.loginBtn:hover,
+.loginBtn:focus {
+  transform: scale(0.95);
 }
 
 .registerBtn {
   border-radius: 8px;
-    padding: 8px;
-    width: 164px;
-    height: 36px;
+  padding: 8px;
+  width: 164px;
+  height: 36px;
   background-color: #9b6c43;
   color: #fff;
 }
