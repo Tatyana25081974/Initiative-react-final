@@ -5,7 +5,7 @@ import css from "./Hero.module.css";
 const Hero = ({ setSearchQuery }) => {
   return (
     <section className={css.hero}>
-      <Container>
+      <Container className={css.container}>
         <div className={css.content}>
           <h1 className={css.title}>
             Plan, Cook, and <br />

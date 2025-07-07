@@ -123,7 +123,8 @@
     align-items: center;
     gap: 24px;
     width: 100%;
-    padding: 0 24px;
+    max-width: 704px;
+
     margin: 0 auto;
   }
 
@@ -165,9 +166,9 @@
 }
 
 /* ==== DESKTOP XL ==== */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1440px) {
   .container {
-    max-width: 1025px;
+    max-width: 1225px;
     padding: 0 32px;
   }
 
