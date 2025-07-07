@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 const customStylesModal = {
   overlay: {
-    zIndex: 1000,
+    zIndex: 10,
     backgroundColor: "inherit",
   },
   content: {
