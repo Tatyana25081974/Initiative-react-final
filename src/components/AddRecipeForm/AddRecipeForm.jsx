@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import clsx from "clsx";
 import toast from "react-hot-toast";
+import SyncLoader from "react-spinners/SyncLoader";
 import { useId, useState } from "react";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,15 +14,20 @@ import cameraIcon from "../../assets/images/addRecipes/camera.svg";
 import deleteIcon from "../../assets/images/addRecipes/delete.svg";
 import Container from "../Container/Container.jsx";
 import { addRecipe } from "../../redux/recipes/operations.js";
+import { loading } from "../../redux/recipes/selectors.js";
 import css from "./AddRecipeForm.module.css";
 
 const AddRecipeForm = () => {
   const [preview, setPreview] = useState(null);
   const [isOpenCategorySelect, setIsOpenCategorySelect] = useState(false);
   const [isOpenIngredientSelect, setIsOpenIngredientSelect] = useState(false);
+
   const fieldId = useId();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoading = useSelector(loading);
 
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const allowedCategories = useSelector(selectCategory);
@@ -106,12 +112,13 @@ const AddRecipeForm = () => {
     );
 
     try {
-      const data = await dispatch(addRecipe(formData)).unwrap();
-      toast.success(`Recipe ${data.title} has successfully been added.`);
-      console.log(data);
-
-      navigate(`/recipes/${data._id}`);
-    } catch {
+      const response = await dispatch(addRecipe(formData)).unwrap();
+      toast.success(
+        `Contact ${response.data.title} has successfully been added.`
+      );
+      navigate(`/recipes/${response.data._id}`);
+    } catch (e) {
+      console.log(e);
       toast.error(
         "Ooops. Something went wrong. Please reload the page and try again."
       );
@@ -536,13 +543,22 @@ const AddRecipeForm = () => {
                 </div>
               </div>
 
-              <button className={css.submitFormBtn} type="submit">
-                Publish Recipe
+              <button
+                className={css.submitFormBtn}
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Publishing..." : "Publish Recipe"}
               </button>
             </div>
           </Form>
         )}
       </Formik>
+      {isLoading && (
+        <div className={css.loaderOverlay}>
+          <SyncLoader color="#36d7b7" />
+        </div>
+      )}
     </Container>
   );
 };
