@@ -38,10 +38,6 @@ const slice = createSlice({
   reducers: {
     // addFavoriteRecipeToState: ()=>{}
     deleteFavoriteRecipeFromState: (state, action) => {
-      // const newFavoriteItems = state.favoriteItems.filter((favoriteRecipe) => {
-      //   action.payload !== favoriteRecipe._id;
-      // });
-
       return {
         ...state,
         favoriteItems: state.favoriteItems.filter(
