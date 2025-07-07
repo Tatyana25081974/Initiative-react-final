@@ -14,6 +14,11 @@ import { selectIsRefreshing } from "../redux/auth/selectors";
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop.jsx";
+import {
+  selectErrorIngredientsAndCategories,
+  selectLoadingIngredientsAndCategories,
+} from "../redux/filters/selectors.js";
+import { NetworkError } from "../components/NetworkError/NetworkError.jsx";
 
 Modal.setAppElement("#root");
 
@@ -69,10 +74,21 @@ const App = () => {
     zIndex: 9999,
   };
 
-  return isRefreshing ? (
+  const loadingIngredientsAndCategories = useSelector(
+    selectLoadingIngredientsAndCategories
+  );
+
+  const errorIngredientsAndCategories = useSelector(
+    selectErrorIngredientsAndCategories
+  );
+
+  // return isRefreshing ? (
+  return isRefreshing && loadingIngredientsAndCategories ? (
     <div style={overlayStyle}>
       <SyncLoader color="#36d7b7" />
     </div>
+  ) : errorIngredientsAndCategories ? (
+    <NetworkError />
   ) : (
     <>
       <ScrollToTop />
