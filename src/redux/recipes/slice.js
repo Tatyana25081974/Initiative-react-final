@@ -94,12 +94,15 @@ const slice = createSlice({
 
       .addCase(getRecipeById.pending, (state) => {
         state.error = null;
+        state.loading = true;
       })
       .addCase(getRecipeById.fulfilled, (state, action) => {
         state.currentRecipe = action.payload;
+        state.loading = false;
       })
       .addCase(getRecipeById.rejected, (state, action) => {
         state.error = action.payload;
+        state.loading = false;
       });
 
     // .addCase(deleteRecipe.pending, (state, action) => {

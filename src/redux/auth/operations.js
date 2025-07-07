@@ -66,27 +66,23 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
-    // const { accessToken } = thunkAPI.getState().auth;
-    // if (!accessToken) return thunkAPI.rejectWithValue("No token");
     try {
+      console.log("1");
       const { data } = await axios.post("/api/auth/refresh", null, {
         withCredentials: true,
       });
-
-      if (data?.message === "Access token expired") {
-        return "Access token expired";
-      }
 
       const newToken = data.data.accessToken;
       setAuthHeader(newToken);
 
       const { data: user } = await axios.get("/api/users");
       return { user: user.data, accessToken: newToken };
-    } catch {
+    } catch (error) {
+      const data = error.response.data;
+      console.log(data);
       return thunkAPI.rejectWithValue("Token refresh failed");
     }
   }
-  // { condition: (_, { getState }) => !!getState().auth.accessToken }
 );
 
 export const addFavorite = createAsyncThunk(
