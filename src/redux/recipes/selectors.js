@@ -79,3 +79,5 @@ export const selectTotalRecipes = (state) => {
 export const selectTotalPages = (state) => {
   return state.recipes.totalPages;
 };
+
+export const loading = (state) => state.recipes.loading;
