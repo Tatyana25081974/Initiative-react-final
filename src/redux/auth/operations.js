@@ -25,7 +25,7 @@ export const register = createAsyncThunk("auth/register", async (cred, t) => {
       return t.rejectWithValue("This email is already registered");
     return t.rejectWithValue("Registration failed");
   }
-);
+});
 
 export const login = createAsyncThunk(
   "auth/login",
