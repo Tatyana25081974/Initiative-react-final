@@ -44,3 +44,8 @@
     max-width: 288px;
   }
 }
+
+.noSavedRecipesText {
+  text-align: center;
+  padding: 20px 0;
+}

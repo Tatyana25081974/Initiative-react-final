@@ -8,13 +8,17 @@ import Layout from "../components/Layout/Layout.jsx";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute.jsx";
 
-import { getRecipes } from "../redux/recipes/operations.js";
 import { refreshUser } from "../redux/auth/operations.js";
 import { selectIsRefreshing } from "../redux/auth/selectors";
 
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop.jsx";
+import {
+  selectErrorIngredientsAndCategories,
+  selectLoadingIngredientsAndCategories,
+} from "../redux/filters/selectors.js";
+import { NetworkError } from "../components/NetworkError/NetworkError.jsx";
 
 Modal.setAppElement("#root");
 
@@ -48,21 +52,14 @@ const App = () => {
   const [searchedIngredient, setSearchedIngredient] = useState("");
   const [searchedCategory, setSearchedCategory] = useState("");
 
-  // Вказує на те чи рефрешиться зараз сторінка чи ні
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(getCategory());
     dispatch(getIngredients());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      getRecipes({ page, searchQuery, searchedIngredient, searchedCategory })
-    );
 
     dispatch(refreshUser());
-  }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
+  }, [dispatch]);
 
   const overlayStyle = {
     position: "fixed",
@@ -77,10 +74,21 @@ const App = () => {
     zIndex: 9999,
   };
 
-  return isRefreshing ? (
+  const loadingIngredientsAndCategories = useSelector(
+    selectLoadingIngredientsAndCategories
+  );
+
+  const errorIngredientsAndCategories = useSelector(
+    selectErrorIngredientsAndCategories
+  );
+
+  // return isRefreshing ? (
+  return isRefreshing && loadingIngredientsAndCategories ? (
     <div style={overlayStyle}>
       <SyncLoader color="#36d7b7" />
     </div>
+  ) : errorIngredientsAndCategories ? (
+    <NetworkError />
   ) : (
     <>
       <ScrollToTop />
@@ -96,6 +104,7 @@ const App = () => {
                 setSearchedIngredient={setSearchedIngredient}
                 searchedCategory={searchedCategory}
                 setSearchedCategory={setSearchedCategory}
+                searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
               />
             }

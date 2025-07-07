@@ -14,14 +14,17 @@ const slice = createSlice({
     user: {
       name: null,
       email: null,
+      favorites: [],
+      createdAt: null,
     },
     accessToken: null,
-    favorites: [],
 
     isLoggedIn: false,
     isRefreshing: false,
 
     isAuthLoading: false,
+
+    isLoading: false,
   },
   extraReducers: (builder) => {
     builder
@@ -45,7 +48,12 @@ const slice = createSlice({
         state.isAuthLoading = false;
 
         const user = action.payload.user;
-        state.user = { name: user.name, email: user.email };
+        state.user = {
+          name: user.name,
+          email: user.email,
+          favorites: user.favorites,
+          createdAt: user.createdAt,
+        };
 
         state.accessToken = action.payload.accessToken;
         state.isLoggedIn = true;
@@ -63,6 +71,8 @@ const slice = createSlice({
         state.user = {
           name: null,
           email: null,
+          favorites: [],
+          createdAt: null,
         };
         state.accessToken = null;
         state.isLoggedIn = false;
@@ -74,24 +84,22 @@ const slice = createSlice({
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.isRefreshing = false;
 
-        if (action.payload === "Access token expired") {
-          state.user = { name: null, email: null };
+        const user = action.payload.user;
 
-          state.accessToken = null;
+        state.user = {
+          name: user.name,
+          email: user.email,
+          favorites: user.favorites,
+          createdAt: user.createdAt,
+        };
+        state.accessToken = action.payload.accessToken;
 
-          state.isLoggedIn = false;
-        } else {
-          console.log(action.payload);
-          const user = action.payload.user;
-
-          state.user = { name: user.name, email: user.email };
-          state.accessToken = action.payload.accessToken;
-
-          state.isLoggedIn = true;
-        }
+        state.isLoggedIn = true;
       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
+
+        state.accessToken = null;
       })
 
       .addCase(addFavorite.pending, (state) => {
@@ -99,8 +107,8 @@ const slice = createSlice({
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
         const recipeId = action.payload;
-        if (!state.favorites.includes(recipeId)) {
-          state.favorites.push(recipeId);
+        if (!state.user.favorites.includes(recipeId)) {
+          state.user.favorites.push(recipeId);
         }
         state.isLoading = false;
       })
@@ -111,8 +119,12 @@ const slice = createSlice({
 
       .addCase(deleteFavorite.fulfilled, (state, action) => {
         const recipeId = action.payload;
-        state.favorites = state.favorites.filter((id) => id !== recipeId);
+        state.user.favorites = state.user.favorites.filter(
+          (id) => id !== recipeId
+        );
       });
+
+    // .addCase(getFav)
   },
 });
 

@@ -3,9 +3,8 @@
   flex-direction: column;
   gap: 32px;
   background-color: #fff;
-  margin: 0 auto;
+  margin: 48px 0;
 
-  padding: 0 16px;
   max-width: 393px;
   width: 100%;
 }
@@ -70,6 +69,10 @@
   font-size: 16px;
   line-height: 1.55;
   margin: 0;
+}
+
+.ingredientsList {
+  list-style: disc;
 }
 
 .ingredientsList,
@@ -144,8 +147,7 @@
 /* Tablet */
 @media (min-width: 768px) {
   .container {
-    padding: 0 32px;
-    min-width: 768px;
+    max-width: 768px;
     width: 100%;
   }
 
@@ -188,7 +190,7 @@
 /* Desktop */
 @media (min-width: 1440px) {
   .container {
-    min-width: 1225px;
+    max-width: 1440px;
   }
 
   .image {

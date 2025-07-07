@@ -3,8 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addRecipe,
   getOwnRecipes,
+  getFavoriteRecipes,
+
   //  deleteRecipe,
   getRecipes,
+  getRecipeById,
 } from "./operations";
 
 const handlePending = (state) => {
@@ -21,13 +24,27 @@ const slice = createSlice({
   initialState: {
     items: [],
     ownItems: [],
+    favoriteItems: [],
     page: 1,
     totalPages: 1,
     totalItems: 0,
     loading: false,
     error: null,
 
+    currentRecipe: null,
+
     // deletingRecipeId: null,
+  },
+  reducers: {
+    // addFavoriteRecipeToState: ()=>{}
+    deleteFavoriteRecipeFromState: (state, action) => {
+      return {
+        ...state,
+        favoriteItems: state.favoriteItems.filter(
+          (favoriteRecipe) => action.payload !== favoriteRecipe._id
+        ),
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,14 +68,37 @@ const slice = createSlice({
       })
       .addCase(getOwnRecipes.rejected, handleRejected)
 
+      .addCase(getFavoriteRecipes.pending, handlePending)
+      .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
+        state.loading = false;
+        state.favoriteItems = action.payload;
+      })
+      .addCase(getFavoriteRecipes.rejected, handleRejected)
+
       .addCase(addRecipe.pending, (state) => {
         state.error = null;
+        state.loading = true;
       })
       .addCase(addRecipe.fulfilled, (state, action) => {
         state.items.push(action.payload);
+        state.loading = false;
       })
       .addCase(addRecipe.rejected, (state, action) => {
         state.error = action.payload;
+        state.loading = false;
+      })
+
+      .addCase(getRecipeById.pending, (state) => {
+        state.error = null;
+        state.loading = true;
+      })
+      .addCase(getRecipeById.fulfilled, (state, action) => {
+        state.currentRecipe = action.payload;
+        state.loading = false;
+      })
+      .addCase(getRecipeById.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
       });
 
     // .addCase(deleteRecipe.pending, (state, action) => {
@@ -82,3 +122,5 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
+
+export const { deleteFavoriteRecipeFromState } = slice.actions;

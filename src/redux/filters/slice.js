@@ -1,16 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getIngredients, getCategory } from "./operation";
 
+const handlePending = (state) => {
+  state.loading = true;
+  state.error = false;
+};
+const handleRejected = (state) => {
+  state.loading = false;
+  state.error = true;
+};
+
 const filtersSlice = createSlice({
   name: "filters",
   initialState: {
     // searchQuery: "", // пошуковий запит
     // searchedCategory: "", // обрана категорія
     // searchedIngredient: "", // обраний інгредієнт
-    ingredients: [], // всі інгредієнти з бекенду
-    category: [], // всі категорії з бекенду
-    loading: false, // статус завантаження
-    error: null, // помилка
+    ingredients: [],
+    category: [],
+
+    loading: false,
+    error: false,
   },
   // reducers: {
   //   // changeCategoryFilter(state, action) {
@@ -31,32 +41,19 @@ const filtersSlice = createSlice({
   // },
   extraReducers: (builder) => {
     builder
-      //  Отримання інгредієнтів
-      .addCase(getIngredients.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      .addCase(getIngredients.pending, handlePending)
       .addCase(getIngredients.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingIngredientsAndCategories = false;
         state.ingredients = action.payload;
       })
-      .addCase(getIngredients.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      //  Отримання категорій
-      .addCase(getCategory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      .addCase(getIngredients.rejected, handleRejected)
+
+      .addCase(getCategory.pending, handlePending)
       .addCase(getCategory.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingIngredientsAndCategories = false;
         state.category = action.payload;
       })
-      .addCase(getCategory.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addCase(getCategory.rejected, handleRejected);
   },
 });
 export const {
