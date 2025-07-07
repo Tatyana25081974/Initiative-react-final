@@ -37,7 +37,6 @@ const RegisterForm = () => {
       email: values.email,
       password: values.password,
     };
-    console.log(values);
 
     const res = await dispatch(register(newPayload));
 

@@ -9,12 +9,28 @@ import { selectFavoriteRecipes } from "../../redux/recipes/selectors.js";
 
 // import RecipeCard from "../../components/RecipeCard/RecipeCard.jsx";
 import RecipeList from "../../components/RecipeList/RecipeList.jsx";
+import { refreshUser } from "../../redux/auth/operations.js";
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   try {
+  //     dispatch(getFavoriteRecipes()).unwrap();
+  //   } catch {
+  //     dispatch(refreshUser());
+  //   }
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(getFavoriteRecipes());
+    const handleRefresh = async () => {
+      try {
+        await dispatch(getFavoriteRecipes()).unwrap();
+      } catch {
+        dispatch(refreshUser());
+      }
+    };
+    handleRefresh();
   }, [dispatch]);
 
   const recipes = useSelector(selectFavoriteRecipes);

@@ -99,6 +99,15 @@ const slice = createSlice({
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
 
+        state.isLoggedIn = false;
+
+        state.user = {
+          name: null,
+          email: null,
+          favorites: [],
+          createdAt: null,
+        };
+
         state.accessToken = null;
       })
 
