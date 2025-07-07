@@ -58,18 +58,28 @@
 }
 
 /* іконка */
+
 .logoutButton {
-  background-color: #c58f65;
+  border: none;
+  /* padding: 0; */
+}
+.logoutButton {
+  /* background-color: #c58f65; */
+  background-color: transparent;
   padding: 8px 12px;
+
+  outline: none;
+  border: none;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 16px;
+  /* color: white; */
+  /* font-size: 16px; */
   transition: background-color 0.3s ease;
 }
 
+.logoutButton:focus,
 .logoutButton:hover {
   background-color: #a6754e;
 }
@@ -109,10 +119,11 @@
   gap: 12.5px;
 }
 /* Log Out */
+
 .logoutIcon {
-  display: block;
-  font-size: 20px;
-  line-height: 1;
+  /* display: block; */
+  /* font-size: 20px; */
+  /* line-height: 1; */
   width: 24px;
   height: 24px;
   color: #ffffff;

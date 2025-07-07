@@ -12,9 +12,12 @@ import {
 //   if (!items || !items.data || !Array.isArray(items.data.data)) return [];
 //   return items.data.data;
 // });
-export const selectRecipes = (state) => state.recipes.items;
 
+export const selectRecipes = (state) => state.recipes.items;
 export const selectOwnRecipes = (state) => state.recipes.ownItems;
+export const selectFavoriteRecipes = (state) => state.recipes.favoriteItems;
+
+export const selectCurrentRecipe = (state) => state.recipes.currentRecipe;
 
 export const selectRecipesLoading = (state) => state.recipes.loading;
 

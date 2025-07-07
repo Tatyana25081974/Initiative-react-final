@@ -1,6 +1,9 @@
 import css from "./HeaderModal.module.css";
 import Modal from "react-modal";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  // motion,
+  AnimatePresence,
+} from "framer-motion";
 import { useState } from "react";
 
 import { RxHamburgerMenu } from "react-icons/rx";
