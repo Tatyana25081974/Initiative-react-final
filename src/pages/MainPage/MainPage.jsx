@@ -31,6 +31,7 @@ const MainPage = ({
       <Hero setSearchQuery={setSearchQuery} />
 
       <Filters
+        setPage={setPage}
         searchedIngredient={searchedIngredient}
         setSearchedIngredient={setSearchedIngredient}
         setSearchedCategory={setSearchedCategory}
