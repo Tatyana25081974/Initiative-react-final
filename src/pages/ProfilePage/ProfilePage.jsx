@@ -3,7 +3,7 @@ import css from "./ProfilePage.module.css";
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-// import Section from "../../components/Section/Section";
+import Section from "../../components/Section/Section";
 // import Container from "../../components/Container/Container";
 import ProfileNavigation from "../../components/ProfileNavigation/ProfileNavigation";
 // import Filters from "../../components/Filters/Filters";

@@ -28,7 +28,7 @@ const MainPage = ({
 
   return (
     <div>
-      <Hero setSearchQuery={setSearchQuery} />
+      <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
 
       <Filters
         setPage={setPage}

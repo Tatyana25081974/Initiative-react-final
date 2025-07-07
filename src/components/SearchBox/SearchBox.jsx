@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import css from "./SearchBox.module.css";
 
-export const SearchBox = ({ setSearch }) => {
+export const SearchBox = ({ setPage, setSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleChange = (e) => {
@@ -18,6 +18,8 @@ export const SearchBox = ({ setSearch }) => {
       toast.error("Please enter a recipe name.");
       return;
     }
+
+    setPage(1);
 
     setSearch(searchQuery);
 
