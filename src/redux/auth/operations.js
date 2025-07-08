@@ -17,15 +17,16 @@ export const register = createAsyncThunk("auth/register", async (cred, t) => {
     const { data } = await axios.post("/api/auth/register", cred, {
       withCredentials: true,
     });
-    const user = { name: data.data.user.name, email: data.data.user.email };
+
     setAuthHeader(data.data.accessToken);
-    return { user, accessToken: data.data.accessToken };
+
+    return { user: data.data.user, accessToken: data.data.accessToken };
   } catch (e) {
     if (e.response?.status === 409)
       return t.rejectWithValue("This email is already registered");
     return t.rejectWithValue("Registration failed");
   }
-);
+});
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -76,6 +77,12 @@ export const refreshUser = createAsyncThunk(
     } catch {
       return thunkAPI.rejectWithValue("Token refresh failed");
     }
+  },
+  {
+    condition: (_, thunkAPI) => {
+      const reduxState = thunkAPI.getState();
+      return reduxState.auth.accessToken !== null;
+    },
   }
 );
 

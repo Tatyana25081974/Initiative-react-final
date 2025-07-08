@@ -44,7 +44,7 @@ const HeaderNavigation = ({ userName }) => {
             </NavLink>
             <div className={css.userInfo}>
               <div className={css.avatarCircle}>{firstletterOnName}</div>
-              <span>{userName}</span>
+              <span className={css.userName}>{userName}</span>
             </div>
             <div className={css.separator} />
 

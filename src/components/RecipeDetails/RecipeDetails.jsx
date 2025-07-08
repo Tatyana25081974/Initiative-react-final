@@ -2,7 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import css from "./RecipeDetails.module.css";
 
-import { addFavorite, deleteFavorite } from "../../redux/auth/operations.js";
+import {
+  addFavorite,
+  deleteFavorite,
+  refreshUser,
+} from "../../redux/auth/operations.js";
 import { selectFavorites } from "../../redux/auth/selectors.js";
 import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
 import { getRecipeById } from "../../redux/recipes/operations.js";
@@ -45,7 +49,7 @@ export default function RecipeDetails() {
     instructions,
     category,
     time,
-    calories,
+    cals,
   } = recipe;
 
   const favorite = favorites.includes(id);
@@ -54,17 +58,25 @@ export default function RecipeDetails() {
     try {
       await dispatch(addFavorite(id)).unwrap();
     } catch (error) {
-      openModal();
-      toast.error("Failed to add recipe to favorites. Please try again.");
-      console.error("Failed to add recipes to favorites:", error);
+      try {
+        toast.error("Failed to add recipe to favorites. Please try again.");
+        await dispatch(refreshUser()).unwrap();
+      } catch {
+        openModal();
+        console.error("Failed to add recipes to favorites:", error);
+      }
     }
   };
 
   const handleClickDeleteFavorite = async () => {
     try {
       await dispatch(deleteFavorite(id)).unwrap();
-    } catch (error) {
-      console.error("Unable to remove recipes from favorites:", error);
+    } catch {
+      try {
+        dispatch(refreshUser());
+      } catch (error) {
+        console.error("Unable to remove recipes from favorites:", error);
+      }
     }
   };
 
@@ -87,8 +99,7 @@ export default function RecipeDetails() {
                 <strong>Cooking time:</strong> {time} minutes
               </p>
               <p>
-                <strong>Caloric content:</strong>{" "}
-                {calories ? `~${calories} kcal` : "—"}
+                <strong>Caloric content:</strong> {cals ? `~${cals} kcal` : "—"}
               </p>
             </div>
 
@@ -115,15 +126,17 @@ export default function RecipeDetails() {
             <div className={css.block}>
               <h3>Ingredients</h3>
               <ul className={css.ingredientsList}>
-                {ingredients.map(({ id, measure }) => (
-                  <li key={id}>
-                    {
-                      ingredientList.find((ingredient) => ingredient._id === id)
-                        ?.name
-                    }{" "}
-                    – {measure}
-                  </li>
-                ))}
+                {ingredients.map(({ id, measure }) => {
+                  const ingredient = ingredientList.find(
+                    (item) => item._id === id
+                  );
+                  return (
+                    <li key={id}>
+                      {ingredient ? ingredient.name : "Unknown ingredient"} -
+                      {measure}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 

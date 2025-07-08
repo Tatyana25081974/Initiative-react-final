@@ -99,6 +99,15 @@ const slice = createSlice({
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
 
+        state.isLoggedIn = false;
+
+        state.user = {
+          name: null,
+          email: null,
+          favorites: [],
+          createdAt: null,
+        };
+
         state.accessToken = null;
       })
 
@@ -117,11 +126,19 @@ const slice = createSlice({
         state.error = action.payload;
       })
 
+      .addCase(deleteFavorite.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
+        state.isLoading = false;
         const recipeId = action.payload;
         state.user.favorites = state.user.favorites.filter(
           (id) => id !== recipeId
         );
+      })
+      .addCase(deleteFavorite.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
 
     // .addCase(getFav)

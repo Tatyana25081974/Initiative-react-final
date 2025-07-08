@@ -31,6 +31,11 @@
   transition: border-color 0.3s ease;
 }
 
+.link:hover,
+.link:focus {
+  transform: scale(1.03);
+}
+
 /* Активне посилання */
 .active {
   border-bottom: 1px solid #ffffff;
@@ -128,6 +133,7 @@
   color: #ffffff;
 }
 
+<<<<<<< HEAD
 @media (max-width: 767px) {
   .navigationContainer {
     flex-direction: column;
@@ -259,4 +265,8 @@
   .link {
     font-size: 16px;
   }
+=======
+.userName {
+  text-transform: capitalize;
+>>>>>>> cfaf93392026fd9c5dc4239fc9b7fef6eb4a152b
 }

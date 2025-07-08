@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations.js";
 import { selectRecipes } from "../../redux/recipes/selectors.js";
+// import css from "./MainPage.module.css";
+import Container from "../../components/Container/Container.jsx";
 
 const MainPage = ({
   page,
@@ -29,7 +31,7 @@ const MainPage = ({
   return (
     <div>
       <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
-
+      <h2>Recepies</h2>
       <Filters
         setPage={setPage}
         searchedIngredient={searchedIngredient}

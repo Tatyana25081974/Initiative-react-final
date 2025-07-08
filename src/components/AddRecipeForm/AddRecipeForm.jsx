@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import SyncLoader from "react-spinners/SyncLoader";
 import { useId, useState } from "react";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +9,11 @@ import {
   selectCategory,
   selectIngredients,
 } from "../../redux/filters/selectors.js";
+import { selectIsGlobalLoading } from "../../redux/isGlobalLoading.js";
+import { addRecipe } from "../../redux/recipes/operations.js";
 import cameraIcon from "../../assets/images/addRecipes/camera.svg";
 import deleteIcon from "../../assets/images/addRecipes/delete.svg";
 import Container from "../Container/Container.jsx";
-import { addRecipe } from "../../redux/recipes/operations.js";
-import { loading } from "../../redux/recipes/selectors.js";
 import css from "./AddRecipeForm.module.css";
 
 const AddRecipeForm = () => {
@@ -27,11 +26,11 @@ const AddRecipeForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isLoading = useSelector(loading);
-
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
   const allowedCategories = useSelector(selectCategory);
   const allowedIngredients = useSelector(selectIngredients);
+
+  const isGlobalLoading = useSelector(selectIsGlobalLoading);
 
   const recipeSchema = Yup.object().shape({
     thumb: Yup.mixed()
@@ -546,19 +545,14 @@ const AddRecipeForm = () => {
               <button
                 className={css.submitFormBtn}
                 type="submit"
-                disabled={isLoading}
+                disabled={isGlobalLoading}
               >
-                {isLoading ? "Publishing..." : "Publish Recipe"}
+                {isGlobalLoading ? "Publishing..." : "Publish Recipe"}
               </button>
             </div>
           </Form>
         )}
       </Formik>
-      {isLoading && (
-        <div className={css.loaderOverlay}>
-          <SyncLoader color="#36d7b7" />
-        </div>
-      )}
     </Container>
   );
 };
