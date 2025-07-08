@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
 
           <nav className={css.footer_nav}>
-            <Link to="/profile">Recipes</Link>
+            <Link to="/">Recipes</Link>
             {!isRegisterPage && <Link to="/profile">Account</Link>}
           </nav>
         </div>
