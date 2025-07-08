@@ -23,6 +23,7 @@ import useWindowWidth from "../../utils/useWindowWidth";
 import { selectTotalRecipes } from "../../redux/recipes/selectors.js";
 
 import css from "./Filters.module.css";
+import toast from "react-hot-toast";
 
 const Filters = ({
   setPage,
@@ -42,6 +43,16 @@ const Filters = ({
 
   const [showDropdown, setShowDropdown] = useState(false);
   const isMobile = width < 768;
+
+  useEffect(() => {
+    if (recipesCount === 0) {
+      toast.error("There are no recipes that meet the selected criteria.", {
+        id: "no-recipes-toast",
+      });
+    } else {
+      toast.dismiss("no-recipes-toast");
+    }
+  }, [recipesCount]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
