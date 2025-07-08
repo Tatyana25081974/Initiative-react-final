@@ -118,7 +118,6 @@
   align-items: center;
   gap: 12.5px;
 }
-/* Log Out */
 
 .logoutIcon {
   /* display: block; */
@@ -127,4 +126,137 @@
   width: 24px;
   height: 24px;
   color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navigationContainer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: flex-start;
+  }
+
+  .leftSide,
+  .rightSide {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .link {
+    font-size: 13px;
+    padding-bottom: 1px;
+  }
+
+  .buttonLink {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .addButton {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .logoutButton {
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  .logoutIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .userInfo {
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .avatarCircle {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .userInfoNonAuth {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+/* mobil */
+@media (max-width: 767px) {
+  .navigationContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .leftSide {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .rightSide {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .userInfo {
+    gap: 12px;
+    font-size: 16px;
+  }
+
+  .avatarCircle {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .logoutButton {
+    padding: 0;
+  }
+
+  .logoutIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .addButton {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #a6754e;
+    border-radius: 12px;
+  }
+
+  .userInfoNonAuth {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .buttonLink {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .link {
+    font-size: 16px;
+  }
 }
