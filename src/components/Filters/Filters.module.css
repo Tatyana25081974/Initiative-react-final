@@ -10,6 +10,10 @@
   align-items: flex-end;
   gap: 16px;
   padding: 16px;
+
+  width: 100%;
+  max-width: 342px;
+  margin: 0 auto;
 }
 
 /* Рядок з лічильником та кнопкою Filters */
