@@ -23,7 +23,7 @@ export const SearchBox = ({ setPage, setSearch }) => {
 
     setSearch(searchQuery);
 
-    // setSearchQuery("");
+    setSearchQuery("");
   };
 
   return (
