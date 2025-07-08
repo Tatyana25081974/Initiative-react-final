@@ -133,7 +133,6 @@
   color: #ffffff;
 }
 
-<<<<<<< HEAD
 @media (max-width: 767px) {
   .navigationContainer {
     flex-direction: column;
@@ -265,8 +264,4 @@
   .link {
     font-size: 16px;
   }
-=======
-.userName {
-  text-transform: capitalize;
->>>>>>> cfaf93392026fd9c5dc4239fc9b7fef6eb4a152b
 }
