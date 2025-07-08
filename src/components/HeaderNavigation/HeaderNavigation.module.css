@@ -31,6 +31,11 @@
   transition: border-color 0.3s ease;
 }
 
+.link:hover,
+.link:focus {
+  transform: scale(1.03);
+}
+
 /* Активне посилання */
 .active {
   border-bottom: 1px solid #ffffff;
