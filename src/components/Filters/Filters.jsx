@@ -89,7 +89,7 @@ const Filters = ({
         <>
           {/* Верхній рядок: лічильник + кнопка Filters */}
           <div className={css.topBar}>
-            <p className={css.recipesCount}>{recipesCount} recipes found</p>
+            <p className={css.recipesCount}>{recipesCount} recipes</p>
 
             <button
               onClick={() => setShowDropdown(!showDropdown)}
@@ -138,7 +138,7 @@ const Filters = ({
       ) : (
         <>
           {/* Десктоп: фільтри завжди видимі, горизонтальні */}
-          <p className={css.recipesCount}>{recipesCount} recipes found</p>
+          <p className={css.recipesCount}>{recipesCount} recipes</p>
 
           <div className={css.filtersContainer}>
             <select
