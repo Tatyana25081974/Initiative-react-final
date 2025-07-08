@@ -19,6 +19,7 @@ import {
   selectLoadingIngredientsAndCategories,
 } from "../redux/filters/selectors.js";
 import { NetworkError } from "../components/NetworkError/NetworkError.jsx";
+import { selectIsGlobalLoading } from "../redux/isGlobalLoading.js";
 
 Modal.setAppElement("#root");
 
@@ -53,6 +54,8 @@ const App = () => {
   const [searchedCategory, setSearchedCategory] = useState("");
 
   const isRefreshing = useSelector(selectIsRefreshing);
+
+  const isGlobalLoading = useSelector(selectIsGlobalLoading);
 
   useEffect(() => {
     dispatch(getCategory());
@@ -147,6 +150,25 @@ const App = () => {
       </Layout>
 
       <Toaster position="top-center" toastOptions={{ duration: 6000 }} />
+
+      {isGlobalLoading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0,0,0,0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <SyncLoader color="#36d7b7" />
+        </div>
+      )}
     </>
   );
 };
