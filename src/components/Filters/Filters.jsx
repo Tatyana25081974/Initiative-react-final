@@ -44,15 +44,21 @@ const Filters = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const isMobile = width < 768;
 
+  const [wasFetched, setWasFetched] = useState(false);
+
   useEffect(() => {
-    if (recipesCount === 0) {
+    if (!wasFetched && recipesCount !== 0) {
+      setWasFetched(true);
+    }
+
+    if (wasFetched && recipesCount === 0) {
       toast.error("There are no recipes that meet the selected criteria.", {
         id: "no-recipes-toast",
       });
     } else {
       toast.dismiss("no-recipes-toast");
     }
-  }, [recipesCount]);
+  }, [recipesCount, wasFetched]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
