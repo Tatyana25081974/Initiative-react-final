@@ -31,7 +31,7 @@ const MainPage = ({
   return (
     <div>
       <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
-      <h2>Recepies</h2>
+      <h2 id="recepies">Recepies</h2>
       <Filters
         setPage={setPage}
         searchedIngredient={searchedIngredient}
