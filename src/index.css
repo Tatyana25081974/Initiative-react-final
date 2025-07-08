@@ -56,6 +56,9 @@ img {
 .modal-open {
   overflow: hidden;
 }
+body.ReactModal__Body--open {
+  overflow: hidden;
+}
 
 .CustomOverlay {
   position: fixed;

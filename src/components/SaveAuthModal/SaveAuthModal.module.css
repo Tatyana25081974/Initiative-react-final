@@ -92,23 +92,22 @@
 }
 
 /*  Мобильна версія (362x341) */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 393px) {
   .modal {
     width: 362px;
-    height: 341px;
+    height: auto;
     padding: 56px 32px;
   }
-    .loginBtn,
-    .registerBtn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
+  .buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 }
 
 /* Планшет і вище: 420x277 */
-@media screen and (min-width: 481px) {
+@media screen and (min-width: 768px) {
   .modal {
     width: 420px;
     height: 277px;
