@@ -1,4 +1,4 @@
-import css from "./NotFoundRecipe.modue.css";
+import css from "./NotFoundRecipe.module.css";
 
 export default function NotFound() {
   return (
