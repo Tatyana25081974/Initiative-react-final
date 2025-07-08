@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations.js";
 import { selectRecipes } from "../../redux/recipes/selectors.js";
-import css from "./MainPage.module.css";
-import Container from "../../components/Container/Container.jsx";
 
 const MainPage = ({
   page,
@@ -29,25 +27,22 @@ const MainPage = ({
   const recipes = useSelector(selectRecipes);
 
   return (
-    <>
-      <Hero setSearchQuery={setSearchQuery} />
-      <Container>
-        <div className={css.wrapper}>
-          <h2>Recepies</h2>
-          <Filters
-            searchedIngredient={searchedIngredient}
-            setSearchedIngredient={setSearchedIngredient}
-            setSearchedCategory={setSearchedCategory}
-            searchedCategory={searchedCategory}
-            setSearchQuery={setSearchQuery}
-          />
+    <div>
+      <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
 
-          <RecipeList recipes={recipes} />
+      <Filters
+        setPage={setPage}
+        searchedIngredient={searchedIngredient}
+        setSearchedIngredient={setSearchedIngredient}
+        setSearchedCategory={setSearchedCategory}
+        searchedCategory={searchedCategory}
+        setSearchQuery={setSearchQuery}
+      />
 
-          <LoadMoreBtn page={page} setPage={setPage} />
-        </div>
-      </Container>
-    </>
+      <RecipeList recipes={recipes} />
+
+      <LoadMoreBtn page={page} setPage={setPage} />
+    </div>
   );
 };
 export default MainPage;
