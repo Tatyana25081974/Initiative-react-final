@@ -81,3 +81,6 @@ export const selectTotalPages = (state) => {
 };
 
 export const loading = (state) => state.recipes.loading;
+
+export const selectRecipeById = (id) => (state) =>
+  state.recipes.items.find((item) => item._id === id);
