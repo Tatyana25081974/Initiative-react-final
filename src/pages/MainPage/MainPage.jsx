@@ -31,9 +31,10 @@ const MainPage = ({
   return (
     <>
       <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
-      <Container>
+
+    <Container>
         <div className={css.wrapper}>
-          <h2>Recepies</h2>
+          <h2 id="recepies">Recepies</h2>
           <Filters
             setPage={setPage}
             searchedIngredient={searchedIngredient}
@@ -42,6 +43,7 @@ const MainPage = ({
             searchedCategory={searchedCategory}
             setSearchQuery={setSearchQuery}
           />
+
 
           <RecipeList recipes={recipes} />
 
