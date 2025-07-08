@@ -15,6 +15,7 @@ import cameraIcon from "../../assets/images/addRecipes/camera.svg";
 import deleteIcon from "../../assets/images/addRecipes/delete.svg";
 import Container from "../Container/Container.jsx";
 import css from "./AddRecipeForm.module.css";
+import { refreshUser } from "../../redux/auth/operations.js";
 
 const AddRecipeForm = () => {
   const [preview, setPreview] = useState(null);
@@ -91,7 +92,9 @@ const AddRecipeForm = () => {
   const handleSubmit = async (values) => {
     const formData = new FormData();
 
-    formData.append("thumb", values.thumb);
+    if (values.thumb) {
+      formData.append("thumb", values.thumb);
+    }
 
     formData.append("title", values.title.toLowerCase().trim());
     formData.append("description", values.description.toLowerCase().trim());
@@ -116,8 +119,11 @@ const AddRecipeForm = () => {
         `Contact ${response.data.title} has successfully been added.`
       );
       navigate(`/recipes/${response.data._id}`);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      if (error === "Access token expired") {
+        dispatch(refreshUser());
+      }
+      console.log(error);
       toast.error(
         "Ooops. Something went wrong. Please reload the page and try again."
       );

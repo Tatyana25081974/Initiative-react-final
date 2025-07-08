@@ -73,8 +73,9 @@ export const addRecipe = createAsyncThunk(
     try {
       const response = await axios.post("/api/recipes", newRecipe);
       return response.data;
-    } catch {
-      return thunkAPI.rejectWithValue("Pls try reloading the page.");
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.data.message);
+      // return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }
   }
 );
