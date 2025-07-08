@@ -128,3 +128,7 @@
   height: 24px;
   color: #ffffff;
 }
+
+.userName {
+  text-transform: capitalize;
+}

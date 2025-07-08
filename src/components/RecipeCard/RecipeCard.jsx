@@ -21,7 +21,7 @@ import css from "./RecipeCard.module.css";
 export default function RecipeCard({ favorite, recipe }) {
   const dispatch = useDispatch();
 
-  const { _id, title, description, thumb, time, calories } = recipe;
+  const { _id, title, description, thumb, time, cals } = recipe;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -62,9 +62,7 @@ export default function RecipeCard({ favorite, recipe }) {
       </div>
       <div>
         <p className={css.description}>{description}</p>
-        <p className={css.calories}>
-          {calories ? `~${calories} cals` : " — cals"}
-        </p>
+        <p className={css.calories}>{cals ? `~${cals} cals` : " — cals"}</p>
       </div>
       <div className={css.actions}>
         <LearnMoreBtn recipeId={_id} />

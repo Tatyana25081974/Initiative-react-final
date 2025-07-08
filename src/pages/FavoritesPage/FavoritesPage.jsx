@@ -10,6 +10,8 @@ import { selectFavoriteRecipes } from "../../redux/recipes/selectors.js";
 // import RecipeCard from "../../components/RecipeCard/RecipeCard.jsx";
 import RecipeList from "../../components/RecipeList/RecipeList.jsx";
 import { refreshUser } from "../../redux/auth/operations.js";
+import SyncLoader from "react-spinners/SyncLoader";
+import { selectIsGlobalLoading } from "../../redux/isGlobalLoading.js";
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
@@ -35,12 +37,16 @@ const FavoritesPage = () => {
 
   const recipes = useSelector(selectFavoriteRecipes);
 
+  const isGlobalLoading = useSelector(selectIsGlobalLoading);
+
   return (
     <>
-      {recipes.length === 0 ? (
-        <p className={css.noSavedRecipesText}>You don't have saved recipes</p>
-      ) : (
-        <RecipeList recipes={recipes} />
+      {
+        recipes.length === 0 && !isGlobalLoading ? (
+          <p className={css.noSavedRecipesText}>You don't have own recipes.</p>
+        ) : (
+          <RecipeList recipes={recipes} />
+        )
         // <ul className={css.list}>
         //   {recipes.map((recipe) => (
         //     <li key={recipe._id}>
@@ -48,7 +54,7 @@ const FavoritesPage = () => {
         //     </li>
         //   ))}
         // </ul>
-      )}
+      }
     </>
   );
 };

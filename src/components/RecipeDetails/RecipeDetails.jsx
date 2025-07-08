@@ -49,7 +49,7 @@ export default function RecipeDetails() {
     instructions,
     category,
     time,
-    calories,
+    cals,
   } = recipe;
 
   const favorite = favorites.includes(id);
@@ -99,8 +99,7 @@ export default function RecipeDetails() {
                 <strong>Cooking time:</strong> {time} minutes
               </p>
               <p>
-                <strong>Caloric content:</strong>{" "}
-                {calories ? `~${calories} kcal` : "—"}
+                <strong>Caloric content:</strong> {cals ? `~${cals} kcal` : "—"}
               </p>
             </div>
 
