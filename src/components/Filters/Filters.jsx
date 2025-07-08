@@ -25,6 +25,7 @@ import { selectTotalRecipes } from "../../redux/recipes/selectors.js";
 import css from "./Filters.module.css";
 
 const Filters = ({
+  setPage,
   searchedIngredient,
   setSearchedIngredient,
   searchedCategory,
@@ -68,6 +69,7 @@ const Filters = ({
 
   // Зміна категорії
   const handleCategoryChange = (e) => {
+    setPage(1);
     const searchedCategoryValue = e.target.value;
     // dispatch(changeCategoryFilter(searchedCategoryValue));
     setSearchedCategory(searchedCategoryValue);
@@ -75,6 +77,7 @@ const Filters = ({
 
   // Зміна інгредієнта
   const handleIngredientChange = (e) => {
+    setPage(1);
     const searchedIngredientValue = e.target.value;
     // dispatch(changeIngredientFilter(searchedIngredientValue));
     setSearchedIngredient(searchedIngredientValue);

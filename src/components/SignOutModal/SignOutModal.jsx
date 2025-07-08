@@ -37,7 +37,7 @@ const SignOutModal = ({ isOpen, onRequestClose }) => {
       <button className={css.closeBtn} onClick={onRequestClose}>
         <RxCross2 size={24} />
       </button>
-      <h2 className={css.title}>Are you sure?</h2>
+      <h2 className={css.title}>Are you shure?</h2>
       <p className={css.text}>We will miss you!</p>
       <div className={css.btnGroup}>
         <button className={css.logoutBtn} onClick={handleLogout}>

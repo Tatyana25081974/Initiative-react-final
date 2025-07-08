@@ -15,7 +15,7 @@
   position: relative;
   width: 420px;
   height: 277px;
-  background-color: #fff;
+  background-color: #f5f5dc;
   border-radius: 20px;
   padding: 56px 32px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -32,15 +32,16 @@
 }
 
 .title {
-  font-size: 20px;
+  font-size: 32px;
   font-weight: 600;
-  color: #1e1e1e;
+  color: #000;
   margin-bottom: 14px;
 }
 
 .subtitle {
-  font-size: 14px;
-  color: #1e1e1e;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
   margin-bottom: 24px;
 }
 
@@ -54,7 +55,7 @@
 .registerBtn {
   flex: 1;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   border: none;
@@ -62,11 +63,30 @@
 }
 
 .loginBtn {
-  background-color: #f6f6f6;
-  color: #1e1e1e;
+  border: 1px solid 000;
+  border-radius: 8px;
+  padding: 8px;
+  width: 164px;
+  height: 36px;
+  background-color: transparent;
+
+  outline: none;
+  border: 1px solid #000;
+  color: #000;
+
+  transition: transform 250ms ease-in-out;
+}
+
+.loginBtn:hover,
+.loginBtn:focus {
+  transform: scale(0.95);
 }
 
 .registerBtn {
+  border-radius: 8px;
+  padding: 8px;
+  width: 164px;
+  height: 36px;
   background-color: #9b6c43;
   color: #fff;
 }
@@ -78,6 +98,13 @@
     height: 341px;
     padding: 56px 32px;
   }
+    .loginBtn,
+    .registerBtn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+}
 }
 
 /* Планшет і вище: 420x277 */

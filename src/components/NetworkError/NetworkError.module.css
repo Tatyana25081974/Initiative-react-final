@@ -1,0 +1,34 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  background-color: #3d2218;
+}
+
+.errorBox {
+  border: 4px solid #000;
+  border-radius: 20px;
+  background: #9b643d;
+
+  padding: 16px 32px;
+}
+
+.mainText {
+  /* padding: 16px 32px; */
+
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.subText {
+  /* padding: 16px 32px; */
+
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+}

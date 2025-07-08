@@ -11,3 +11,8 @@
   font-weight: 600;
   font-size: 18px;
 }
+
+.active {
+  border-bottom: 2px solid #000;
+  padding: 0px 0px 4px 0px;
+}

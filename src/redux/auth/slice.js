@@ -84,28 +84,31 @@ const slice = createSlice({
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.isRefreshing = false;
 
-        if (action.payload === "Access token expired") {
-          state.user = { name: null, email: null };
+        const user = action.payload.user;
 
-          state.accessToken = null;
+        state.user = {
+          name: user.name,
+          email: user.email,
+          favorites: user.favorites,
+          createdAt: user.createdAt,
+        };
+        state.accessToken = action.payload.accessToken;
 
-          state.isLoggedIn = false;
-        } else {
-          const user = action.payload.user;
-
-          state.user = {
-            name: user.name,
-            email: user.email,
-            favorites: user.favorites,
-            createdAt: user.createdAt,
-          };
-          state.accessToken = action.payload.accessToken;
-
-          state.isLoggedIn = true;
-        }
+        state.isLoggedIn = true;
       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
+
+        state.isLoggedIn = false;
+
+        state.user = {
+          name: null,
+          email: null,
+          favorites: [],
+          createdAt: null,
+        };
+
+        state.accessToken = null;
       })
 
       .addCase(addFavorite.pending, (state) => {

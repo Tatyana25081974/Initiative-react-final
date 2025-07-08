@@ -12,23 +12,21 @@ const setAuthHeader = (token) => {
 };
 const clearAuthHeader = () => setAuthHeader(null);
 
-export const register = createAsyncThunk(
-  "auth/register",
-  async (credentials, thunkAPI) => {
-    try {
-      const { data } = await axios.post("/api/auth/register", credentials, {
-        withCredentials: true,
-      });
-      const user = { name: data.data.user.name, email: data.data.user.email };
-      setAuthHeader(data.data.accessToken);
-      return { user, accessToken: data.data.accessToken };
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Registration failed"
-      );
-    }
+export const register = createAsyncThunk("auth/register", async (cred, t) => {
+  try {
+    const { data } = await axios.post("/api/auth/register", cred, {
+      withCredentials: true,
+    });
+
+    setAuthHeader(data.data.accessToken);
+
+    return { user: data.data.user, accessToken: data.data.accessToken };
+  } catch (e) {
+    if (e.response?.status === 409)
+      return t.rejectWithValue("This email is already registered");
+    return t.rejectWithValue("Registration failed");
   }
-);
+});
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -66,16 +64,10 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
-    // const { accessToken } = thunkAPI.getState().auth;
-    // if (!accessToken) return thunkAPI.rejectWithValue("No token");
     try {
       const { data } = await axios.post("/api/auth/refresh", null, {
         withCredentials: true,
       });
-
-      if (data?.message === "Access token expired") {
-        return "Access token expired";
-      }
 
       const newToken = data.data.accessToken;
       setAuthHeader(newToken);
@@ -85,8 +77,13 @@ export const refreshUser = createAsyncThunk(
     } catch {
       return thunkAPI.rejectWithValue("Token refresh failed");
     }
+  },
+  {
+    condition: (_, thunkAPI) => {
+      const reduxState = thunkAPI.getState();
+      return reduxState.auth.accessToken !== null;
+    },
   }
-  // { condition: (_, { getState }) => !!getState().auth.accessToken }
 );
 
 export const addFavorite = createAsyncThunk(

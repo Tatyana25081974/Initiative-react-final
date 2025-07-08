@@ -38,10 +38,6 @@ const slice = createSlice({
   reducers: {
     // addFavoriteRecipeToState: ()=>{}
     deleteFavoriteRecipeFromState: (state, action) => {
-      // const newFavoriteItems = state.favoriteItems.filter((favoriteRecipe) => {
-      //   action.payload !== favoriteRecipe._id;
-      // });
-
       return {
         ...state,
         favoriteItems: state.favoriteItems.filter(
@@ -94,12 +90,15 @@ const slice = createSlice({
 
       .addCase(getRecipeById.pending, (state) => {
         state.error = null;
+        state.loading = true;
       })
       .addCase(getRecipeById.fulfilled, (state, action) => {
         state.currentRecipe = action.payload;
+        state.loading = false;
       })
       .addCase(getRecipeById.rejected, (state, action) => {
         state.error = action.payload;
+        state.loading = false;
       });
 
     // .addCase(deleteRecipe.pending, (state, action) => {

@@ -1,17 +1,15 @@
 import css from "./HeaderModal.module.css";
 import Modal from "react-modal";
-import {
-  // motion,
-  AnimatePresence,
-} from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCrossCircled } from "react-icons/rx";
+import { useLocation } from "react-router-dom";
 
 const customStylesModal = {
   overlay: {
-    zIndex: 1000,
+    zIndex: 10,
     backgroundColor: "inherit",
   },
   content: {
@@ -38,6 +36,12 @@ const customStylesModal = {
 
 const HeaderModal = ({ children }) => {
   const [isOpenModal, setisOpenModal] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    setisOpenModal(false);
+  }, [location]);
 
   return (
     <div className={css.wrapperModal}>
@@ -67,30 +71,37 @@ const HeaderModal = ({ children }) => {
         </motion.div>
       </AnimatePresence>
 
-      <Modal
-        isOpen={isOpenModal}
-        style={customStylesModal}
-        bodyOpenClassName="modal-open"
-        overlayClassName="CustomOverlay"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: "-100vh" }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: "-100vh" }}
-          transition={{ duration: 0.3, type: "spring", damping: 20 }}
-          style={{
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "#3d2218",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <div className={css.wrapperBgrMenu}>{children}</div>
-        </motion.div>
-      </Modal>
+      <AnimatePresence>
+        {isOpenModal && (
+          <Modal
+            isOpen={isOpenModal}
+            onRequestClose={() => setisOpenModal(false)}
+            style={customStylesModal}
+            bodyOpenClassName="modal-open"
+            overlayClassName="CustomOverlay"
+            ariaHideApp={false}
+          >
+            <motion.div
+              key="modal-motion"
+              initial={{ opacity: 0, y: "-100vh" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: "-100vh" }}
+              transition={{ duration: 0.4, type: "spring", damping: 20 }}
+              style={{
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "#3d2218",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start",
+                flexDirection: "column",
+              }}
+            >
+              <div className={css.wrapperBgrMenu}>{children}</div>
+            </motion.div>
+          </Modal>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
