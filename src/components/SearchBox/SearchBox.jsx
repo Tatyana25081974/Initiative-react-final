@@ -2,8 +2,12 @@ import { useState } from "react";
 // import toast from "react-hot-toast";
 import css from "./SearchBox.module.css";
 
-export const SearchBox = ({ setPage, setSearch }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+export const SearchBox = ({
+  setPage,
+  setSearch,
+  inputValue,
+  setInputValue,
+}) => {
   const [hasError, setHasError] = useState(false);
 
   // const handleChange = (e) => {
@@ -14,7 +18,7 @@ export const SearchBox = ({ setPage, setSearch }) => {
   // };
   const handleChange = (e) => {
     const value = e.target.value;
-    setSearchQuery(value);
+    setInputValue(value);
 
     if (hasError && value.trim() !== "") {
       setHasError(false);
@@ -23,7 +27,7 @@ export const SearchBox = ({ setPage, setSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const trimmedQuery = searchQuery.trim();
+    const trimmedQuery = inputValue.trim(); //  Працюємо з inputValue
 
     if (trimmedQuery === "") {
       setHasError(true); // Позначити помилку
@@ -32,7 +36,7 @@ export const SearchBox = ({ setPage, setSearch }) => {
     }
 
     setPage(1);
-    setSearch(searchQuery);
+    setSearch(trimmedQuery); // Оновлюємо лише після сабміту
   };
 
   return (
@@ -42,7 +46,7 @@ export const SearchBox = ({ setPage, setSearch }) => {
           <input
             type="text"
             placeholder="Search recipes"
-            value={searchQuery}
+            value={inputValue}
             onChange={handleChange}
             className={`${css.input} ${hasError ? css.inputError : ""}`}
           />
