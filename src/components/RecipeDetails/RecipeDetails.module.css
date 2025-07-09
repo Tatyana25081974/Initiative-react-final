@@ -15,10 +15,22 @@
   gap: 32px;
 }
 
-.image {
+.imageWrapper {
   max-width: 100%;
+  /* height: 276px; */
+  max-height: 276px;
+  background-color: transparent;
   border-radius: 8px;
-  object-fit: cover;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
 .title {
@@ -155,8 +167,15 @@
     flex-direction: column;
   }
 
-  .image {
+  .imageWrapper {
     order: 2;
+    height: 624px;
+    max-height: none;
+  }
+
+  .image {
+    height: 624px;
+    object-fit: cover;
   }
 
   .title {
@@ -193,9 +212,12 @@
     max-width: 1440px;
   }
 
+  .imageWrapper {
+    background-color: #2b2d30;
+  }
+
   .image {
-    max-width: 100%;
-    max-height: none;
+    object-fit: contain;
   }
 
   .content {
