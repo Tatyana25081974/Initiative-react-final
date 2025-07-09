@@ -48,16 +48,39 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
-  try {
-    await axios.post("/api/auth/logout", null, {
-      withCredentials: true,
-    });
+  //на всякий випадок залишаю частину коду, яка була і працювала : хоч і з другого разу, як зауважив ментор
+  // try {
+  //   await axios.post("/api/auth/logout", null, {
+  //     withCredentials: true,
+  //   });
 
+  //   clearAuthHeader();
+  // } catch (error) {
+  //   return thunkAPI.rejectWithValue(
+  //     error.response?.data?.message || "Logout failed"
+  //   );
+  // }
+  try {
     clearAuthHeader();
+    await axios.post("/api/auth/logout", null, { withCredentials: true });
   } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response?.data?.message || "Logout failed"
-    );
+    if (error.response?.status === 401) {
+      try {
+        const { data } = await axios.post("/api/auth/refresh", null, {
+          withCredentials: true,
+        });
+        setAuthHeader(data.data.accessToken);
+        await axios.post("/api/auth/logout", null, { withCredentials: true });
+        clearAuthHeader();
+      } catch {
+        clearAuthHeader();
+        return thunkAPI.rejectWithValue("Logout failed: token expired");
+      }
+    } else {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Logout failed"
+      );
+    }
   }
 });
 
