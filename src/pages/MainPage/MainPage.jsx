@@ -8,6 +8,7 @@ import { getRecipes } from "../../redux/recipes/operations.js";
 import { selectRecipes } from "../../redux/recipes/selectors.js";
 import css from "./MainPage.module.css";
 import Container from "../../components/Container/Container.jsx";
+import { SearchBox } from "../../components/SearchBox/SearchBox";
 
 const MainPage = ({
   page,
@@ -28,11 +29,22 @@ const MainPage = ({
 
   const recipes = useSelector(selectRecipes);
 
+  const handleResetAll = () => {
+    setSearchQuery("");
+    setSearchedIngredient("");
+    setSearchedCategory("");
+    setPage(1);
+  };
+
   return (
     <>
-      <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
+      <Hero
+        setPage={setPage}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
+      />
 
-    <Container>
+      <Container>
         <div className={css.wrapper}>
           <h2 id="recepies">Recepies</h2>
           <Filters
@@ -42,8 +54,8 @@ const MainPage = ({
             setSearchedCategory={setSearchedCategory}
             searchedCategory={searchedCategory}
             setSearchQuery={setSearchQuery}
+            onReset={handleResetAll}
           />
-
 
           <RecipeList recipes={recipes} />
 

@@ -2,8 +2,12 @@ import { useState } from "react";
 // import toast from "react-hot-toast";
 import css from "./SearchBox.module.css";
 
-export const SearchBox = ({ setPage, setSearch }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+export const SearchBox = ({
+  setPage,
+  setSearch,
+  searchQuery,
+  setSearchQuery,
+}) => {
   const [hasError, setHasError] = useState(false);
 
   // const handleChange = (e) => {
