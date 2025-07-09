@@ -52,6 +52,31 @@
   color: #999;
 }
 
+.inputError {
+  border: 2px solid #d20000;
+  background-color: #fff0f0;
+  box-shadow: none;
+}
+.inputGroup {
+  /* display: flex;
+  flex-direction: column; */
+  width: 100%;
+  position: relative;
+}
+
+.errorText {
+  position: absolute;
+  bottom: -18px; /* розташувати нижче за інпут */
+  left: 0;
+  font-size: 14px;
+  color: #d20000;
+}
+
+/* .errorVisible {
+  max-height: 20px;
+  opacity: 1;
+} */
+
 /* === Tablet (768–1439px) === */
 @media screen and (min-width: 768px) {
   .form {
