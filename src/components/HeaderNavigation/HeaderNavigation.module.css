@@ -44,6 +44,7 @@
 
 /* Кнопка "Register" і "My Profile" */
 .buttonLink {
+  width: 100%;
   background-color: #9b6c43;
   color: white;
   padding: 8px 16px;
@@ -141,7 +142,7 @@
 @media (max-width: 767px) {
   .navigationContainer {
     flex-direction: column;
-    gap: 36pxpx;
+    gap: 36px;
     align-items: flex-start;
   }
 
@@ -159,6 +160,7 @@
   }
 
   .buttonLink {
+    width: 100%;
     font-size: 13px;
     padding: 6px 12px;
   }
