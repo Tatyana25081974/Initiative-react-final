@@ -5,8 +5,8 @@ import css from "./SearchBox.module.css";
 export const SearchBox = ({
   setPage,
   setSearch,
-  searchQuery,
-  setSearchQuery,
+  inputValue,
+  setInputValue,
 }) => {
   const [hasError, setHasError] = useState(false);
 
@@ -18,7 +18,7 @@ export const SearchBox = ({
   // };
   const handleChange = (e) => {
     const value = e.target.value;
-    setSearchQuery(value);
+    setInputValue(value);
 
     if (hasError && value.trim() !== "") {
       setHasError(false);
@@ -27,7 +27,7 @@ export const SearchBox = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const trimmedQuery = searchQuery.trim();
+    const trimmedQuery = inputValue.trim(); //  Працюємо з inputValue
 
     if (trimmedQuery === "") {
       setHasError(true); // Позначити помилку
@@ -36,7 +36,7 @@ export const SearchBox = ({
     }
 
     setPage(1);
-    setSearch(searchQuery);
+    setSearch(trimmedQuery); // Оновлюємо лише після сабміту
   };
 
   return (
@@ -46,7 +46,7 @@ export const SearchBox = ({
           <input
             type="text"
             placeholder="Search recipes"
-            value={searchQuery}
+            value={inputValue}
             onChange={handleChange}
             className={`${css.input} ${hasError ? css.inputError : ""}`}
           />

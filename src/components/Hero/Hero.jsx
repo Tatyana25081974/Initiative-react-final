@@ -2,7 +2,7 @@ import Container from "../Container/Container.jsx";
 import { SearchBox } from "../SearchBox/SearchBox.jsx";
 import css from "./Hero.module.css";
 
-const Hero = ({ setPage, searchQuery, setSearchQuery }) => {
+const Hero = ({ setPage, setSearchQuery, inputValue, setInputValue }) => {
   return (
     <section className={css.hero}>
       <Container className={css.container}>
@@ -14,8 +14,8 @@ const Hero = ({ setPage, searchQuery, setSearchQuery }) => {
           <SearchBox
             setPage={setPage}
             setSearch={setSearchQuery}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
           />
         </div>
       </Container>

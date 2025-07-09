@@ -2,7 +2,7 @@ import Hero from "../../components/Hero/Hero.jsx";
 import Filters from "../../components/Filters/Filters";
 import RecipeList from "../../components/RecipeList/RecipeList";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations.js";
 import { selectRecipes } from "../../redux/recipes/selectors.js";
@@ -28,10 +28,12 @@ const MainPage = ({
   }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
 
   const recipes = useSelector(selectRecipes);
+  const [inputValue, setInputValue] = useState("");
 
   const handleResetAll = () => {
     setSearchQuery("");
     setSearchedIngredient("");
+    setInputValue("");
     setSearchedCategory("");
     setPage(1);
   };
@@ -42,6 +44,8 @@ const MainPage = ({
         setPage={setPage}
         setSearchQuery={setSearchQuery}
         searchQuery={searchQuery}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
       />
 
       <Container>
