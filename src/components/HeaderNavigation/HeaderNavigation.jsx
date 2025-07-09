@@ -42,9 +42,15 @@ const HeaderNavigation = ({ userName }) => {
             <NavLink to="/add-recipe" className={css.addButton}>
               Add Recepy
             </NavLink>
-            <div className={css.userInfo}>
-              <div className={css.avatarCircle}>{firstletterOnName}</div>
-              <span className={css.userName}>{userName}</span>
+            <div className={css.wrapper}>
+              <div className={css.userInfo}>
+                <div className={css.avatarCircle}>{firstletterOnName}</div>
+                <span className={css.userName}>{userName}</span>
+              </div>
+              {/* <div className={css.separator} /> */}
+              <button className={css.logoutButton} onClick={handleClick}>
+                <IoIosLogOut className={css.logoutIcon} />
+              </button>
             </div>
             <div className={css.separator} />
 

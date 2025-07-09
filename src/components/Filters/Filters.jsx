@@ -32,6 +32,7 @@ const Filters = ({
   searchedCategory,
   setSearchedCategory,
   setSearchQuery,
+  onReset,
 }) => {
   // const dispatch = useDispatch();
   const width = useWindowWidth();
@@ -78,12 +79,16 @@ const Filters = ({
 
   // Скидання фільтрів
   const handleReset = () => {
-    setSearchQuery("");
-    setSearchedIngredient("");
-    setSearchedCategory("");
-    // dispatch(resetFilters());
+    if (onReset) {
+      onReset(); 
+    } else {
+      // fallback, якщо onReset не передали
+      setSearchQuery("");
+      setSearchedIngredient("");
+      setSearchedCategory("");
+      setPage(1);
+    }
   };
-
   // Зміна категорії
   const handleCategoryChange = (e) => {
     setPage(1);
