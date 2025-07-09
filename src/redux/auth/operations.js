@@ -55,6 +55,10 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 
     clearAuthHeader();
   } catch (error) {
+    await axios.post("/api/auth/logout", null, {
+      withCredentials: true,
+    });
+    clearAuthHeader();
     return thunkAPI.rejectWithValue(
       error.response?.data?.message || "Logout failed"
     );
@@ -93,7 +97,8 @@ export const addFavorite = createAsyncThunk(
       await axios.post(`/api/recipes/addFavorite/${recipeId}`);
       return recipeId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.data.message);
     }
   }
 );
@@ -105,7 +110,7 @@ export const deleteFavorite = createAsyncThunk(
       await axios.post(`/api/recipes/deleteFavorite/${recipeId}`);
       return recipeId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data.data.message);
     }
   }
 );

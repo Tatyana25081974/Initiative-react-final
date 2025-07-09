@@ -10,4 +10,7 @@ export const selectIsAuthLoading = (state) => state.auth.isAuthLoading;
 
 export const selectIsLoading = (state) => state.auth.isLoading;
 
+export const selectisLoadingButtonFavorite = (state) =>
+  state.auth.isLoadingButtonFavorite;
+
 // export const selectAuthError = (state) => state.auth.authError;
