@@ -34,6 +34,8 @@ const slice = createSlice({
     currentRecipe: null,
 
     // deletingRecipeId: null,
+
+    currentRecipeLoading: false,
   },
   reducers: {
     // addFavoriteRecipeToState: ()=>{}
@@ -80,7 +82,7 @@ const slice = createSlice({
         state.loading = true;
       })
       .addCase(addRecipe.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+        state.items.push(action.payload.data);
         state.loading = false;
       })
       .addCase(addRecipe.rejected, (state, action) => {
@@ -91,14 +93,23 @@ const slice = createSlice({
       .addCase(getRecipeById.pending, (state) => {
         state.error = null;
         state.loading = true;
+        state.currentRecipeLoading = true;
       })
       .addCase(getRecipeById.fulfilled, (state, action) => {
         state.currentRecipe = action.payload;
+        const isExists = state.items.some(
+          (recipe) => recipe._id === action.payload._id
+        );
+        if (!isExists) {
+          state.items.push(action.payload);
+        }
         state.loading = false;
+        state.currentRecipeLoading = false;
       })
       .addCase(getRecipeById.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+        state.currentRecipeLoading = false;
       });
 
     // .addCase(deleteRecipe.pending, (state, action) => {
