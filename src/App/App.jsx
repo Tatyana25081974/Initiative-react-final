@@ -88,7 +88,7 @@ const App = () => {
   // return isRefreshing ? (
   return isRefreshing && loadingIngredientsAndCategories ? (
     <div style={overlayStyle}>
-      <SyncLoader color="#36d7b7" />
+      <SyncLoader color="#ffffff" />
     </div>
   ) : errorIngredientsAndCategories ? (
     <NetworkError />
@@ -166,7 +166,7 @@ const App = () => {
             zIndex: 9999,
           }}
         >
-          <SyncLoader color="#36d7b7" />
+          <SyncLoader color="#3d2218" />
         </div>
       )}
     </>
