@@ -63,7 +63,7 @@ const RegisterForm = () => {
         validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, isValid }) => (
+        {({ isSubmitting }) => (
           <Form className={css.form}>
             {/*   Name  */}
             <label className={css.label}>
@@ -171,7 +171,7 @@ const RegisterForm = () => {
             {/*  Submit */}
             <button
               type="submit"
-              disabled={isSubmitting || isAuthLoading || !isValid}
+              disabled={isSubmitting || isAuthLoading}
               className={css.submit}
             >
               {isAuthLoading ? "Loading…" : "Create account"}
