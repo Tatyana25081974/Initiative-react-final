@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRecipes } from "../../redux/recipes/operations.js";
 import { selectRecipes } from "../../redux/recipes/selectors.js";
-// import css from "./MainPage.module.css";
+import css from "./MainPage.module.css";
 import Container from "../../components/Container/Container.jsx";
 
 const MainPage = ({
@@ -29,22 +29,28 @@ const MainPage = ({
   const recipes = useSelector(selectRecipes);
 
   return (
-    <div>
+    <>
       <Hero setPage={setPage} setSearchQuery={setSearchQuery} />
-      <h2>Recepies</h2>
-      <Filters
-        setPage={setPage}
-        searchedIngredient={searchedIngredient}
-        setSearchedIngredient={setSearchedIngredient}
-        setSearchedCategory={setSearchedCategory}
-        searchedCategory={searchedCategory}
-        setSearchQuery={setSearchQuery}
-      />
 
-      <RecipeList recipes={recipes} />
+    <Container>
+        <div className={css.wrapper}>
+          <h2 id="recepies">Recepies</h2>
+          <Filters
+            setPage={setPage}
+            searchedIngredient={searchedIngredient}
+            setSearchedIngredient={setSearchedIngredient}
+            setSearchedCategory={setSearchedCategory}
+            searchedCategory={searchedCategory}
+            setSearchQuery={setSearchQuery}
+          />
 
-      <LoadMoreBtn page={page} setPage={setPage} />
-    </div>
+
+          <RecipeList recipes={recipes} />
+
+          <LoadMoreBtn page={page} setPage={setPage} />
+        </div>
+      </Container>
+    </>
   );
 };
 export default MainPage;

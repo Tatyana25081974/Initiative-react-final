@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import css from "./Footer.module.css";
 import Container from "../Container/Container.jsx";
+import { HashLink } from "react-router-hash-link";
 
 const Footer = () => {
   const location = useLocation();
@@ -10,7 +11,14 @@ const Footer = () => {
       <Container>
         <div className={css.container}>
           <div className={css.footer__logo}>
-            <Link to="/">
+            <Link
+              to="/"
+              onClick={() => {
+                if (location.pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               <img
                 src="/images/Logo.png"
                 alt="Logo.png"
@@ -27,7 +35,9 @@ const Footer = () => {
           </div>
 
           <nav className={css.footer_nav}>
-            <Link to="/">Recipes</Link>
+            <HashLink smooth to="/#recepies">
+              Recipes
+            </HashLink>
             {!isRegisterPage && <Link to="/profile">Account</Link>}
           </nav>
         </div>
