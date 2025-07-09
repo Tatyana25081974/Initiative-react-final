@@ -1,7 +1,7 @@
 /* Overlay styles */
 .overlay {
   background-color: rgba(17, 17, 17, 0.6);
-  
+
   position: fixed;
   top: 0;
   left: 0;
@@ -18,9 +18,10 @@
   position: relative;
   background-color: #f5f5dc;
   border-radius: 32px;
-  padding: 56px 32px;
+  padding: auto;
   width: 100%;
   max-width: 420px;
+  height: 236px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   outline: none;
 }
@@ -32,7 +33,6 @@
   color: #000;
   text-align: center;
   margin-bottom: 8px;
-  
 }
 
 .text {
@@ -54,7 +54,7 @@
   width: 164px;
   height: 44px;
   font-size: 16px;
-    background-color: #ce1504; /* Red */
+  background-color: #ce1504; /* Red */
   color: white;
   border: none;
   border-radius: 8px;
@@ -98,9 +98,10 @@
 @media screen and (max-width: 393px) {
   .modal {
     max-width: 362px;
-    height: 316px;
+    height: auto;
     padding: 40px 24px;
-  } .btnGroup {
+  }
+  .btnGroup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -112,14 +113,6 @@
   .modal {
     max-width: 420px;
     height: 236px;
-    padding: 48px 32px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .modal {
-    width: 420px;
-    height: 336px;
-    padding: 56px 32px;
+    padding: auto;
   }
 }
