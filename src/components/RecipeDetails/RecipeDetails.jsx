@@ -84,7 +84,9 @@ export default function RecipeDetails() {
     <Container>
       <div className={css.container}>
         <div className={css.headerSection}>
-          <img className={css.image} src={thumb} alt={title} />
+          <div className={css.imageWrapper}>
+            <img className={css.image} src={thumb} alt={title} />
+          </div>
           <h2 className={css.title}>{title}</h2>
         </div>
 
