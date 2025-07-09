@@ -138,6 +138,10 @@
   color: #ffffff;
 }
 
+.userName {
+  text-transform: capitalize;
+}
+
 @media (max-width: 767px) {
   .navigationContainer {
     flex-direction: column;
@@ -205,6 +209,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
+
   }
 
   .leftSide {
