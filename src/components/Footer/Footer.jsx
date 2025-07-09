@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import css from "./Footer.module.css";
 import Container from "../Container/Container.jsx";
 import { HashLink } from "react-router-hash-link";
+import Logo from "../Logo/Logo.jsx";
 
 const Footer = () => {
   const location = useLocation();
@@ -11,7 +12,7 @@ const Footer = () => {
       <Container>
         <div className={css.container}>
           <div className={css.footer__logo}>
-            <Link
+            {/* <Link
               to="/"
               onClick={() => {
                 if (location.pathname === "/") {
@@ -24,7 +25,8 @@ const Footer = () => {
                 alt="Logo.png"
                 className={css.logo_img}
               />
-            </Link>
+            </Link> */}
+            <Logo />
           </div>
 
           <div className={css.footer_copyright}>
