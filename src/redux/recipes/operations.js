@@ -33,10 +33,30 @@ export const getRecipes = createAsyncThunk(
 
 export const getOwnRecipes = createAsyncThunk(
   "recipes/getOwnRecipes",
-  async (_, thunkAPI) => {
+  async (params, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/recipes/ownRecipes");
-      return data.data;
+      const { page, searchQuery, searchedIngredient, searchedCategory } =
+        params;
+
+      const queryParams = new URLSearchParams();
+      queryParams.append("page", page);
+
+      if (searchQuery) queryParams.append("search", searchQuery);
+      if (searchedIngredient)
+        queryParams.append("ingredient", searchedIngredient);
+      if (searchedCategory) queryParams.append("category", searchedCategory);
+
+      const urlForRecipes = `/api/recipes/ownRecipes?${queryParams.toString()}`;
+
+      // console.log("");
+      // console.log("1", params, queryParams);
+      const { data } = await axios.get(urlForRecipes);
+      // console.log("2", data);
+
+      return {
+        ...data.data,
+        append: page > 1,
+      };
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }
@@ -45,10 +65,32 @@ export const getOwnRecipes = createAsyncThunk(
 
 export const getFavoriteRecipes = createAsyncThunk(
   "recipes/getFavoriteRecipes",
-  async (_, thunkAPI) => {
+  async (params, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/recipes/favoriteRecipes");
-      return data.data;
+      const { page, searchQuery, searchedIngredient, searchedCategory } =
+        params;
+
+      const queryParams = new URLSearchParams();
+      queryParams.append("page", page);
+
+      if (searchQuery) queryParams.append("search", searchQuery);
+      if (searchedIngredient)
+        queryParams.append("ingredient", searchedIngredient);
+      if (searchedCategory) queryParams.append("category", searchedCategory);
+
+      const urlForRecipes = `/api/recipes/favoriteRecipes?${queryParams.toString()}`;
+
+      console.log("");
+      console.log("1", params, queryParams);
+      const { data } = await axios.get(urlForRecipes);
+      console.log("2", data);
+
+      return {
+        ...data.data,
+        append: page > 1,
+      };
+      // const { data } = await axios.get("/api/recipes/favoriteRecipes");
+      // return data.data;
     } catch {
       return thunkAPI.rejectWithValue("Pls try reloading the page.");
     }

@@ -12,35 +12,22 @@
 /* Кожна картка */
 .list > li {
   width: 100%;
-  max-width: 361px;
+  /* max-width: 361px; */
   display: flex;
   justify-content: center;
 }
 
 /* Tablet */
 @media screen and (min-width: 768px) {
-  .list {
-    justify-content: center;
-    gap: 24px;
-    /* padding: 0 32px 64px; */
-  }
-
   .list > li {
-    flex: 0 1 calc((100% - 24px * 1 - 64px) / 2);
-    max-width: 336px;
+    /* max-width: 339px; */
+    width: calc((100% - 24px) / 2);
   }
 }
 
 /* Desktop */
 @media screen and (min-width: 1440px) {
-  .list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    /* padding: 0 100px 100px; */
-  }
-
   .list > li {
-    flex: 0 0 288px;
+    width: calc((100% - 72px) / 4);
   }
 }

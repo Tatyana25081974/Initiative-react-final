@@ -53,6 +53,16 @@ const App = () => {
   const [searchedIngredient, setSearchedIngredient] = useState("");
   const [searchedCategory, setSearchedCategory] = useState("");
 
+  const [inputValue, setInputValue] = useState("");
+
+  const handleResetAll = () => {
+    setSearchQuery("");
+    setSearchedIngredient("");
+    setInputValue("");
+    setSearchedCategory("");
+    setPage(1);
+  };
+
   const isRefreshing = useSelector(selectIsRefreshing);
 
   const isGlobalLoading = useSelector(selectIsGlobalLoading);
@@ -85,7 +95,6 @@ const App = () => {
     selectErrorIngredientsAndCategories
   );
 
-  // return isRefreshing ? (
   return isRefreshing && loadingIngredientsAndCategories ? (
     <div style={overlayStyle}>
       <SyncLoader color="#ffffff" />
@@ -109,6 +118,9 @@ const App = () => {
                 setSearchedCategory={setSearchedCategory}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                onReset={handleResetAll}
               />
             }
           ></Route>
@@ -134,8 +146,34 @@ const App = () => {
               />
             }
           >
-            <Route path="own" element={<OwnPage />} />
-            <Route path="favorites" element={<FavoritesPage />} />
+            <Route
+              path="own"
+              element={
+                <OwnPage
+                  page={page}
+                  setPage={setPage}
+                  searchedIngredient={searchedIngredient}
+                  setSearchedIngredient={setSearchedIngredient}
+                  searchedCategory={searchedCategory}
+                  setSearchedCategory={setSearchedCategory}
+                  onReset={handleResetAll}
+                />
+              }
+            />
+            <Route
+              path="favorites"
+              element={
+                <FavoritesPage
+                  page={page}
+                  setPage={setPage}
+                  searchedIngredient={searchedIngredient}
+                  setSearchedIngredient={setSearchedIngredient}
+                  searchedCategory={searchedCategory}
+                  setSearchedCategory={setSearchedCategory}
+                  onReset={handleResetAll}
+                />
+              }
+            />
           </Route>
 
           <Route
