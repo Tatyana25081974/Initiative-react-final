@@ -115,6 +115,7 @@ const slice = createSlice({
       })
 
       .addCase(getRecipeById.pending, (state) => {
+        state.currentRecipe = null;
         state.error = null;
         state.loading = true;
         state.currentRecipeLoading = true;
