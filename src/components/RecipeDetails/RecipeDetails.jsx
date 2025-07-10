@@ -20,7 +20,6 @@ import Container from "../Container/Container.jsx";
 import { FaRegBookmark } from "react-icons/fa6";
 import { selectIngredients } from "../../redux/filters/selectors.js";
 import { firstLetterToUpperCase } from "../../utils/firstLetterToUpperCase.js";
-import notFoundImg from "../../assets/images/notFoundImg.jpg";
 import toast from "react-hot-toast";
 import css from "./RecipeDetails.module.css";
 
@@ -106,7 +105,7 @@ export default function RecipeDetails() {
       <div className={css.container}>
         <div className={css.headerSection}>
           <div className={css.imageWrapper}>
-            <img className={css.image} src={thumb || notFoundImg} alt={title} />
+            <img className={css.image} src={thumb} alt={title} />
           </div>
           <h2 className={css.title}>{firstLetterToUpperCase(title)}</h2>
         </div>

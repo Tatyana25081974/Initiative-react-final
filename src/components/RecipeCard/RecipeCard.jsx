@@ -16,7 +16,6 @@ import FavoriteBtn from "../FavoriteBtn/FavoriteBtn.jsx";
 import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
 import { BsClock } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
-import notFoundImg from "../../assets/images/notFoundImg.jpg";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 
@@ -91,7 +90,7 @@ export default function RecipeCard({ favorite, recipe }) {
 
   return (
     <div className={css.card}>
-      <img className={css.image} src={thumb || notFoundImg} alt={title} />
+      <img className={css.image} src={thumb} alt={title} />
 
       <div className={css.titleRow}>
         <h3 className={css.title}>{firstLetterToUpperCase(title)}</h3>
