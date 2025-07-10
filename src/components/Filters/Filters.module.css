@@ -172,6 +172,8 @@
 @media screen and (min-width: 1440px) {
   .container {
     max-width: 1225px;
+    padding: 16px 0;
+
   }
 
   .recipesCount {

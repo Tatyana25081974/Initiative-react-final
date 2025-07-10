@@ -29,6 +29,7 @@
   color: #ffffff;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
   transition: border-color 0.3s ease;
 }
 
@@ -44,6 +45,7 @@
 
 /* Кнопка "Register" і "My Profile" */
 .buttonLink {
+  width: 100%;
   background-color: #9b6c43;
   color: white;
   padding: 8px 16px;
@@ -138,10 +140,14 @@
   color: #ffffff;
 }
 
+.userName {
+  text-transform: capitalize;
+}
+
 @media (max-width: 767px) {
   .navigationContainer {
     flex-direction: column;
-    gap: 36pxpx;
+    gap: 36px;
     align-items: flex-start;
   }
 
@@ -159,6 +165,7 @@
   }
 
   .buttonLink {
+    width: 100%;
     font-size: 13px;
     padding: 6px 12px;
   }
@@ -283,4 +290,12 @@
   gap: 12px;
   font-size: 16px;
   border-right: 1px solid #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .rightSide {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
 }

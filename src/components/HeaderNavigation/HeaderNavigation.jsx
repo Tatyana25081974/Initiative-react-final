@@ -52,10 +52,11 @@ const HeaderNavigation = ({ userName }) => {
                 <IoIosLogOut className={css.logoutIcon} />
               </button>
             </div>
+            {/* <div className={css.separator} /> */}
 
-            {/* <NavLink to="/auth/logout">
+            {/* <button className={css.logoutButton} onClick={handleClick}>
               <IoIosLogOut className={css.logoutIcon} />
-            </NavLink> */}
+            </button> */}
           </>
         ) : (
           <>

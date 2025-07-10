@@ -116,7 +116,7 @@ const AddRecipeForm = () => {
     try {
       const response = await dispatch(addRecipe(formData)).unwrap();
       toast.success(
-        `Contact ${response.data.title} has successfully been added.`
+        `Recipe ${response.data.title} has successfully been added.`
       );
       navigate(`/recipes/${response.data._id}`);
     } catch (error) {
