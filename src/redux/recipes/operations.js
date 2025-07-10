@@ -80,10 +80,7 @@ export const getFavoriteRecipes = createAsyncThunk(
 
       const urlForRecipes = `/api/recipes/favoriteRecipes?${queryParams.toString()}`;
 
-      console.log("");
-      console.log("1", params, queryParams);
       const { data } = await axios.get(urlForRecipes);
-      console.log("2", data);
 
       return {
         ...data.data,

@@ -65,7 +65,7 @@ const FavoritesPage = ({
         <p className={css.noSavedRecipesText}>
           You don't have favorites recipes.
         </p>
-      ) : recipes.length === 0 ? (
+      ) : recipes.length === 0 && !isGlobalLoading ? (
         <p className={css.noSavedRecipesText}>
           No recipes found by selected filters.
         </p>

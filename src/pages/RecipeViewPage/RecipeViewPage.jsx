@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import NotFound from "../../components/NotFound/NotFoundRecipe/NotFoundRecipe.jsx";
 import {
-
   selectCurrentRecipe,
-
   selectIsCurrentRecipeLoading,
-
   selectRecipeById,
 } from "../../redux/recipes/selectors.js";
 import RecipeDetails from "../../components/RecipeDetails/RecipeDetails.jsx";
@@ -19,13 +16,14 @@ const RecipeViewPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-
-
-  const recipe = useSelector(selectRecipeById(id));
+  const recipeFromItems = useSelector(selectRecipeById(id));
+  const currentRecipe = useSelector(selectCurrentRecipe);
   const isCurrentRecipeLoading = useSelector(selectIsCurrentRecipeLoading);
 
+  const recipe = recipeFromItems || currentRecipe;
+
   useEffect(() => {
-    if (!recipe) {
+    if (!recipe || recipe._id !== id) {
       dispatch(getRecipeById(id));
     }
   }, [dispatch, id, recipe]);
@@ -34,17 +32,11 @@ const RecipeViewPage = () => {
     return null;
   }
 
-  useEffect(() => {
-    dispatch(getRecipeById(id));
-  }, [dispatch, id]);
-
-  const refreshRecipe = useSelector(selectCurrentRecipe);
-
-  if (!recipe && !refreshRecipe) {
+  if (!isCurrentRecipeLoading && !recipe) {
     return <NotFound />;
   }
 
-  return <RecipeDetails recipe={recipe || refreshRecipe} />;
+  return <RecipeDetails recipe={recipe} />;
 };
 
 export default RecipeViewPage;

@@ -36,15 +36,15 @@ export default function RecipeDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getRecipeById(id));
-  }, [dispatch, id]);
-
-  if (!recipe) {
-    return <p>Loading recipe...</p>;
-  }
+    if (!recipe || recipe._id !== id) {
+      dispatch(getRecipeById(id));
+    }
+  }, [dispatch, recipe, id]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  if (!recipe) return null;
 
   const {
     title,
@@ -55,7 +55,7 @@ export default function RecipeDetails() {
     category,
     time,
     cals,
-  } = recipe;
+  } = recipe || {};
 
   const favorite = favorites.includes(id);
 
