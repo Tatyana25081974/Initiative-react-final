@@ -9,7 +9,7 @@ import PrivateRoute from "../components/PrivateRoute/PrivateRoute.jsx";
 import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute.jsx";
 
 import { refreshUser } from "../redux/auth/operations.js";
-import { selectIsRefreshing } from "../redux/auth/selectors";
+import { selectIsRefreshing, selectRefreshPath } from "../redux/auth/selectors";
 
 import { getCategory, getIngredients } from "../redux/filters/operation.js";
 import { Toaster } from "react-hot-toast";
@@ -56,6 +56,9 @@ const App = () => {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   const isGlobalLoading = useSelector(selectIsGlobalLoading);
+
+  const refreshPath = useSelector(selectRefreshPath);
+  console.log(refreshPath);
 
   useEffect(() => {
     dispatch(getCategory());
@@ -141,7 +144,10 @@ const App = () => {
           <Route
             path="/auth/:authType"
             element={
-              <RestrictedRoute component={<AuthPage />} redirectTo={"/"} />
+              <RestrictedRoute
+                component={<AuthPage />}
+                redirectTo={`${refreshPath}`}
+              />
             }
           />
 

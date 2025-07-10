@@ -12,9 +12,13 @@ import RecipeList from "../../components/RecipeList/RecipeList.jsx";
 import { refreshUser } from "../../redux/auth/operations.js";
 import SyncLoader from "react-spinners/SyncLoader";
 import { selectIsGlobalLoading } from "../../redux/isGlobalLoading.js";
+import { useLocation } from "react-router-dom";
+import { addRefreshPath } from "../../redux/auth/slice.js";
 
 const FavoritesPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const refreshPath = location.pathname;
 
   // useEffect(() => {
   //   try {
@@ -28,12 +32,13 @@ const FavoritesPage = () => {
     const handleRefresh = async () => {
       try {
         await dispatch(getFavoriteRecipes()).unwrap();
+        dispatch(addRefreshPath(refreshPath));
       } catch {
         dispatch(refreshUser());
       }
     };
     handleRefresh();
-  }, [dispatch]);
+  }, [dispatch, refreshPath]);
 
   const recipes = useSelector(selectFavoriteRecipes);
 

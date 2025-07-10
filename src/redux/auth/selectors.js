@@ -13,4 +13,6 @@ export const selectIsLoading = (state) => state.auth.isLoading;
 export const selectisLoadingButtonFavorite = (state) =>
   state.auth.isLoadingButtonFavorite;
 
+export const selectRefreshPath = (state) => state.auth.refreshPath;
+
 // export const selectAuthError = (state) => state.auth.authError;

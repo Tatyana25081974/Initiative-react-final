@@ -21,11 +21,25 @@ const slice = createSlice({
 
     isLoggedIn: false,
     isRefreshing: false,
+    refreshPath: "/",
 
     isAuthLoading: false,
 
     isLoading: false,
     isLoadingButtonFavorite: false,
+  },
+  reducers: {
+    addRefreshPath: (state, action) => {
+      if (action.payload === "/profile/own") {
+        state.refreshPath = action.payload;
+      } else if (action.payload === "/profile/favorites") {
+        state.refreshPath = action.payload;
+      } else if (action.payload === "/add-recipe") {
+        state.refreshPath = action.payload;
+      } else {
+        state.refreshPath = "/";
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -68,6 +82,8 @@ const slice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.isAuthLoading = false;
+
+        state.refreshPath = "/";
 
         state.user = {
           name: null,
@@ -148,4 +164,4 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-// export const { errorElimination } = slice.actions;
+export const { addRefreshPath } = slice.actions;

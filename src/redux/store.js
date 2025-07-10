@@ -18,9 +18,9 @@ import authReduser from "./auth/slice.js";
 
 const authPersistedReducer = persistReducer(
   {
-    key: "auth-token",
+    key: ["auth-token", "refresh-path"],
     storage,
-    whitelist: ["accessToken"],
+    whitelist: ["accessToken", "refreshPath"],
   },
   authReduser
 );
