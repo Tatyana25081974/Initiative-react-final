@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BarLoader from "react-spinners/BarLoader";
-import css from "./RecipeDetails.module.css";
 
 import {
   addFavorite,
@@ -20,33 +19,32 @@ import SaveAuthModal from "../SaveAuthModal/SaveAuthModal.jsx";
 import Container from "../Container/Container.jsx";
 import { FaRegBookmark } from "react-icons/fa6";
 import { selectIngredients } from "../../redux/filters/selectors.js";
+import { firstLetterToUpperCase } from "../../utils/firstLetterToUpperCase.js";
 import toast from "react-hot-toast";
+import css from "./RecipeDetails.module.css";
 
 export default function RecipeDetails() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isLoading = useSelector(selectisLoadingButtonFavorite);
-
   const { id } = useParams();
 
-  useEffect(() => {
-    dispatch(getRecipeById(id));
-  }, [dispatch, id]);
-
   const recipe = useSelector(selectCurrentRecipe);
-
   const favorites = useSelector(selectFavorites);
+  const isLoading = useSelector(selectisLoadingButtonFavorite);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const ingredientList = useSelector(selectIngredients);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!recipe || recipe._id !== id) {
+      dispatch(getRecipeById(id));
+    }
+  }, [dispatch, recipe, id]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const ingredientList = useSelector(selectIngredients);
-
-  if (!recipe) {
-    return <p>Loading recipe...</p>;
-  }
+  if (!recipe) return null;
 
   const {
     title,
@@ -57,7 +55,7 @@ export default function RecipeDetails() {
     category,
     time,
     cals,
-  } = recipe;
+  } = recipe || {};
 
   const favorite = favorites.includes(id);
 
@@ -109,7 +107,7 @@ export default function RecipeDetails() {
           <div className={css.imageWrapper}>
             <img className={css.image} src={thumb} alt={title} />
           </div>
-          <h2 className={css.title}>{title}</h2>
+          <h2 className={css.title}>{firstLetterToUpperCase(title)}</h2>
         </div>
 
         <div className={css.content}>
@@ -150,7 +148,7 @@ export default function RecipeDetails() {
           <div className={css.otherInfoBlock}>
             <div className={css.block}>
               <h3>About recipe</h3>
-              <p>{description}</p>
+              <p>{firstLetterToUpperCase(description)}</p>
             </div>
 
             <div className={css.block}>
@@ -178,7 +176,7 @@ export default function RecipeDetails() {
                   .filter((step) => step.trim() !== "")
                   .map((step, index) => (
                     <li key={index} className={css.instructionItem}>
-                      {step}
+                      {firstLetterToUpperCase(step)}
                     </li>
                   ))}
               </ul>

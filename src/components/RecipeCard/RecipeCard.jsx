@@ -23,6 +23,7 @@ import SaveAuthModal from "../SaveAuthModal/SaveAuthModal.jsx";
 
 import css from "./RecipeCard.module.css";
 import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
+import { firstLetterToUpperCase } from "../../utils/firstLetterToUpperCase.js";
 
 export default function RecipeCard({ favorite, recipe }) {
   const dispatch = useDispatch();
@@ -86,52 +87,19 @@ export default function RecipeCard({ favorite, recipe }) {
       setFavoritesLoading(null);
     }
   };
-  // const handleClickDeleteFavorite = async () => {
-  //   // try {
-  //   //   await dispatch(deleteFavorite(recipe._id)).unwrap();
-
-  //   //   dispatch(deleteFavoriteRecipeFromState(recipe._id));
-  //   // } catch {
-  //   //   dispatch(refreshUser());
-  //   //   console.error("Unable to remove recipes from favorites:", error);
-  //   // }
-  //   try {
-  //     setFavoritesLoading(recipe._id);
-  //     await dispatch(deleteFavorite(recipe._id)).unwrap();
-
-  //     dispatch(deleteFavoriteRecipeFromState(recipe._id));
-  //     dispatch(changeTotalItemsFavoritesDelete());
-  //   } catch {
-  //     dispatch(refreshUser());
-  //     toast.success("Successfully remove recipe to favorite list.", {
-  //       duration: 2000,
-  //     });
-  //   } catch (error) {
-  //     try {
-  //       if (error === "Access token expired") {
-  //         await dispatch(refreshUser()).unwrap();
-  //       }
-  //       toast.error("Failed to revome recipe to favorites. Please try again.");
-  //     } catch (error) {
-  //       console.error("Unable to remove recipes from favorites:", error);
-  //     }
-  //   } finally {
-  //     setFavoritesLoading(null);
-  //   }
-  // };
 
   return (
     <div className={css.card}>
       <img className={css.image} src={thumb} alt={title} />
 
       <div className={css.titleRow}>
-        <h3 className={css.title}>{title}</h3>
+        <h3 className={css.title}>{firstLetterToUpperCase(title)}</h3>
         <span className={css.time}>
           <BsClock className={css.icon} /> {time}
         </span>
       </div>
       <div>
-        <p className={css.description}>{description}</p>
+        <p className={css.description}>{firstLetterToUpperCase(description)}</p>
         <p className={css.calories}>{cals ? `~${cals} cals` : " — cals"}</p>
       </div>
       <div className={css.actions}>

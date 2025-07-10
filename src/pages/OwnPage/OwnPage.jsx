@@ -61,7 +61,7 @@ const OwnPage = ({
       emptyCategoryFilter &&
       !isGlobalLoading ? (
         <p className={css.noSavedRecipesText}>You don't have own recipes.</p>
-      ) : recipes.length === 0 ? (
+      ) : recipes.length === 0 && !isGlobalLoading ? (
         <p className={css.noSavedRecipesText}>
           No recipes found by selected filters.
         </p>
@@ -69,7 +69,7 @@ const OwnPage = ({
         <>
           <RecipeList recipes={recipes} />
 
-          <LoadMoreBtn page={page} setPage={setPage} />
+          {!isGlobalLoading && <LoadMoreBtn page={page} setPage={setPage} />}
         </>
       )}
     </>
