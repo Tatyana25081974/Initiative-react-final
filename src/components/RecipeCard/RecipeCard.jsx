@@ -7,7 +7,10 @@ import {
   deleteFavorite,
   refreshUser,
 } from "../../redux/auth/operations.js";
-import { deleteFavoriteRecipeFromState } from "../../redux/recipes/slice.js";
+import {
+  changeTotalItemsFavoritesDelete,
+  deleteFavoriteRecipeFromState,
+} from "../../redux/recipes/slice.js";
 
 import FavoriteBtn from "../FavoriteBtn/FavoriteBtn.jsx";
 import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
@@ -46,6 +49,10 @@ export default function RecipeCard({ favorite, recipe }) {
     try {
       setFavoritesLoading(recipe._id);
       await dispatch(addFavorite(recipe._id)).unwrap();
+    } catch {
+      dispatch(refreshUser());
+
+      openModal();
       toast.success("Successfully add recipe to favorite list.", {
         duration: 2000,
       });
@@ -82,6 +89,9 @@ export default function RecipeCard({ favorite, recipe }) {
       await dispatch(deleteFavorite(recipe._id)).unwrap();
 
       dispatch(deleteFavoriteRecipeFromState(recipe._id));
+      dispatch(changeTotalItemsFavoritesDelete());
+    } catch {
+      dispatch(refreshUser());
       toast.success("Successfully remove recipe to favorite list.", {
         duration: 2000,
       });
