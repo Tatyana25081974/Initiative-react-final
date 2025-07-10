@@ -25,6 +25,7 @@ const slice = createSlice({
     isAuthLoading: false,
 
     isLoading: false,
+    isLoadingButtonFavorite: false,
   },
   extraReducers: (builder) => {
     builder
@@ -112,32 +113,32 @@ const slice = createSlice({
       })
 
       .addCase(addFavorite.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingButtonFavorite = true;
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
         const recipeId = action.payload;
         if (!state.user.favorites.includes(recipeId)) {
           state.user.favorites.push(recipeId);
         }
-        state.isLoading = false;
+        state.isLoadingButtonFavorite = false;
       })
       .addCase(addFavorite.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingButtonFavorite = false;
         state.error = action.payload;
       })
 
       .addCase(deleteFavorite.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingButtonFavorite = true;
       })
       .addCase(deleteFavorite.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingButtonFavorite = false;
         const recipeId = action.payload;
         state.user.favorites = state.user.favorites.filter(
           (id) => id !== recipeId
         );
       })
       .addCase(deleteFavorite.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingButtonFavorite = false;
         state.error = action.payload;
       });
 

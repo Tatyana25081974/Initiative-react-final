@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ClipLoader from "react-spinners/ClipLoader";
 
 import {
   addFavorite,
@@ -16,13 +17,18 @@ import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
 import { BsClock } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
 import clsx from "clsx";
+import toast from "react-hot-toast";
 
 import SaveAuthModal from "../SaveAuthModal/SaveAuthModal.jsx";
 
 import css from "./RecipeCard.module.css";
+import { selectIsLoggedIn } from "../../redux/auth/selectors.js";
 
 export default function RecipeCard({ favorite, recipe }) {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const [favoritesLoading, setFavoritesLoading] = useState(null);
 
   const { _id, title, description, thumb, time, cals } = recipe;
 
@@ -32,23 +38,74 @@ export default function RecipeCard({ favorite, recipe }) {
   const closeModal = () => setIsModalOpen(false);
 
   const handleClickAddFavorite = async () => {
+    // try {
+    //   await dispatch(addFavorite(recipe._id)).unwrap();
+    // } catch {
+    //   dispatch(refreshUser());
+
+    //   openModal();
+    //   // console.error("Failed to add recipes to favorites:", error);
+    // }
     try {
+      setFavoritesLoading(recipe._id);
       await dispatch(addFavorite(recipe._id)).unwrap();
     } catch {
       dispatch(refreshUser());
 
       openModal();
+      toast.success("Successfully add recipe to favorite list.", {
+        duration: 2000,
+      });
+    } catch (error) {
+      try {
+        if (error === "Access token expired") {
+          await dispatch(refreshUser()).unwrap();
+        }
+        if (isLoggedIn) {
+          toast.error("Failed to add recipe to favorites. Please try again.");
+        }
+        if (!isLoggedIn) {
+          openModal();
+        }
+      } catch (error) {
+        console.error("Failed to add recipes to favorites:", error);
+      }
+    } finally {
+      setFavoritesLoading(null);
     }
   };
 
   const handleClickDeleteFavorite = async () => {
+    // try {
+    //   await dispatch(deleteFavorite(recipe._id)).unwrap();
+
+    //   dispatch(deleteFavoriteRecipeFromState(recipe._id));
+    // } catch {
+    //   dispatch(refreshUser());
+    //   console.error("Unable to remove recipes from favorites:", error);
+    // }
     try {
+      setFavoritesLoading(recipe._id);
       await dispatch(deleteFavorite(recipe._id)).unwrap();
 
       dispatch(deleteFavoriteRecipeFromState(recipe._id));
       dispatch(changeTotalItemsFavoritesDelete());
     } catch {
       dispatch(refreshUser());
+      toast.success("Successfully remove recipe to favorite list.", {
+        duration: 2000,
+      });
+    } catch (error) {
+      try {
+        if (error === "Access token expired") {
+          await dispatch(refreshUser()).unwrap();
+        }
+        toast.error("Failed to revome recipe to favorites. Please try again.");
+      } catch (error) {
+        console.error("Unable to remove recipes from favorites:", error);
+      }
+    } finally {
+      setFavoritesLoading(null);
     }
   };
 
@@ -79,7 +136,7 @@ export default function RecipeCard({ favorite, recipe }) {
             favorite ? handleClickDeleteFavorite() : handleClickAddFavorite();
           }}
         >
-          <FaRegBookmark />
+          {favoritesLoading ? <ClipLoader size={17} /> : <FaRegBookmark />}
         </button>
 
         <SaveAuthModal isOpen={isModalOpen} onRequestClose={closeModal} />

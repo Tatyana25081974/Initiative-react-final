@@ -245,3 +245,8 @@
     width: 100%;
   }
 }
+
+.loader {
+  font-size: 25px;
+  margin: 7px 0;
+}
