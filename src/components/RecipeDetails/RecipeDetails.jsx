@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import BarLoader from "react-spinners/BarLoader";
 import css from "./RecipeDetails.module.css";
 
 import {
@@ -7,7 +8,11 @@ import {
   deleteFavorite,
   refreshUser,
 } from "../../redux/auth/operations.js";
-import { selectFavorites } from "../../redux/auth/selectors.js";
+import {
+  selectFavorites,
+  selectisLoadingButtonFavorite,
+  selectIsLoggedIn,
+} from "../../redux/auth/selectors.js";
 import { selectCurrentRecipe } from "../../redux/recipes/selectors.js";
 import { getRecipeById } from "../../redux/recipes/operations.js";
 import { useEffect, useState } from "react";
@@ -19,6 +24,8 @@ import toast from "react-hot-toast";
 
 export default function RecipeDetails() {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoading = useSelector(selectisLoadingButtonFavorite);
 
   const { id } = useParams();
 
@@ -57,12 +64,21 @@ export default function RecipeDetails() {
   const handleClickAddFavorite = async () => {
     try {
       await dispatch(addFavorite(id)).unwrap();
+      toast.success("Successfully add recipe to favorite list.", {
+        duration: 2000,
+      });
     } catch (error) {
       try {
-        toast.error("Failed to add recipe to favorites. Please try again.");
-        await dispatch(refreshUser()).unwrap();
-      } catch {
-        openModal();
+        if (error === "Access token expired") {
+          await dispatch(refreshUser()).unwrap();
+        }
+        if (isLoggedIn) {
+          toast.error("Failed to add recipe to favorites. Please try again.");
+        }
+        if (!isLoggedIn) {
+          openModal();
+        }
+      } catch (error) {
         console.error("Failed to add recipes to favorites:", error);
       }
     }
@@ -71,9 +87,15 @@ export default function RecipeDetails() {
   const handleClickDeleteFavorite = async () => {
     try {
       await dispatch(deleteFavorite(id)).unwrap();
-    } catch {
+      toast.success("Successfully remove recipe to favorite list.", {
+        duration: 2000,
+      });
+    } catch (error) {
       try {
-        dispatch(refreshUser());
+        if (error === "Access token expired") {
+          await dispatch(refreshUser()).unwrap();
+        }
+        toast.error("Failed to revome recipe to favorites. Please try again.");
       } catch (error) {
         console.error("Unable to remove recipes from favorites:", error);
       }
@@ -114,8 +136,14 @@ export default function RecipeDetails() {
                   : handleClickAddFavorite();
               }}
             >
-              {favorite ? "Remove" : "Save"}
-              <FaRegBookmark />
+              {isLoading ? (
+                <BarLoader className={css.loader} />
+              ) : (
+                <>
+                  {favorite ? "Remove" : "Save"}
+                  <FaRegBookmark />
+                </>
+              )}
             </button>
           </div>
 
