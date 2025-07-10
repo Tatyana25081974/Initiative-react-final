@@ -47,6 +47,12 @@ const slice = createSlice({
         ),
       };
     },
+    changeTotalItemsFavoritesDelete: (state) => {
+      return {
+        ...state,
+        totalItems: state.totalItems - 1,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -66,14 +72,32 @@ const slice = createSlice({
       .addCase(getOwnRecipes.pending, handlePending)
       .addCase(getOwnRecipes.fulfilled, (state, action) => {
         state.loading = false;
-        state.ownItems = action.payload;
+
+        const { data, totalItems, totalPages, append } = action.payload;
+
+        // state.ownItems = append ? [...state.items, ...data] : data;
+        state.ownItems = append ? [...state.ownItems, ...data] : data;
+
+        state.totalItems = totalItems;
+        state.totalPages = totalPages;
+
+        // state.ownItems = action.payload;
       })
       .addCase(getOwnRecipes.rejected, handleRejected)
 
       .addCase(getFavoriteRecipes.pending, handlePending)
       .addCase(getFavoriteRecipes.fulfilled, (state, action) => {
         state.loading = false;
-        state.favoriteItems = action.payload;
+
+        const { data, totalItems, totalPages, append } = action.payload;
+
+        // state.favoriteItems = append ? [...state.items, ...data] : data;
+        state.favoriteItems = append ? [...state.favoriteItems, ...data] : data;
+
+        state.totalItems = totalItems;
+        state.totalPages = totalPages;
+
+        // state.favoriteItems = action.payload;
       })
       .addCase(getFavoriteRecipes.rejected, handleRejected)
 
@@ -134,4 +158,7 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { deleteFavoriteRecipeFromState } = slice.actions;
+export const {
+  deleteFavoriteRecipeFromState,
+  changeTotalItemsFavoritesDelete,
+} = slice.actions;

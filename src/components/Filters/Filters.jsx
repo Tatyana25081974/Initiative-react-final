@@ -31,10 +31,9 @@ const Filters = ({
   setSearchedIngredient,
   searchedCategory,
   setSearchedCategory,
-  setSearchQuery,
   onReset,
+  disableToast,
 }) => {
-  // const dispatch = useDispatch();
   const width = useWindowWidth();
 
   const recipesCount = useSelector(selectTotalRecipes);
@@ -53,13 +52,15 @@ const Filters = ({
     }
 
     if (wasFetched && recipesCount === 0) {
-      toast.error("There are no recipes that meet the selected criteria.", {
-        id: "no-recipes-toast",
-      });
+      if (!disableToast) {
+        toast.error("There are no recipes that meet the selected criteria.", {
+          id: "no-recipes-toast",
+        });
+      }
     } else {
       toast.dismiss("no-recipes-toast");
     }
-  }, [recipesCount, wasFetched]);
+  }, [recipesCount, wasFetched, disableToast]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -77,31 +78,20 @@ const Filters = ({
     };
   }, []);
 
-  // Скидання фільтрів
   const handleReset = () => {
     if (onReset) {
-      onReset(); 
-    } else {
-      // fallback, якщо onReset не передали
-      setSearchQuery("");
-      setSearchedIngredient("");
-      setSearchedCategory("");
-      setPage(1);
+      onReset();
     }
   };
-  // Зміна категорії
   const handleCategoryChange = (e) => {
     setPage(1);
     const searchedCategoryValue = e.target.value;
-    // dispatch(changeCategoryFilter(searchedCategoryValue));
     setSearchedCategory(searchedCategoryValue);
   };
 
-  // Зміна інгредієнта
   const handleIngredientChange = (e) => {
     setPage(1);
     const searchedIngredientValue = e.target.value;
-    // dispatch(changeIngredientFilter(searchedIngredientValue));
     setSearchedIngredient(searchedIngredientValue);
   };
 

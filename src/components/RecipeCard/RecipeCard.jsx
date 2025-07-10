@@ -6,7 +6,10 @@ import {
   deleteFavorite,
   refreshUser,
 } from "../../redux/auth/operations.js";
-import { deleteFavoriteRecipeFromState } from "../../redux/recipes/slice.js";
+import {
+  changeTotalItemsFavoritesDelete,
+  deleteFavoriteRecipeFromState,
+} from "../../redux/recipes/slice.js";
 
 import FavoriteBtn from "../FavoriteBtn/FavoriteBtn.jsx";
 import LearnMoreBtn from "../LearnMoreBtn/LearnMoreBtn.jsx";
@@ -35,7 +38,6 @@ export default function RecipeCard({ favorite, recipe }) {
       dispatch(refreshUser());
 
       openModal();
-      // console.error("Failed to add recipes to favorites:", error);
     }
   };
 
@@ -44,9 +46,9 @@ export default function RecipeCard({ favorite, recipe }) {
       await dispatch(deleteFavorite(recipe._id)).unwrap();
 
       dispatch(deleteFavoriteRecipeFromState(recipe._id));
+      dispatch(changeTotalItemsFavoritesDelete());
     } catch {
       dispatch(refreshUser());
-      // console.error("Unable to remove recipes from favorites:", error);
     }
   };
 
