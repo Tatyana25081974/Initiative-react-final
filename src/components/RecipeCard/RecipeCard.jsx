@@ -38,21 +38,9 @@ export default function RecipeCard({ favorite, recipe }) {
   const closeModal = () => setIsModalOpen(false);
 
   const handleClickAddFavorite = async () => {
-    // try {
-    //   await dispatch(addFavorite(recipe._id)).unwrap();
-    // } catch {
-    //   dispatch(refreshUser());
-
-    //   openModal();
-    //   // console.error("Failed to add recipes to favorites:", error);
-    // }
     try {
       setFavoritesLoading(recipe._id);
       await dispatch(addFavorite(recipe._id)).unwrap();
-    } catch {
-      dispatch(refreshUser());
-
-      openModal();
       toast.success("Successfully add recipe to favorite list.", {
         duration: 2000,
       });
@@ -76,22 +64,12 @@ export default function RecipeCard({ favorite, recipe }) {
   };
 
   const handleClickDeleteFavorite = async () => {
-    // try {
-    //   await dispatch(deleteFavorite(recipe._id)).unwrap();
-
-    //   dispatch(deleteFavoriteRecipeFromState(recipe._id));
-    // } catch {
-    //   dispatch(refreshUser());
-    //   console.error("Unable to remove recipes from favorites:", error);
-    // }
     try {
       setFavoritesLoading(recipe._id);
       await dispatch(deleteFavorite(recipe._id)).unwrap();
 
       dispatch(deleteFavoriteRecipeFromState(recipe._id));
       dispatch(changeTotalItemsFavoritesDelete());
-    } catch {
-      dispatch(refreshUser());
       toast.success("Successfully remove recipe to favorite list.", {
         duration: 2000,
       });
@@ -108,6 +86,39 @@ export default function RecipeCard({ favorite, recipe }) {
       setFavoritesLoading(null);
     }
   };
+  // const handleClickDeleteFavorite = async () => {
+  //   // try {
+  //   //   await dispatch(deleteFavorite(recipe._id)).unwrap();
+
+  //   //   dispatch(deleteFavoriteRecipeFromState(recipe._id));
+  //   // } catch {
+  //   //   dispatch(refreshUser());
+  //   //   console.error("Unable to remove recipes from favorites:", error);
+  //   // }
+  //   try {
+  //     setFavoritesLoading(recipe._id);
+  //     await dispatch(deleteFavorite(recipe._id)).unwrap();
+
+  //     dispatch(deleteFavoriteRecipeFromState(recipe._id));
+  //     dispatch(changeTotalItemsFavoritesDelete());
+  //   } catch {
+  //     dispatch(refreshUser());
+  //     toast.success("Successfully remove recipe to favorite list.", {
+  //       duration: 2000,
+  //     });
+  //   } catch (error) {
+  //     try {
+  //       if (error === "Access token expired") {
+  //         await dispatch(refreshUser()).unwrap();
+  //       }
+  //       toast.error("Failed to revome recipe to favorites. Please try again.");
+  //     } catch (error) {
+  //       console.error("Unable to remove recipes from favorites:", error);
+  //     }
+  //   } finally {
+  //     setFavoritesLoading(null);
+  //   }
+  // };
 
   return (
     <div className={css.card}>
