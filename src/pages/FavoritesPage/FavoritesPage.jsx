@@ -7,7 +7,7 @@ import { getFavoriteRecipes } from "../../redux/recipes/operations.js";
 import { selectFavoriteRecipes } from "../../redux/recipes/selectors.js";
 import { selectIsGlobalLoading } from "../../redux/isGlobalLoading.js";
 
-import Filters from "../../components/Filters/Filters.jsx";
+import FavoriteFilters from "../../components/FavoriteFilters.jsx/FavoriteFilters.jsx";
 import RecipeList from "../../components/RecipeList/RecipeList.jsx";
 import LoadMoreBtn from "../../components/LoadMoreBtn/LoadMoreBtn.jsx";
 
@@ -49,7 +49,7 @@ const FavoritesPage = ({
   const emptyCategoryFilter = searchedCategory === "";
   return (
     <>
-      <Filters
+      <FavoriteFilters
         setPage={setPage}
         searchedIngredient={searchedIngredient}
         setSearchedIngredient={setSearchedIngredient}

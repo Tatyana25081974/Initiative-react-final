@@ -76,6 +76,10 @@ export const selectTotalRecipes = (state) => {
   return state.recipes.totalItems;
 };
 
+export const selectFavoriteRecipesCount = (state) => {
+  return state.recipes.totalFavoriteItems;
+};
+
 export const selectTotalPages = (state) => {
   return state.recipes.totalPages;
 };

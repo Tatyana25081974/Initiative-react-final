@@ -1,0 +1,182 @@
+/* Загальний reset */
+* {
+  box-sizing: border-box;
+}
+
+/* Контейнер усього компонента */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 16px 0;
+
+  width: 100%;
+  max-width: 342px;
+}
+
+/* Рядок з лічильником та кнопкою Filters */
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Лічильник рецептів */
+.recipesCount {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.dropdownButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+
+  width: 67px;
+  height: 28px;
+  padding: 0px 0px 4px 0px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 12px;
+  color: #000;
+}
+
+.buttonText {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #000;
+}
+
+/* Контейнер випадаючого фільтра */
+.dropdownContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  max-width: 328px;
+
+  padding: 8px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Селекти */
+.select {
+  width: 100%;
+  max-width: 100%;
+  height: 33px;
+
+  padding: 4px 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #595d62;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Кнопка Reset */
+.resetButton {
+  max-width: none;
+  height: 19px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #000;
+
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #000;
+
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.resetButton:hover {
+  color: #595d62;
+  border-bottom-color: #595d62;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 704px;
+
+    margin: 0 auto;
+  }
+
+  .recipesCount {
+    font-size: 16px;
+  }
+
+  .filtersContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .select {
+    max-width: 179px;
+    height: 33px;
+    font-size: 14px;
+  }
+
+  .resetButton {
+    width: 74px;
+    height: 28px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #000;
+
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #000;
+
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+}
+
+/* ==== DESKTOP XL ==== */
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1225px;
+    padding: 16px 0;
+
+  }
+
+  .recipesCount {
+    font-size: 18px;
+  }
+}

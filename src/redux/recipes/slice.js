@@ -28,6 +28,7 @@ const slice = createSlice({
     page: 1,
     totalPages: 1,
     totalItems: 0,
+    totalFavoriteItems: 0,
     loading: false,
     error: null,
 
@@ -50,7 +51,7 @@ const slice = createSlice({
     changeTotalItemsFavoritesDelete: (state) => {
       return {
         ...state,
-        totalItems: state.totalItems - 1,
+        totalFavoriteItems: state.totalFavoriteItems - 1,
       };
     },
   },
@@ -94,7 +95,7 @@ const slice = createSlice({
         // state.favoriteItems = append ? [...state.items, ...data] : data;
         state.favoriteItems = append ? [...state.favoriteItems, ...data] : data;
 
-        state.totalItems = totalItems;
+        state.totalFavoriteItems = totalItems;
         state.totalPages = totalPages;
 
         // state.favoriteItems = action.payload;
