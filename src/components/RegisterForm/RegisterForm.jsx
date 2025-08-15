@@ -8,9 +8,10 @@ import { toast } from "react-toastify";
 
 import { register } from "../../redux/auth/operations";
 import css from "./RegisterForm.module.css";
+import clsx from "clsx";
 
 const registerSchema = Yup.object({
-  name: Yup.string().min(2).max(32).required("Required"),
+  name: Yup.string().min(2).max(16).required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(6).max(32).required("Required"),
   confirmPassword: Yup.string()
@@ -26,7 +27,7 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const { isAuthLoading } = useSelector((s) => s.auth);
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (values, { setFieldError }, actions) => {
     const {
       confirmPassword: _CONFIRM,
       // ...payload
@@ -38,11 +39,16 @@ const RegisterForm = () => {
       password: values.password,
     };
 
-    const res = await dispatch(register(newPayload));
+    try {
+      const res = await dispatch(register(newPayload)).unwrap();
 
-    if (register.fulfilled.match(res)) navigate("/");
-    else toast.error(res.payload);
-    actions.setSubmitting(false);
+      if (register.fulfilled.match(res)) navigate("/");
+      else toast.error(res.payload);
+      actions.setSubmitting(false);
+    } catch (err) {
+      if (err === "This email is already registered")
+        setFieldError("email", "This email is already registered");
+    }
   };
 
   return (
@@ -63,7 +69,7 @@ const RegisterForm = () => {
         validationSchema={registerSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors, setFieldError }) => (
           <Form className={css.form}>
             {/*   Name  */}
             <label className={css.label}>
@@ -88,7 +94,8 @@ const RegisterForm = () => {
                 name="email"
                 type="email"
                 placeholder="email@gmail.com"
-                className={css.input}
+                className={clsx(css.input, errors.email && css.errorInput)}
+                onFocus={() => setFieldError("email", "")}
               />
               <ErrorMessage
                 name="email"

@@ -4,7 +4,7 @@ import axios from "axios";
 axios.defaults.baseURL =
   // import.meta.env.VITE_API_BASE_URL ||
   "https://initiative-nodejs-final.onrender.com/";
-  // "http://localhost:3000";
+// "http://localhost:3000";
 
 const setAuthHeader = (token) => {
   if (token) axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
       return { user: user.data, accessToken: data.data.accessToken };
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Invalid credentials"
+        error.response?.data?.data.message || "Invalid credentials"
       );
     }
   }

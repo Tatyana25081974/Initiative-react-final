@@ -7,6 +7,7 @@ import { login } from "../../redux/auth/operations";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import css from "./LoginForm.module.css";
+import clsx from "clsx";
 
 const schema = Yup.object({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -19,11 +20,26 @@ const LoginForm = () => {
   const nav = useNavigate();
   const { isAuthLoading } = useSelector((s) => s.auth);
 
-  const submit = (v, a) => {
-    const res = d(login(v));
-    if (login.fulfilled.match(res)) nav("/");
-    else toast.error(res.payload);
-    a.setSubmitting(false);
+  const submit = async (v, { setFieldError }, a) => {
+    try {
+      const res = await d(login(v)).unwrap();
+      if (login.fulfilled.match(res)) nav("/");
+      else toast.error(res.payload);
+      a.setSubmitting(false);
+    } catch (err) {
+      if (err === "User not found") {
+        setFieldError("password", "This user does not exist");
+      } else if (err === "Unauthorized") {
+        setFieldError(
+          "password",
+          "The email or password that you entered is incorrect"
+        );
+      } else {
+        toast.error(
+          "Ooops. Something went wrong. Please reload the page and try again."
+        );
+      }
+    }
   };
 
   return (
@@ -35,7 +51,7 @@ const LoginForm = () => {
         validationSchema={schema}
         onSubmit={submit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors, setFieldError }) => (
           <Form className={css.form}>
             {/* Email */}
             <label className={css.label}>
@@ -44,7 +60,8 @@ const LoginForm = () => {
                 name="email"
                 type="email"
                 placeholder="email@gmail.com"
-                className={css.input}
+                className={clsx(css.input, errors.password && css.errorInput)}
+                onFocus={() => setFieldError("password", "")}
               />
               <ErrorMessage
                 name="email"
@@ -61,7 +78,8 @@ const LoginForm = () => {
                   name="password"
                   type={showPass ? "text" : "password"}
                   placeholder="********"
-                  className={css.input}
+                  className={clsx(css.input, errors.password && css.errorInput)}
+                  onFocus={() => setFieldError("password", "")}
                 />
                 <ErrorMessage
                   name="password"

@@ -52,7 +52,8 @@ const AddRecipeForm = () => {
       .required("Required field!"),
     cals: Yup.number()
       .min(1, "Minimum number of calories: 1")
-      .max(10000, "Maximum number of calories: 10000"),
+      .max(10000, "Maximum number of calories: 10000")
+      .required("Required field!"),
     category: Yup.string()
       .oneOf(allowedCategories.map((category) => category.name))
       .required("Category is required"),
@@ -276,7 +277,10 @@ const AddRecipeForm = () => {
                       Calories
                     </label>
                     <Field
-                      className={css.formFields}
+                      className={clsx(
+                        css.formFields,
+                        touched.cals && errors.cals && css.errorBorder
+                      )}
                       id={fieldId + "cals"}
                       type="number"
                       name="cals"

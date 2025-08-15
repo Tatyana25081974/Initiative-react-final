@@ -87,6 +87,12 @@
   transition: border 250ms linear, box-shadow 250ms linear;
 }
 
+.formFields[type="number"]::-webkit-outer-spin-button,
+.formFields[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .formFields:focus {
   outline: none;
   border: 1.5px solid #9b6c43;

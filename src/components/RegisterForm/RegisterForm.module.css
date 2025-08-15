@@ -67,6 +67,21 @@
   height: 41px;
 }
 
+.errorInput {
+  border: 1px solid #fe0808;
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #000;
+  transition: border 0.2s;
+  width: 356px;
+  height: 41px;
+}
+
 .input::placeholder {
   color: #9f9f9f;
 }
