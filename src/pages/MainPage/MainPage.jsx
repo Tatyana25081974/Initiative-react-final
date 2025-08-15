@@ -32,6 +32,11 @@ const MainPage = ({
     );
   }, [dispatch, page, searchQuery, searchedIngredient, searchedCategory]);
 
+  useEffect(() => {
+    setSearchQuery("");
+    setInputValue("");
+  }, [setSearchQuery, setInputValue]);
+
   const recipes = useSelector(selectRecipes);
 
   return (
